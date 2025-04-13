@@ -607,8 +607,6 @@ namespace _Scripts.Player.Movement
         {
             switch (parameter)
             {
-                case AnimationEnum.Idle:
-                    return "Idle";
                 case AnimationEnum.IdleSide:
                     return "IdleSide";
                 case AnimationEnum.Walk:
@@ -623,12 +621,8 @@ namespace _Scripts.Player.Movement
                     return "MultipleJump";
                 case AnimationEnum.Landing:
                     return "Landing";
-                case AnimationEnum.WallSlideInit:
-                    return "WallSlideInit";
                 case AnimationEnum.WallSlide:
                     return "WallSlide";
-                case AnimationEnum.WallSlideLanding:
-                    return "WallSlideLanding";
                 default:
                     Debug.Log("What is that : " + parameter);
                     return "";
