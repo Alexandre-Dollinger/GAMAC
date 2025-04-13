@@ -12,10 +12,10 @@ namespace _Scripts.Player.Movement
     {
 
         [Header("References")] // Header is an organizer when we look at the values from unity (like to change them from debug)
-        public PlayerMovementStats MoveStats; // Name to access the stats that we defined in PlayerMovemetStats
+        public PlayerMovementStats MoveStats; // Name to access the stats that we defined in PlayerMovementStats
 
         // SerializeField : it's like when in python we hide the variable of a parent to a child but instead do method like get to obtain / access those.
-        //                  ( : so it's making variable only accessible to the parent object and not the childrens (not private since we can
+        //                  ( : so it's making variable only accessible to the parent object and not the children (not private since we can
         //                  still modify those in unity debug))
         // ( https://www.youtube.com/watch?v=_9LJqhAj-FU )
         [SerializeField] private LayerMask groundLayer;
@@ -107,7 +107,7 @@ namespace _Scripts.Player.Movement
 
             _isFacingRight = true;
 
-            _rb = GetComponent<Rigidbody2D>(); // it's like when we linked the camera to the player but automaticly, with the rigid body
+            _rb = GetComponent<Rigidbody2D>(); // it's like when we linked the camera to the player but automatically, with the rigid body
             _animator = GetComponent<Animator>();
 
             _animationTime = 0;
@@ -225,7 +225,7 @@ namespace _Scripts.Player.Movement
                 
 
                 _moveVelocity = Vector2.Lerp(_moveVelocity, targetVelocity, acceleration * Time.fixedDeltaTime); // to accelerate
-                // Simply, Lerp is linear interpollation (~ it's taking our current velocity, the objective velocity and it's reaching a
+                // Simply, Lerp is linear interpolation (~ it's taking our current velocity, the objective velocity and it's reaching a
                 // (:like we learned in algo taa)           middle value based on the passed time, to not go max speed instantly) 
             }   
             else // if the player stopped
@@ -253,7 +253,7 @@ namespace _Scripts.Player.Movement
         private void TurnNormal(Vector2 moveInput)
         {
             if (_isFacingRight && moveInput.x < 0) // moveInput is returning a Vector2 (= 2 value stored together) of x and y 
-                // to understand them imagine a joystick, full left is -1 for the first paramether (x) and 0 for the second (y)
+                // to understand them imagine a joystick, full left is -1 for the first parameter (x) and 0 for the second (y)
                 // and so on for every direction (like in a circle)
             {
                 RotateRight(false);
@@ -349,11 +349,11 @@ namespace _Scripts.Player.Movement
             {
                 if (_isWallSlidingRight)
                 {
-                    _rb.linearVelocity = new Vector2(-MoveStats.WallJumpStrength, MoveStats.JumpHeight);
+                    _rb.linearVelocity = new Vector2(-MoveStats.WallJumpStrengthWidth, MoveStats.JumpHeight * MoveStats.WallJumpHeigthMultiplier);
                 }
                 else if (_isWallSlidingLeft)
                 {
-                    _rb.linearVelocity = new Vector2(MoveStats.WallJumpStrength, MoveStats.JumpHeight);
+                    _rb.linearVelocity = new Vector2(MoveStats.WallJumpStrengthWidth, MoveStats.JumpHeight * MoveStats.WallJumpHeigthMultiplier);
                 }
                 _numberOfJumpsUsed++;
                 _isJumping = false;
@@ -588,7 +588,10 @@ namespace _Scripts.Player.Movement
         
         void OnLandingTriggerEntered(Collider2D item)
         {
-            _isLanding = true;
+            if (!_isGrounded)
+            {
+                _isLanding = true;
+            }
         }
         
         void OnLandingTriggerExited(Collider2D item)
@@ -666,20 +669,23 @@ namespace _Scripts.Player.Movement
             {
                 ChangeAnimationState(AnimationEnum.WallSlideLanding, 0.25f);
             }*/
+            
             if (_isWallSliding)
             {
                 ChangeAnimationState(AnimationEnum.WallSlide);
             }
             else if (_isJumping && !_bumpedHead)
             {
-                if (_numberOfJumpsUsed == 0)
+                ChangeAnimationState(AnimationEnum.JumpInit, 0.20f);
+                
+                /*if (_numberOfJumpsUsed == 0)
                 {
                     ChangeAnimationState(AnimationEnum.JumpInit, 0.20f);
                 }
                 else
                 {
                     ChangeAnimationState(AnimationEnum.MultipleJump, 0.20f);
-                }
+                }*/
             }
             else if (_isLanding && !_isGrounded)
             {
