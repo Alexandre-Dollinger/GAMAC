@@ -207,7 +207,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 100
+  orthographic size: 200
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -539,8 +539,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1946064357
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 8995154407686431259, guid: 32839171703b0924b94356f19532f758, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -670,8 +670,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 216962997
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 4077865239239241772, guid: b1a403f85e4ca2945b6bb73669272401, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -791,7 +791,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1203195206
+  GlobalObjectIdHash: 2471435133
   InScenePlacedSourceGlobalObjectIdHash: 2471435133
   DeferredDespawnTick: 0
   Ownership: 1
