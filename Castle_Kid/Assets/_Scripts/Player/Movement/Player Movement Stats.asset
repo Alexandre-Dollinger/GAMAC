@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Player Movement Stats
   m_EditorClassIdentifier: 
   MaxWalkSpeed: 150
-  GroundAcceleration: 40
-  GroundDeceleration: 150
-  AirAcceleration: 37.59908
+  GroundAcceleration: 5
+  GroundDeceleration: 50
+  AirAcceleration: 5
   AirDeceleration: 120
   MaxRunSpeed: 250
   JumpHeight: 400
@@ -29,7 +29,7 @@ MonoBehaviour:
   JumpCancelStrength: 0.2
   JumpCancelMoment: 0.1
   JumpBufferTime: 0.125
-  DashStrength: 2.5
+  DashStrength: 3.25
   DashTimer: 0.55
   DashDuration: 0.15
   DashBufferTime: 0.125
