@@ -113,7 +113,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: InfernoTiles_0
+      name: Gut_TL
       rect:
         serializedVersion: 2
         x: 0
@@ -121,7 +121,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -135,7 +135,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_1
+      name: Gut_T
       rect:
         serializedVersion: 2
         x: 32
@@ -143,7 +143,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -157,7 +157,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_2
+      name: Gut_TR
       rect:
         serializedVersion: 2
         x: 64
@@ -165,7 +165,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -179,7 +179,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_3
+      name: Pillar_T
       rect:
         serializedVersion: 2
         x: 96
@@ -187,7 +187,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -201,7 +201,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_4
+      name: Scream_Gut
       rect:
         serializedVersion: 2
         x: 128
@@ -209,7 +209,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -223,7 +223,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_5
+      name: Sign_Gut
       rect:
         serializedVersion: 2
         x: 160
@@ -231,7 +231,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -245,7 +245,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_6
+      name: Bone_Gut
       rect:
         serializedVersion: 2
         x: 192
@@ -253,7 +253,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -267,7 +267,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_7
+      name: Eye_Gut
       rect:
         serializedVersion: 2
         x: 224
@@ -275,7 +275,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -289,7 +289,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_8
+      name: Gut_L
       rect:
         serializedVersion: 2
         x: 0
@@ -297,7 +297,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -319,7 +319,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -333,7 +333,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_10
+      name: Gut_R
       rect:
         serializedVersion: 2
         x: 64
@@ -341,7 +341,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -355,7 +355,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_11
+      name: Pillar_MT
       rect:
         serializedVersion: 2
         x: 96
@@ -363,7 +363,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -377,7 +377,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_12
+      name: Water_Filled
       rect:
         serializedVersion: 2
         x: 128
@@ -385,7 +385,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -399,7 +399,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_13
+      name: Sword_Gut
       rect:
         serializedVersion: 2
         x: 160
@@ -407,7 +407,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -421,7 +421,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_14
+      name: Volcano_Gut
       rect:
         serializedVersion: 2
         x: 192
@@ -429,7 +429,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -443,7 +443,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_15
+      name: Skulls_Inferno
       rect:
         serializedVersion: 2
         x: 224
@@ -451,7 +451,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -465,7 +465,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_16
+      name: Gut_BL
       rect:
         serializedVersion: 2
         x: 0
@@ -473,7 +473,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -487,7 +487,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_17
+      name: Gut_B
       rect:
         serializedVersion: 2
         x: 32
@@ -495,7 +495,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -509,7 +509,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_18
+      name: Gut_BR
       rect:
         serializedVersion: 2
         x: 64
@@ -517,7 +517,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -531,7 +531,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_19
+      name: Pillar_MB
       rect:
         serializedVersion: 2
         x: 96
@@ -539,7 +539,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -553,7 +553,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_20
+      name: Bubble_Gut_5
       rect:
         serializedVersion: 2
         x: 128
@@ -561,7 +561,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -575,7 +575,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_21
+      name: Bubble_Gut_1
       rect:
         serializedVersion: 2
         x: 160
@@ -583,7 +583,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -597,7 +597,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_22
+      name: Chain_Gut_L
       rect:
         serializedVersion: 2
         x: 192
@@ -605,7 +605,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -619,7 +619,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_23
+      name: Chain_Gut_R
       rect:
         serializedVersion: 2
         x: 224
@@ -627,7 +627,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -641,7 +641,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_24
+      name: Gut_IBR
       rect:
         serializedVersion: 2
         x: 0
@@ -649,7 +649,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -663,7 +663,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_25
+      name: Gut_IB
       rect:
         serializedVersion: 2
         x: 32
@@ -671,7 +671,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -685,7 +685,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_26
+      name: Gut_IBL
       rect:
         serializedVersion: 2
         x: 64
@@ -693,7 +693,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -707,7 +707,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_27
+      name: Pillar_B
       rect:
         serializedVersion: 2
         x: 96
@@ -715,7 +715,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -729,7 +729,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_28
+      name: Bubble_Gut_4
       rect:
         serializedVersion: 2
         x: 128
@@ -737,7 +737,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -751,7 +751,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_29
+      name: Bubble_Gut_2
       rect:
         serializedVersion: 2
         x: 160
@@ -759,7 +759,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -773,7 +773,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_30
+      name: Chain_Gut
       rect:
         serializedVersion: 2
         x: 192
@@ -781,7 +781,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -795,7 +795,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_31
+      name: Spike_Gut
       rect:
         serializedVersion: 2
         x: 224
@@ -803,7 +803,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -817,7 +817,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_32
+      name: Gut_IR
       rect:
         serializedVersion: 2
         x: 0
@@ -825,7 +825,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -839,7 +839,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_33
+      name: Gut_IL
       rect:
         serializedVersion: 2
         x: 64
@@ -847,7 +847,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -861,7 +861,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_34
+      name: Bridge_L
       rect:
         serializedVersion: 2
         x: 96
@@ -869,7 +869,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -883,7 +883,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_35
+      name: Bridge_M
       rect:
         serializedVersion: 2
         x: 128
@@ -891,7 +891,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -905,7 +905,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_36
+      name: Bridge_R
       rect:
         serializedVersion: 2
         x: 160
@@ -913,7 +913,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -927,7 +927,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_37
+      name: Cobweb_Gut_L
       rect:
         serializedVersion: 2
         x: 192
@@ -935,7 +935,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -949,7 +949,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_38
+      name: Cobweb_Gut_R
       rect:
         serializedVersion: 2
         x: 224
@@ -957,7 +957,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -971,7 +971,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_39
+      name: Gut_ITR
       rect:
         serializedVersion: 2
         x: 0
@@ -979,7 +979,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -993,7 +993,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_40
+      name: Gut_IT
       rect:
         serializedVersion: 2
         x: 32
@@ -1001,7 +1001,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1015,7 +1015,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_41
+      name: Gut_ITL
       rect:
         serializedVersion: 2
         x: 64
@@ -1023,7 +1023,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1037,7 +1037,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_42
+      name: Gut_Small_Top
       rect:
         serializedVersion: 2
         x: 96
@@ -1045,7 +1045,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1059,7 +1059,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_43
+      name: Eye_R
       rect:
         serializedVersion: 2
         x: 128
@@ -1067,7 +1067,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1081,7 +1081,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_44
+      name: Eye_B
       rect:
         serializedVersion: 2
         x: 160
@@ -1089,7 +1089,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1103,7 +1103,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_45
+      name: Eye_L
       rect:
         serializedVersion: 2
         x: 192
@@ -1111,7 +1111,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1125,7 +1125,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_46
+      name: Skull_Inferno
       rect:
         serializedVersion: 2
         x: 224
@@ -1133,7 +1133,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1147,7 +1147,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_47
+      name: Water_NotFilled
       rect:
         serializedVersion: 2
         x: 0
@@ -1155,7 +1155,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1169,7 +1169,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_48
+      name: Gut_Full
       rect:
         serializedVersion: 2
         x: 32
@@ -1177,7 +1177,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1191,7 +1191,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_49
+      name: Bubble_Gut_3
       rect:
         serializedVersion: 2
         x: 64
@@ -1199,7 +1199,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1213,7 +1213,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_50
+      name: Eyes_R
       rect:
         serializedVersion: 2
         x: 128
@@ -1221,7 +1221,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1235,7 +1235,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_51
+      name: Eyes_B
       rect:
         serializedVersion: 2
         x: 160
@@ -1243,7 +1243,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1257,7 +1257,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: InfernoTiles_52
+      name: Eyes_L
       rect:
         serializedVersion: 2
         x: 192
@@ -1265,7 +1265,7 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1292,59 +1292,59 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      InfernoTiles_0: -725254440555710316
-      InfernoTiles_1: 574190689
-      InfernoTiles_10: -1151539400
-      InfernoTiles_11: -473413272
-      InfernoTiles_12: -1927995303
-      InfernoTiles_13: 1049113335
-      InfernoTiles_14: 1822799798
-      InfernoTiles_15: 28761275
-      InfernoTiles_16: 780880355
-      InfernoTiles_17: 788841270
-      InfernoTiles_18: -1908325959
-      InfernoTiles_19: -1169229636
-      InfernoTiles_2: 1339878401
-      InfernoTiles_20: 641732266
-      InfernoTiles_21: -900948036
-      InfernoTiles_22: 179342163
-      InfernoTiles_23: -896194500
-      InfernoTiles_24: 446865203
-      InfernoTiles_25: -1293404858
-      InfernoTiles_26: 906740918
-      InfernoTiles_27: -137398984
-      InfernoTiles_28: -1496374282
-      InfernoTiles_29: 1772084418
-      InfernoTiles_3: -425183014
-      InfernoTiles_30: -700023744
-      InfernoTiles_31: -1312219175
-      InfernoTiles_32: 982857735
-      InfernoTiles_33: -1808090919
-      InfernoTiles_34: 211135427
-      InfernoTiles_35: 849827909
-      InfernoTiles_36: -500025429
-      InfernoTiles_37: -59328269
-      InfernoTiles_38: 1504278129
-      InfernoTiles_39: -1614436657
-      InfernoTiles_4: -841028288
-      InfernoTiles_40: 1014032525
-      InfernoTiles_41: 1905788023
-      InfernoTiles_42: -560668981
-      InfernoTiles_43: -1470145242
-      InfernoTiles_44: 928032785
-      InfernoTiles_45: -254031470
-      InfernoTiles_46: 813854437
-      InfernoTiles_47: -699474561
-      InfernoTiles_48: -1603626705
-      InfernoTiles_49: 2047633944
-      InfernoTiles_5: -750835624
-      InfernoTiles_50: 1162710350
-      InfernoTiles_51: -1641333421
-      InfernoTiles_52: -592075925
-      InfernoTiles_6: 1173584030
-      InfernoTiles_7: 1722934567
-      InfernoTiles_8: -1376398205
+      Bone_Gut: 1173584030
+      Bridge_L: 211135427
+      Bridge_M: 849827909
+      Bridge_R: -500025429
+      Bubble_Gut_1: -900948036
+      Bubble_Gut_2: 1772084418
+      Bubble_Gut_3: 2047633944
+      Bubble_Gut_4: -1496374282
+      Bubble_Gut_5: 641732266
+      Chain_Gut: -700023744
+      Chain_Gut_L: 179342163
+      Chain_Gut_R: -896194500
+      Cobweb_Gut_L: -59328269
+      Cobweb_Gut_R: 1504278129
+      Eye_B: 928032785
+      Eye_Gut: 1722934567
+      Eye_L: -254031470
+      Eye_R: -1470145242
+      Eyes_B: -1641333421
+      Eyes_L: -592075925
+      Eyes_R: 1162710350
+      Gut_B: 788841270
+      Gut_BL: 780880355
+      Gut_BR: -1908325959
+      Gut_Full: -1603626705
+      Gut_IB: -1293404858
+      Gut_IBL: 906740918
+      Gut_IBR: 446865203
+      Gut_IL: -1808090919
+      Gut_IR: 982857735
+      Gut_IT: 1014032525
+      Gut_ITL: 1905788023
+      Gut_ITR: -1614436657
+      Gut_L: -1376398205
+      Gut_R: -1151539400
+      Gut_Small_Top: -560668981
+      Gut_T: 574190689
+      Gut_TL: -725254440555710316
+      Gut_TR: 1339878401
       InfernoTiles_9: 129404680
+      Pillar_B: -137398984
+      Pillar_MB: -1169229636
+      Pillar_MT: -473413272
+      Pillar_T: -425183014
+      Scream_Gut: -841028288
+      Sign_Gut: -750835624
+      Skull_Inferno: 813854437
+      Skulls_Inferno: 28761275
+      Spike_Gut: -1312219175
+      Sword_Gut: 1049113335
+      Volcano_Gut: 1822799798
+      Water_Filled: -1927995303
+      Water_NotFilled: -699474561
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

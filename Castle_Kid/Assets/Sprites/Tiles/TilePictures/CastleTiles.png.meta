@@ -553,7 +553,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CastleTiles_19
+      name: Wall_Brick_IT
       rect:
         serializedVersion: 2
         x: 96
@@ -729,7 +729,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CastleTiles_27
+      name: Wall_Brick_IB
       rect:
         serializedVersion: 2
         x: 96
@@ -1278,8 +1278,6 @@ TextureImporter:
       Bridge_L: 94614564
       Bridge_M: 143393912
       Bridge_R: -971281132
-      CastleTiles_19: 996822869
-      CastleTiles_27: -1462532865
       Chain_L: 1740844678
       Chain_LR: 1030274185
       Chain_R: 1992131446
@@ -1297,6 +1295,8 @@ TextureImporter:
       Torch_Wall: -1208080004
       Wall_Brick_B: -425091760
       Wall_Brick_Deco: -475790544
+      Wall_Brick_IB: -1462532865
+      Wall_Brick_IT: 996822869
       Wall_Brick_M: -397591570
       Wall_Brick_T: -951771516
   mipmapLimitGroupName: 
