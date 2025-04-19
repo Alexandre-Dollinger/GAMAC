@@ -10,10 +10,10 @@ namespace _Scripts.Player.Movement
         // the little f behind the values indicates that those values are of type float (not integers)
         [Range(1f, 1000f)] public float MaxWalkSpeed = 85f; // Maximum walking speed
         // Range is once again to help beautifully change the value in debug in unity whith a slide from min to max // bruh, it's not working
-        [Range(0.25f, 500f)] public float GroundAcceleration = 50f; // To calculate the rate at how fast you attain max speed on the ground
-        [Range(0.25f, 500f)] public float GroundDeceleration = 150f; // To calculate the rate at how fast you will completely stop moving on the ground
-        [Range(0.25f, 500f)] public float AirAcceleration = 70f; // To calculate the rate at how fast you attain max speed in the air
-        [Range(0.25f, 500f)] public float AirDeceleration = 150f; // To calculate the rate at how fast you will stop moving forward in the air
+        [Range(0.25f, 10f)] public float GroundAcceleration = 50f; // To calculate the rate at how fast you attain max speed on the ground
+        [Range(0.25f, 10f)] public float GroundDeceleration = 150f; // To calculate the rate at how fast you will completely stop moving on the ground
+        [Range(0.25f, 10f)] public float AirAcceleration = 70f; // To calculate the rate at how fast you attain max speed in the air
+        [Range(0.25f, 10f)] public float AirDeceleration = 150f; // To calculate the rate at how fast you will stop moving forward in the air
         [Space(5)]
 
         [Header("Run")]
