@@ -1,51 +1,28 @@
 using UnityEngine;
-using _Scripts.Enemy;
 using _Scripts.Player.Weapon;
 using _Scripts.Player;
+using _Scripts.Player.Trigger;
+using _Scripts.Enemy;
+using System;
 public class Slime : BasicEnemy
 {
-    public EnemyCustomTrigger GroundCheckTrigger;
+    public EnemyCustomTrigger BodyCheckTrigger;
+    public EnemyCustomTrigger WillFallCheckTrigger;
     public EnemyCustomTrigger WallCheckTrigger;
-    public EnemyCustomTrigger AirborneCheckTrigger;
-
-    public SpriteRenderer activeSprite;
+    public CustomTrigger AirborneCheckTrigger;
+    
+    private SpriteRenderer activeSprite;
     private bool isTouchingWall;
 
     #region Updates and Start
     void Awake()
     {
-        MaxHp = 100;
-        Hp = MaxHp;
-        AttackPower = 1;
-
-        chaseDistance = 125f; //Can be changed later if needed
-
-        GroundSpeed = 40f;
-        AirSpeed = GroundSpeed / 2;
-        ChaseSpeed = 75f;
-
-        isFacingRight = true; 
-        willFall = true; 
-        isTouchingWall = false;
-        isGrounded = false;
-        isChasing = false;
-
-        //Setting all the conditions for the different triggers
-        GroundCheckTrigger.condition = item => groundLayerId == item.gameObject.layer;
-
-        WallCheckTrigger.condition = item =>  groundLayerId == item.gameObject.layer;
-
-        AirborneCheckTrigger.condition = item => groundLayerId == item.gameObject.layer;
-        
-        // Setting all the Enter and Exit triggers for the different triggers
-        GroundCheckTrigger.EnteredTrigger += OnGroundCheckEnter2D;
-        GroundCheckTrigger.ExitedTrigger += OnGroundCheckExit2D;
-
-        WallCheckTrigger.EnteredTrigger += OnWallCheckEnter2D;
-        WallCheckTrigger.ExitedTrigger += OnWallCheckExit2D;
-
-        AirborneCheckTrigger.EnteredTrigger += OnIsGroundedCheckEnter;
-        AirborneCheckTrigger.ExitedTrigger += OnIsGroundedCheckExit;
+        //Look at the SetAllFunctions region for the functions
+        SetAllCombatStats();
+        SetAllMovementStats();
+        SetAllBooleans();
+        SetAllTriggers();
+        SetAllTriggerConditions();
     }
 
     void Start()
@@ -56,9 +33,7 @@ public class Slime : BasicEnemy
 
     void FixedUpdate()
     {
-        closestPlayer = PlayerTracking.GetClosestPlayer(this.gameObject);
-        //Debug.Log($"Distance: {Vector2.Distance(closestPlayer.transform.position, this.gameObject.transform.position)}");
-        isChasing = InChasingRange();
+        UpdateChasingMode();
         if (isChasing)
         {
             Debug.Log("CHASING");
@@ -74,12 +49,11 @@ public class Slime : BasicEnemy
     #endregion
 
     #region Collisions and Triggers
-
-    private void OnGroundCheckEnter2D(Collider2D item)
+    private void OnWillFallCheckEnter2D(Collider2D item)
     {
         willFall = false;
     }
-    private void OnGroundCheckExit2D(Collider2D item)
+    private void OnWillFallCheckExit2D(Collider2D item)
     {
         willFall = true;
     }
@@ -93,22 +67,23 @@ public class Slime : BasicEnemy
         isTouchingWall = false; 
     }
 
-    private void OnIsGroundedCheckEnter(Collider2D item)
+    private void OnIsGroundedCheckEnter2D(Collider2D item)
     {
         isGrounded = true; 
     }
-    private void OnIsGroundedCheckExit(Collider2D item)
+    private void OnIsGroundedCheckExit2D(Collider2D item)
     {
         isGrounded = false; 
     }
 
-    private void OnTriggerEnter2D(Collider2D item) //For detecting if the slime got attacked by a player
+    private void OnBodyCheckEnter2D(Collider2D item) //For detecting if the slime got attacked by a player
     {
-        if (item.gameObject.tag == playerAttackTag) //Will need to implement a timer to avoid continuous hits
-        {
-            Debug.Log($"Got hit ! Current HP: {Hp}/{MaxHp}");
-            GetHit(WeaponScript.AttackPower);
-        }
+        GetHit(WeaponScript.AttackPower);
+    }
+
+    private void OnBodyCheckExit2D(Collider2D item) //if there is no exit function, we have a null reference Exception
+    {
+        Debug.Log($"Got hit ! Current HP: {Hp}/{MaxHp}");
     }
 
     private void OnCollisionEnter2D(Collision2D collision) //For detecting if the slime collided with a player
@@ -134,6 +109,7 @@ public class Slime : BasicEnemy
             Destroy(this.gameObject);
     }
 
+    #region Roaming and Chasing
     private void Roaming()
     {
         activeSprite.color = Color.white;
@@ -192,17 +168,24 @@ public class Slime : BasicEnemy
         {
             enemyRb.linearVelocity = new Vector2(ChaseSpeed, 0);
         }
-        
-    }
-
-    private bool PlayerIsRight()
-    {
-        return transform.position.x < closestPlayer.transform.position.x;
     }
 
     private bool InChasingRange()
     {
         return Vector2.Distance(closestPlayer.transform.position, gameObject.transform.position) <= chaseDistance;
+    }
+
+    private void UpdateChasingMode()
+    {
+        closestPlayer = PlayerTracking.GetClosestPlayer(this.gameObject);
+        //Debug.Log($"Distance: {Vector2.Distance(closestPlayer.transform.position, this.gameObject.transform.position)}");
+        isChasing = InChasingRange();
+    }
+    #endregion
+
+    private bool PlayerIsRight()
+    {
+        return transform.position.x < closestPlayer.transform.position.x;
     }
 
     private void Flip()
@@ -215,5 +198,72 @@ public class Slime : BasicEnemy
         ChaseSpeed = -ChaseSpeed;
     }
 
+    #region SetAllFunctions
     
+    private void SetAllCombatStats()
+    {
+        MaxHp = 100;
+        Hp = MaxHp;
+        AttackPower = 1;
+    }
+    private void SetAllMovementStats()
+    {
+        GroundSpeed = 40f;
+        AirSpeed = GroundSpeed / 2;
+        ChaseSpeed = 75f;
+        chaseDistance = 125f; //Can be changed later if needed
+    }
+    private void SetAllBooleans()
+    {
+        isFacingRight = true; 
+        willFall = true; 
+        isTouchingWall = false;
+        isGrounded = false;
+        isChasing = false;
+    }
+
+     private void SetAllTriggers()
+    {
+        // Setting all the Enter and Exit triggers for the different triggers
+        BodyCheckTrigger.EnteredTrigger += OnBodyCheckEnter2D;
+        BodyCheckTrigger.ExitedTrigger += OnBodyCheckExit2D;
+
+        WillFallCheckTrigger.EnteredTrigger += OnWillFallCheckEnter2D;
+        WillFallCheckTrigger.ExitedTrigger += OnWillFallCheckExit2D;
+
+        WallCheckTrigger.EnteredTrigger += OnWallCheckEnter2D;
+        WallCheckTrigger.ExitedTrigger += OnWallCheckExit2D;
+
+        AirborneCheckTrigger.EnteredTrigger += OnIsGroundedCheckEnter2D;
+        AirborneCheckTrigger.ExitedTrigger += OnIsGroundedCheckExit2D;
+    }
+
+    private void SetAllTriggerConditions()
+    {
+        //Setting all the conditions for the different triggers
+        BodyCheckTrigger.condition = GotAttacked();
+        WillFallCheckTrigger.condition = TouchedGround();
+        WallCheckTrigger.condition = item => TouchedGround()(item) || TouchedEnemy()(item);
+        //AirborneCheckTrigger.condition = item => groundLayerId == item.gameObject.layer;
+    }
+    #endregion
+    
+    #region Predicates (Conditions)
+    private Predicate<Collider2D> GotAttacked()
+    {
+        return item => item.gameObject.tag == playerAttackTag;
+    }
+
+    private Predicate<Collider2D> TouchedGround()
+    {
+        return item => groundLayerId == item.gameObject.layer;
+    }
+
+    private Predicate<Collider2D> TouchedEnemy()
+    {
+        return item => item.gameObject.tag == gameObject.tag;
+    }
+        
+    #endregion
+
 }

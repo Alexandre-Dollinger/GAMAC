@@ -25,12 +25,10 @@ public abstract class BasicEnemy : MonoBehaviour
     protected bool IsGuardian {get;} //Rare enemy
 
     //Movement Stats
-    public float MaxGroundSpeed {get;}
     public float GroundSpeed {get; set;}
-    public float MaxAirSpeed {get;}
     public float AirSpeed {get; set;}
-    protected float chaseDistance;
     public float ChaseSpeed {get; set;}
+    protected float chaseDistance;
 
     //References to Id and tags
     protected int groundLayerId = 3; 

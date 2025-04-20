@@ -8,6 +8,7 @@ namespace _Scripts.Player.Trigger
         private int GroundLayerId = 3;
         
         private string PlayerTag = "Player";
+        private string EnemyTag = "Enemy";
 
         public event System.Action<Collider2D> EnteredTrigger;
         public event System.Action<Collider2D> ExitedTrigger;
@@ -28,7 +29,7 @@ namespace _Scripts.Player.Trigger
 
         private bool NeedCollision(Collider2D item)
         {
-            return item.tag == PlayerTag || item.gameObject.layer == GroundLayerId; // long line to access the layer of the collider2D
+            return item.tag == PlayerTag || item.tag == EnemyTag || item.gameObject.layer == GroundLayerId; // long line to access the layer of the collider2D
         }
     }
 }
