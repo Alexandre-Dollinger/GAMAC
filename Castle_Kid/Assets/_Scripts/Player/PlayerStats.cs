@@ -9,8 +9,8 @@ namespace _Scripts.Player
 
         public void GetHit(int damage)
         {
-            Debug.Log("Player got hit !");
             Hp -= damage;
+            Debug.Log($"Player got hit ! Player's HP: {Hp}/{MaxHp}");
             if (Hp <= 0)
                 GetKilled();
         }

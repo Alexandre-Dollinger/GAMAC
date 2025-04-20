@@ -1,16 +1,18 @@
 using UnityEngine;
 using Unity.Netcode;
+using System.Collections.Generic;
 
 public abstract class BasicEnemy : MonoBehaviour
 {
 
     //Base class that all enemies will inherit from
-
+    protected GameObject closestPlayer;
     protected Rigidbody2D enemyRb;
 
     protected bool isFacingRight;
+    protected bool willFall;
     protected bool isGrounded;
-    protected bool isAirborne;
+    protected bool isChasing;
 
 
     //Combat Stats
@@ -27,6 +29,8 @@ public abstract class BasicEnemy : MonoBehaviour
     public float GroundSpeed {get; set;}
     public float MaxAirSpeed {get;}
     public float AirSpeed {get; set;}
+    protected float chaseDistance;
+    public float ChaseSpeed {get; set;}
 
     //References to Id and tags
     protected int groundLayerId = 3; 

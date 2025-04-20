@@ -111,6 +111,8 @@ namespace _Scripts.Player.Movement
             _animator = GetComponent<Animator>();
 
             _animationTime = 0;
+
+            PlayerTracking.players.Add(this.gameObject); //To add to the List of all players in Game
         }
         //============================================================================================
         //UPDATES
