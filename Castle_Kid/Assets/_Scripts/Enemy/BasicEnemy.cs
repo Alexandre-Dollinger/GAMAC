@@ -7,17 +7,16 @@ public abstract class BasicEnemy : MonoBehaviour
     //Base class that all enemies will inherit from
 
     protected Rigidbody2D enemyRb;
-    public GameObject groundCheck;
-    protected int groundLayerId = 3;
 
     protected bool isFacingRight;
     protected bool isGrounded;
+    protected bool isAirborne;
 
 
     //Combat Stats
     protected int MaxHp {get; set;}
     protected int Hp {get; set;}
-    protected int AttackPower {get; set;} //How much damage he deals per attack
+    protected int AttackPower {get; set;} //How much damage the enemy deals per attack
     
     //Drops
     protected int MoneyDrop {get;}
@@ -25,12 +24,15 @@ public abstract class BasicEnemy : MonoBehaviour
 
     //Movement Stats
     public float MaxGroundSpeed {get;}
-    public float groundSpeed {get; set;}
+    public float GroundSpeed {get; set;}
     public float MaxAirSpeed {get;}
     public float AirSpeed {get; set;}
 
-    //Player Attack Tag
-    protected string PlayerAttackTag = "PlayerAttack";
+    //References to Id and tags
+    protected int groundLayerId = 3; 
+
+    protected string playerTag = "Player";
+    protected string playerAttackTag = "PlayerAttack"; 
 
     protected abstract void BasicAttack();
 

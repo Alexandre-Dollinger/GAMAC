@@ -12,6 +12,9 @@ namespace _Scripts.Player.Weapon
     {
         public float offset;
 
+        public static int AttackPower = 10; //Can be changed later
+
+        //Timers and Delays
         public float attackDelay = 1.3f;
         private float _curAttDelay;
         
@@ -21,6 +24,7 @@ namespace _Scripts.Player.Weapon
         public float bufferAttackTimer = 0.2f;
         private float _curBufferTimer;
         
+
         private PolygonCollider2D _polygonCollider2D;
         private Camera _playerCamera;
 
