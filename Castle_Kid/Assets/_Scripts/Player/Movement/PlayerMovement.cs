@@ -297,6 +297,8 @@ namespace _Scripts.Player.Movement
             colliders.transform.rotation = Quaternion.Euler (0.0f, 0.0f, gameObject.transform.rotation.z * -1.0f);
         }
 
+        public bool GetPlayerIsGrounded() => _isGrounded;
+        
         #endregion
 
         #region Jump

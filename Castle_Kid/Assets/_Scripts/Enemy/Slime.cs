@@ -4,6 +4,7 @@ using _Scripts.Player;
 using _Scripts.Player.Trigger;
 using _Scripts.Enemy;
 using System;
+using _Scripts.Player.Movement;
 public class Slime : BasicEnemy
 {
     public EnemyCustomTrigger BodyCheckTrigger;
@@ -17,6 +18,9 @@ public class Slime : BasicEnemy
     #region Updates and Start
     void Awake()
     {
+        closestPlayerTime = 2f;
+        closestPlayerCooldown = 0f;
+
         //Look at the SetAllFunctions region for the functions
         SetAllCombatStats();
         SetAllMovementStats();
@@ -34,18 +38,25 @@ public class Slime : BasicEnemy
     void FixedUpdate()
     {
         UpdateChasingMode();
+        CheckFlip();
+
         if (isChasing)
         {
-            Debug.Log("CHASING");
+            //Debug.Log("CHASING");
             Chasing();
         }
         else 
         {
-            Debug.Log("ROAMING");
+            //Debug.Log("ROAMING");
             Roaming();
         }
     }
-    
+
+    void Update()
+    {
+        CountTimers();
+    }
+
     #endregion
 
     #region Collisions and Triggers
@@ -99,7 +110,7 @@ public class Slime : BasicEnemy
 
     protected override void BasicAttack()
     {
-        throw new System.NotImplementedException();
+        throw new NotImplementedException();
     }
 
     protected override void GetHit(int damage)
@@ -115,26 +126,16 @@ public class Slime : BasicEnemy
         activeSprite.color = Color.white;
         if (willFall)
         {
-                if(!isGrounded) 
-                    enemyRb.linearVelocity = new Vector2(AirSpeed, -50);
-                else 
-                {
-                    Flip();
-                    enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
-                }
-        }
-        else if (isTouchingWall)
-        {
-                Flip();
+            if(!isGrounded) 
+                enemyRb.linearVelocity = new Vector2(AirSpeed, -50);
+            else 
+            {
+                enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
+            }
         }
         
         else 
         {
-            //Feels weird but works, percentage can be changed
-
-            // if (Random.Range(0f, 100f) < 0.5) 
-            //     Flip();
-
             enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
         }
     }
@@ -142,12 +143,6 @@ public class Slime : BasicEnemy
     private void Chasing()
     {
         activeSprite.color = Color.red;
-        if (PlayerIsRight() ^ isFacingRight)  // '^' symbol --> XOR
-        //Player on a side and Facing the other side
-        //!PlayerIsRight() && isFacingRight || PlayerIsRight() && !isFacingRight
-        {
-            Flip();
-        }
 
         if (willFall)
         {
@@ -155,7 +150,7 @@ public class Slime : BasicEnemy
                 enemyRb.linearVelocity = new Vector2(AirSpeed, -50);
             else 
             {
-                enemyRb.linearVelocity = new Vector2(0, 0);
+                enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
             }
         }
         else if (isTouchingWall)
@@ -177,9 +172,17 @@ public class Slime : BasicEnemy
 
     private void UpdateChasingMode()
     {
-        closestPlayer = PlayerTracking.GetClosestPlayer(this.gameObject);
-        //Debug.Log($"Distance: {Vector2.Distance(closestPlayer.transform.position, this.gameObject.transform.position)}");
-        isChasing = InChasingRange();
+        if (closestPlayerCooldown <= 0 || !isChasing)
+        {
+            closestPlayerCooldown = closestPlayerTime;
+
+            closestPlayer = PlayerTracking.GetClosestPlayer(gameObject);
+            //Debug.Log($"Distance: {Vector2.Distance(closestPlayer.transform.position, this.gameObject.transform.position)}");
+            isChasing = InChasingRange();
+
+            if (isChasing)
+                closestPlayerMovement = closestPlayer.GetComponent<PlayerMovement>();
+        }
     }
     #endregion
 
@@ -193,9 +196,25 @@ public class Slime : BasicEnemy
         isFacingRight = !isFacingRight;
         transform.Rotate(0f, 180f, 0f);
 
-        GroundSpeed = -GroundSpeed;
-        AirSpeed = -AirSpeed;
-        ChaseSpeed = -ChaseSpeed;
+        //GroundSpeed = -GroundSpeed;
+        //AirSpeed = -AirSpeed;
+        //ChaseSpeed = -ChaseSpeed;
+    }
+
+    private void CheckFlip()
+    {
+        if (isChasing) //Chasing
+        {
+            if ((PlayerIsRight() ^ isFacingRight) && closestPlayerMovement.GetPlayerIsGrounded())  // '^' symbol --> XOR
+                Flip();
+            //Player on a side and Facing the other side
+            //!PlayerIsRight() && isFacingRight || PlayerIsRight() && !isFacingRight
+        }
+        else //Roaming
+        {
+            if((willFall && isGrounded) || isTouchingWall) // isTouching
+                Flip();
+        }
     }
 
     #region SetAllFunctions
@@ -266,4 +285,17 @@ public class Slime : BasicEnemy
         
     #endregion
 
+    #region Timer
+
+        private void CountTimers()
+        {
+            float deltaTime = Time.deltaTime;
+
+            if (closestPlayerCooldown > 0)
+            {
+                closestPlayerCooldown -= deltaTime;
+            }
+        }
+        
+    #endregion
 }

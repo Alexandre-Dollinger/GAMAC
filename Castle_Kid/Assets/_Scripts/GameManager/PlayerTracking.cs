@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 public class PlayerTracking : MonoBehaviour
 {
@@ -7,20 +9,12 @@ public class PlayerTracking : MonoBehaviour
 
     public static GameObject GetClosestPlayer(GameObject other) //Assuming the list is not empty
     {
-        GameObject closest = players[0];
-        float distance = Vector2.Distance(closest.transform.position, other.transform.position);
+        return (from player in players
+                orderby Vector2.Distance(player.transform.position, other.transform.position) descending 
+                select player).FirstOrDefault();
 
-        for (int i = 1; i < players.Count; i++)
-        {
-            float otherDistance = Vector2.Distance(players[i].transform.position, other.transform.position);
-            if (distance < otherDistance)
-            {
-                (closest, distance) = (players[i], otherDistance);
-            }
-        }
-        
-        return closest;
-    }
-
-
+        // return (from pl in players 
+        //         orderby Math.Abs(pl.transform.position - other.transform.position) descending
+        //         select pl).FirstOrDefault();
+    } 
 }

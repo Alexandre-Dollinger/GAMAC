@@ -1,12 +1,15 @@
 using UnityEngine;
-using Unity.Netcode;
-using System.Collections.Generic;
+using System;
+using _Scripts.Player.Movement;
 
 public abstract class BasicEnemy : MonoBehaviour
 {
 
     //Base class that all enemies will inherit from
     protected GameObject closestPlayer;
+    protected PlayerMovement closestPlayerMovement;
+    protected float closestPlayerCooldown; // The one which is updated
+    protected float closestPlayerTime; // Max time
     protected Rigidbody2D enemyRb;
 
     protected bool isFacingRight;
@@ -25,9 +28,27 @@ public abstract class BasicEnemy : MonoBehaviour
     protected bool IsGuardian {get;} //Rare enemy
 
     //Movement Stats
-    public float GroundSpeed {get; set;}
-    public float AirSpeed {get; set;}
-    public float ChaseSpeed {get; set;}
+    private float _groundSpeed;
+    public float GroundSpeed 
+    {
+        get => isFacingRight ? _groundSpeed : -_groundSpeed;
+        
+        set => _groundSpeed = Math.Abs(value);
+    }
+    private float _airSpeed;
+    public float AirSpeed 
+    {
+        get => isFacingRight ? _airSpeed : -_airSpeed;
+        
+        set => _airSpeed = Math.Abs(value);
+    }
+    private float _chaseSpeed;
+    public float ChaseSpeed 
+    {
+        get => isFacingRight ? _chaseSpeed : -_chaseSpeed;
+        
+        set => _chaseSpeed = Math.Abs(value);
+    }
     protected float chaseDistance;
 
     //References to Id and tags
