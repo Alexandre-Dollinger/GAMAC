@@ -11,9 +11,15 @@ public class Slime : BasicEnemy
     public EnemyCustomTrigger WillFallCheckTrigger;
     public EnemyCustomTrigger WallCheckTrigger;
     public CustomTrigger AirborneCheckTrigger;
-    
+
     private SpriteRenderer activeSprite;
     private bool isTouchingWall;
+
+    private float targetvelocityX;
+    private float targetVelocityY;
+
+    private float GroundAcceleration;
+    private float AerialAcceleration;
 
     #region Updates and Start
     void Awake()
@@ -35,21 +41,22 @@ public class Slime : BasicEnemy
         activeSprite = GetComponent<SpriteRenderer>();
     }
 
+    private void DebugState() 
+    {
+        Debug.Log(isChasing ? "Chasing" : "Roaming");
+    }
+
     void FixedUpdate()
     {
         UpdateChasingMode();
         CheckFlip();
 
         if (isChasing)
-        {
-            //Debug.Log("CHASING");
             Chasing();
-        }
-        else 
-        {
-            //Debug.Log("ROAMING");
+        else
             Roaming();
-        }
+
+        DebugState();
     }
 
     void Update()
@@ -59,82 +66,19 @@ public class Slime : BasicEnemy
 
     #endregion
 
-    #region Collisions and Triggers
-    private void OnWillFallCheckEnter2D(Collider2D item)
-    {
-        willFall = false;
-    }
-    private void OnWillFallCheckExit2D(Collider2D item)
-    {
-        willFall = true;
-    }
-
-    private void OnWallCheckEnter2D(Collider2D item)
-    {
-        isTouchingWall = true; 
-    }
-    private void OnWallCheckExit2D(Collider2D item)
-    {
-        isTouchingWall = false; 
-    }
-
-    private void OnIsGroundedCheckEnter2D(Collider2D item)
-    {
-        isGrounded = true; 
-    }
-    private void OnIsGroundedCheckExit2D(Collider2D item)
-    {
-        isGrounded = false; 
-    }
-
-    private void OnBodyCheckEnter2D(Collider2D item) //For detecting if the slime got attacked by a player
-    {
-        GetHit(WeaponScript.AttackPower);
-    }
-
-    private void OnBodyCheckExit2D(Collider2D item) //if there is no exit function, we have a null reference Exception
-    {
-        Debug.Log($"Got hit ! Current HP: {Hp}/{MaxHp}");
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision) //For detecting if the slime collided with a player
-    {
-        if (collision.gameObject.tag == playerTag)
-        {
-            Debug.Log("Collision with Player");
-            collision.gameObject.GetComponent<PlayerStats>().GetHit(AttackPower);
-        }
-    }
-
-    #endregion
-
-    protected override void BasicAttack()
-    {
-        throw new NotImplementedException();
-    }
-
-    protected override void GetHit(int damage)
-    {
-        Hp -= damage;
-        if (Hp <= 0)
-            Destroy(this.gameObject);
-    }
-
     #region Roaming and Chasing
     private void Roaming()
     {
         activeSprite.color = Color.white;
         if (willFall)
         {
-            if(!isGrounded) 
+            if (!isGrounded)
                 enemyRb.linearVelocity = new Vector2(AirSpeed, -50);
-            else 
-            {
+            else
                 enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
-            }
         }
-        
-        else 
+
+        else
         {
             enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
         }
@@ -146,9 +90,9 @@ public class Slime : BasicEnemy
 
         if (willFall)
         {
-            if(!isGrounded) 
+            if (!isGrounded)
                 enemyRb.linearVelocity = new Vector2(AirSpeed, -50);
-            else 
+            else
             {
                 enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
             }
@@ -158,8 +102,7 @@ public class Slime : BasicEnemy
             Debug.Log("Wall Touched in Chasing Mode");
             enemyRb.linearVelocity = new Vector2(0, 0);
         }
-
-        else 
+        else
         {
             enemyRb.linearVelocity = new Vector2(ChaseSpeed, 0);
         }
@@ -185,6 +128,18 @@ public class Slime : BasicEnemy
         }
     }
     #endregion
+
+    protected override void BasicAttack()
+    {
+        throw new NotImplementedException();
+    }
+
+    protected override void GetHit(int damage)
+    {
+        Hp -= damage;
+        if (Hp <= 0)
+            Destroy(this.gameObject);
+    }
 
     private bool PlayerIsRight()
     {
@@ -212,13 +167,13 @@ public class Slime : BasicEnemy
         }
         else //Roaming
         {
-            if((willFall && isGrounded) || isTouchingWall) // isTouching
+            if ((willFall && isGrounded) || isTouchingWall) // isTouching
                 Flip();
         }
     }
 
     #region SetAllFunctions
-    
+
     private void SetAllCombatStats()
     {
         MaxHp = 100;
@@ -234,14 +189,14 @@ public class Slime : BasicEnemy
     }
     private void SetAllBooleans()
     {
-        isFacingRight = true; 
-        willFall = true; 
+        isFacingRight = true;
+        willFall = true;
         isTouchingWall = false;
         isGrounded = false;
         isChasing = false;
     }
 
-     private void SetAllTriggers()
+    private void SetAllTriggers()
     {
         // Setting all the Enter and Exit triggers for the different triggers
         BodyCheckTrigger.EnteredTrigger += OnBodyCheckEnter2D;
@@ -266,7 +221,7 @@ public class Slime : BasicEnemy
         //AirborneCheckTrigger.condition = item => groundLayerId == item.gameObject.layer;
     }
     #endregion
-    
+
     #region Predicates (Conditions)
     private Predicate<Collider2D> GotAttacked()
     {
@@ -282,20 +237,69 @@ public class Slime : BasicEnemy
     {
         return item => item.gameObject.tag == gameObject.tag;
     }
-        
+
     #endregion
 
     #region Timer
 
-        private void CountTimers()
-        {
-            float deltaTime = Time.deltaTime;
+    private void CountTimers()
+    {
+        float deltaTime = Time.deltaTime;
 
-            if (closestPlayerCooldown > 0)
-            {
-                closestPlayerCooldown -= deltaTime;
-            }
+        if (closestPlayerCooldown > 0)
+        {
+            closestPlayerCooldown -= deltaTime;
         }
-        
+    }
+
+    #endregion
+
+    #region Collisions and Triggers
+    private void OnWillFallCheckEnter2D(Collider2D item)
+    {
+        willFall = false;
+    }
+    private void OnWillFallCheckExit2D(Collider2D item)
+    {
+        willFall = true;
+    }
+
+    private void OnWallCheckEnter2D(Collider2D item)
+    {
+        isTouchingWall = true;
+    }
+    private void OnWallCheckExit2D(Collider2D item)
+    {
+        isTouchingWall = false;
+    }
+
+    private void OnIsGroundedCheckEnter2D(Collider2D item)
+    {
+        isGrounded = true;
+    }
+    private void OnIsGroundedCheckExit2D(Collider2D item)
+    {
+        isGrounded = false;
+    }
+
+    private void OnBodyCheckEnter2D(Collider2D item) //For detecting if the slime got attacked by a player
+    {
+        GetHit(WeaponScript.AttackPower);
+    }
+
+    private void OnBodyCheckExit2D(Collider2D item) //if there is no exit function, we have a null reference Exception
+    {
+        Debug.Log($"Got hit ! Current HP: {Hp}/{MaxHp}");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) //For detecting if the slime collided with a player
+    {
+        if (collision.gameObject.tag == playerTag)
+        {
+            Debug.Log("Collision with Player");
+            collision.gameObject.GetComponent<PlayerStats>().GetHit(AttackPower);
+        }
+    }
+
     #endregion
 }
