@@ -38,7 +38,7 @@ namespace _Scripts.Health
 
         public void TakeDamage(int damage)
         {
-            MaxHp -= damage;
+            CurrentHp -= damage;
         }
 
         public void GainHealth(int healthGained)

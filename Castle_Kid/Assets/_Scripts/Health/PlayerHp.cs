@@ -8,7 +8,7 @@ namespace _Scripts.Health
     
         public void Awake()
         {
-            _playerTransform = GetComponent<Transform>();
+            _playerTransform = this.transform.parent.parent.transform;
             MaxHp = 100;
             CurrentHp = MaxHp;
         }
@@ -24,15 +24,6 @@ namespace _Scripts.Health
             // Do something to the dead player
             _playerTransform.position = Vector3.zero;
             CurrentHp = MaxHp;
-        }
-
-        public void OnTriggerEnter2D(Collider2D other)
-        {
-            if (other.CompareTag(GM.EnemyTag) ||
-                other.CompareTag(GM.EnemyProjectileTag))
-            {
-                TakeDamage(25); // need to be changed to the enemy attack
-            }
         }
     }
 }

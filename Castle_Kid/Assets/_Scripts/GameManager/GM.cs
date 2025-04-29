@@ -10,13 +10,13 @@ public class GM : MonoBehaviour
     public static readonly string EnemyProjectileTag = "EnemyProjectile";
     public static readonly int GroundLayerId = 3;
     
-    public static bool IsEnemyDamageable(Collider2D item)
+    public static bool IsTargetForPlayer(Collider2D item)
     {
         return item.CompareTag(EnemyTag) ||
                item.CompareTag(EnemyProjectileTag);
     }
 
-    public static bool IsPlayerDamageable(Collider2D item)
+    public static bool IsTargetForEnemy(Collider2D item)
     {
         return item.CompareTag(PlayerTag) ||
                item.CompareTag(PlayerProjectileTag);

@@ -11,7 +11,7 @@ namespace _Scripts.Player.Weapon
 {
     public class WeaponScript : MonoBehaviour
     {
-        public int playerAttack = 30;
+        public int playerAttack = 50;
         
         public float offset;
 
@@ -82,7 +82,6 @@ namespace _Scripts.Player.Weapon
             if (_polygonCollider2D.enabled)
             {
                 transform.rotation = _slashRotation;
-                Debug.Log("Should Fix Rotation");
             }
         }
 
@@ -156,12 +155,11 @@ namespace _Scripts.Player.Weapon
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (GM.IsPlayerDamageable(other))
+            if (GM.IsTargetForEnemy(other) || GM.IsTargetForPlayer(other))
             {
-                other.GetComponent<IUnitHp>().TakeDamage(playerAttack);
-                Debug.Log("AttackedSomething");
+                IUnitHp otherHp = other.GetComponent<IUnitHp>();
+                otherHp.TakeDamage(playerAttack);
             }
-            Debug.Log("Something Entered Collider");
         }
     }
 }
