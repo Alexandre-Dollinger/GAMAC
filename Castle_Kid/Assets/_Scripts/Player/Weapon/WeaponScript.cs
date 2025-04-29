@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.InteropServices;
+using _Scripts.Health;
 using _Scripts.Player.Movement;
 using Unity.Netcode;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace _Scripts.Player.Weapon
 {
     public class WeaponScript : MonoBehaviour
     {
+        public int playerAttack = 30;
+        
         public float offset;
 
         public float attackDelay = 1.3f;
@@ -79,6 +82,7 @@ namespace _Scripts.Player.Weapon
             if (_polygonCollider2D.enabled)
             {
                 transform.rotation = _slashRotation;
+                Debug.Log("Should Fix Rotation");
             }
         }
 
@@ -148,6 +152,16 @@ namespace _Scripts.Player.Weapon
             {
                 _curBufferTimer -= deltaTime;
             }
+        }
+
+        public void OnTriggerEnter2D(Collider2D other)
+        {
+            if (GM.IsPlayerDamageable(other))
+            {
+                other.GetComponent<IUnitHp>().TakeDamage(playerAttack);
+                Debug.Log("AttackedSomething");
+            }
+            Debug.Log("Something Entered Collider");
         }
     }
 }
