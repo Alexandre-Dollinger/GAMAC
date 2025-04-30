@@ -4,6 +4,7 @@ namespace _Scripts.Health
 {
     public class UnitHp : MonoBehaviour, IUnitHp // the script of the Hp must be added where the collider of the body of the object is
     {
+        public bool CanDie { get; set; } = true;
 
         private int _currentHp;
         public int CurrentHp
@@ -18,8 +19,8 @@ namespace _Scripts.Health
                     _currentHp = MaxHp;
 
                 _currentHp = value;
+                }
             }
-        }
 
         private int _maxHp;
         public int MaxHp
@@ -38,7 +39,8 @@ namespace _Scripts.Health
 
         public void TakeDamage(int damage)
         {
-            CurrentHp -= damage;
+            if (CanDie)
+                CurrentHp -= damage;
         }
 
         public void GainHealth(int healthGained)

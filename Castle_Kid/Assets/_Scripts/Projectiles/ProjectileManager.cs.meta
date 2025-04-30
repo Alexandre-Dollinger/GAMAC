@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b3e50716d3774d54a829ee213513d160
+guid: 1cda9b3f9a7a813408065d80dbc106c8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - powerStats: {fileID: 11400000, guid: bb17963ecfd0865488129f50f1a58831, type: 2}
+  - sparkPrefab: {fileID: 6618506637540708428, guid: 39e5b0f766eb5d44d956cf18d32436b1, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

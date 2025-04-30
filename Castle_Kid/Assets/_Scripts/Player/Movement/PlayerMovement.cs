@@ -1,4 +1,5 @@
 using System.Numerics;
+using _Scripts.Inputs;
 using _Scripts.Player.Animation;
 using _Scripts.Player.Trigger;
 using Unity.Netcode;

@@ -1,6 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
+using _Scripts.GameManager;
 using _Scripts.Health;
+using _Scripts.Inputs;
 using _Scripts.Player.Movement;
 using Unity.Netcode;
 using UnityEngine;

@@ -1,3 +1,4 @@
+using _Scripts.GameManager;
 using UnityEngine;
 
 namespace _Scripts.Player.Trigger
