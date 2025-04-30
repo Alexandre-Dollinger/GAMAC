@@ -23,7 +23,7 @@ namespace _Scripts.Projectiles
         private int _damage;
         private ProjectileAttackType _projectileAttackType;
         
-        private Vector3 _startPos;
+        private Vector3 _spawnPos;
         private Vector3 _direction; // _direction is normalized
         private Vector3? _targetPos;
         [CanBeNull] private Transform _targetTransform;
@@ -44,11 +44,11 @@ namespace _Scripts.Projectiles
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        public void BasicInit(Vector3 startPos, Vector3 shootDir, float offset, float scale)
+        public void BasicInit(Vector3 spawnPos, Vector3 shootDir, float scale)
         {
             _direction = shootDir.normalized;
-            _startPos = startPos + (_direction * offset);
-            transform.position = _startPos;
+            _spawnPos = spawnPos;
+            transform.position = _spawnPos;
             
             transform.localScale *= scale;
             

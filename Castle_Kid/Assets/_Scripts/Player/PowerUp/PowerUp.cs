@@ -1,7 +1,9 @@
+using System;
 using _Scripts.GameManager;
 using _Scripts.Inputs;
 using _Scripts.Projectiles;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace _Scripts.Player.PowerUp
 {
@@ -10,13 +12,27 @@ namespace _Scripts.Player.PowerUp
         [Header("References")]
         public PowerUpStats powerStats;
 
+        private Camera _plCamera;
+        
+        public void Awake()
+        {
+            _plCamera = GetComponentInChildren<Camera>();
+        }
+
+        private Vector3 GetMouseDirection()
+        {
+            Vector2 mousePos = _plCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
+            Vector3 direction = (mousePos - (Vector2)transform.position).normalized;
+
+            return direction;
+        }
+
         public void Update()
         {
             if (InputManager.PowerUp1WasReleased)
             {
-                Vector3 offsetSpawn = new Vector3(50,0,0);
                 Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                    transform.position + offsetSpawn, Vector3.right);
+                    transform.position, GetMouseDirection());
                 
                 projectile.InitDestroyCondition(GM.IsPlayer);
                 projectile.InitSpeed(100);
@@ -25,9 +41,8 @@ namespace _Scripts.Player.PowerUp
             
             if (InputManager.PowerUp2WasReleased)
             {
-                Vector3 offsetSpawn = new Vector3(50,0,0);
                 Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                    transform.position + offsetSpawn, Vector3.right);
+                    transform.position, GetMouseDirection());
                 
                 projectile.InitDestroyCondition(GM.IsPlayer, true, 50, true);
                 projectile.InitSpeed();
@@ -36,9 +51,8 @@ namespace _Scripts.Player.PowerUp
             
             if (InputManager.PowerUp3WasReleased)
             {
-                Vector3 offsetSpawn = new Vector3(50,0,0);
                 Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                    transform.position + offsetSpawn, Vector3.right);
+                    transform.position, GetMouseDirection());
                 
                 projectile.InitDestroyCondition(GM.IsPlayer, true, 50, true);
                 projectile.InitSpeed(10, 50, 1000);

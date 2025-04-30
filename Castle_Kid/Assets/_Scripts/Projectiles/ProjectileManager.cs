@@ -22,15 +22,17 @@ namespace _Scripts.Projectiles
         public Transform sparkPrefab;
 
         public Projectile CreateProjectile(ProjectileType projType, string projTag, 
-            Vector3 startPos, Vector3 shootDir, float offset = 15, float scale = 1f)
+            Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
         {
-            Transform transformProj = Instantiate(GetProjectilePrefab(projType), startPos, Quaternion.identity);
+            Vector3 spawnPos = startPos + (shootDir * offset);
+            Transform transformProj = Instantiate(GetProjectilePrefab(projType), 
+                spawnPos, Quaternion.identity);
 
             transformProj.tag = projTag;
             
             Projectile projectile = transformProj.GetComponent<Projectile>();
             
-            projectile.BasicInit(startPos, shootDir, offset, scale);
+            projectile.BasicInit(spawnPos, shootDir, scale);
             
             return projectile;
         }
