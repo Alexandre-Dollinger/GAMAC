@@ -40,27 +40,18 @@ namespace _Scripts.GameManager
                    item.CompareTag(PlayerProjectileTag);
         }
 
-        public static readonly FilterType DestroyableProjectile = ProjectileDestroyableByPlayer;
-        private static bool ProjectileDestroyableByPlayer(Collider2D item)
-        {
-            return item.CompareTag(PlayerAttackTag) ||
-                   item.gameObject.layer == GroundLayerId;
-        }
-        
-        public static readonly FilterType NotDestroyableProjectile = ProjectileNotDestroyableByPlayer;
-        private static bool ProjectileNotDestroyableByPlayer(Collider2D item)
+        public static readonly FilterType CrossedWall = TriedToCrossWalls;
+        private static bool TriedToCrossWalls(Collider2D item)
         {
             return item.gameObject.layer == GroundLayerId;
         }
-        
-        public static readonly FilterType DestroyableProjectileCrossWalls = ProjectileDestroyableByPlayerCrossWalls;
-        private static bool ProjectileDestroyableByPlayerCrossWalls(Collider2D item)
-            // by intangible, I mean that I can go thought walls
+
+        public static readonly FilterType IsPlayer = IsItAPlayer;
+        private static bool IsItAPlayer(Collider2D item)
         {
-            return item.CompareTag(PlayerAttackTag);
+            return item.CompareTag(PlayerTag);
         }
-
-
+        
         public static float GetAngleFromVectorFloat(Vector3 dir) 
         // Don't ask me https://www.youtube.com/watch?v=Nke5JKPiQTw (8:45)
         // basically it takes a direction and return this direction as an euler angle to rotate our item

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7981788950898802918}
   - component: {fileID: 7921397106385801125}
   - component: {fileID: 7156206568315122230}
+  - component: {fileID: 6998508145511371832}
   m_Layer: 0
   m_Name: SparkProjectile
   m_TagString: Untagged
@@ -160,3 +161,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0185c3f7ec59ba14c85af4c4e0f34a66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &6998508145511371832
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3305740393092187452}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 0.0001
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: f4e6bdffdf5d90b42a297670f2b386b2, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

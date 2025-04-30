@@ -5,38 +5,41 @@ using Object = UnityEngine.Object;
 
 namespace _Scripts.Projectiles
 {
-    public enum ProjectilesType
+    public enum ProjectileType
     {
         Spark,
+    }
+
+    public enum ProjectileAttackType
+    {
+        Linear,
+        Tracking,
+        Parabola,
     }
     
     public class ProjectileManager : MonoBehaviour
     {
         public Transform sparkPrefab;
 
-        public Projectile CreateProjectile(ProjectilesType projType, string projTag, 
-            int damage, float speed, Vector3 startPos, Vector3 shootDir,
-            GM.FilterType filterTarget, bool crossWalls = false, bool canDie = true, float scale = 1, 
-            bool tracking = false, Vector3? targetPos = null)
+        public Projectile CreateProjectile(ProjectileType projType, string projTag, 
+            Vector3 startPos, Vector3 shootDir, float offset = 15, float scale = 1f)
         {
             Transform transformProj = Instantiate(GetProjectilePrefab(projType), startPos, Quaternion.identity);
 
             transformProj.tag = projTag;
-
-            GM.FilterType filterDestroy = crossWalls ? canDie ? GM.DestroyableProjectileCrossWalls : null :
-                canDie ? GM.DestroyableProjectile : GM.NotDestroyableProjectile;
             
             Projectile projectile = transformProj.GetComponent<Projectile>();
-            projectile.InitProjectile(damage, speed, startPos, shootDir, filterTarget, filterDestroy, scale, tracking, targetPos);
+            
+            projectile.BasicInit(startPos, shootDir, offset, scale);
             
             return projectile;
         }
         
-        private Transform GetProjectilePrefab(ProjectilesType projType)
+        private Transform GetProjectilePrefab(ProjectileType projType)
         {
             switch (projType)
             {
-                case ProjectilesType.Spark:
+                case ProjectileType.Spark:
                     return sparkPrefab;
             }
 

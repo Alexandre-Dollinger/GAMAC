@@ -157,7 +157,7 @@ namespace _Scripts.Player.Weapon
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (GM.IsTargetForEnemy(other) || GM.IsTargetForPlayer(other))
+            if (GM.IsTargetForPlayer(other) || GM.IsTargetForEnemy(other))
             {
                 IUnitHp otherHp = other.GetComponent<IUnitHp>();
                 otherHp.TakeDamage(playerAttack);
