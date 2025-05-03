@@ -3,7 +3,7 @@ using UnityEngine;
 namespace _Scripts.Health
 {
     public class UnitHp : MonoBehaviour, IUnitHp // the script of the Hp must be added where the collider of the body of the object is
-    {
+    { // maybe need NetworkBehaviour instead
         public bool CanDie { get; set; } = true;
 
         private int _currentHp;

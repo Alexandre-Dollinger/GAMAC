@@ -3,15 +3,12 @@ using System.Runtime.InteropServices;
 using _Scripts.GameManager;
 using _Scripts.Health;
 using _Scripts.Inputs;
-using _Scripts.Player.Movement;
 using Unity.Netcode;
 using UnityEngine;
-using Random = System.Random;
-using Vector2 = System.Numerics.Vector2;
 
 namespace _Scripts.Player.Weapon
 {
-    public class WeaponScript : MonoBehaviour
+    public class WeaponScript : NetworkBehaviour
     {
         public int playerAttack = 50;
         
@@ -33,6 +30,15 @@ namespace _Scripts.Player.Weapon
         
         private float _fixedYRotation;
         private Quaternion _slashRotation;
+        
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                enabled = false;
+                return;
+            }
+        }
         
         private void Awake()
         {

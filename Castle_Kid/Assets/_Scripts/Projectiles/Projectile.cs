@@ -135,7 +135,7 @@ namespace _Scripts.Projectiles
                     LinearProjectile();
                     break;
                 case ProjectileAttackType.Tracking:
-                    if (_targetTransform is not null)
+                    if ((UnityEngine.Object)_targetTransform is not null)
                         TrackingProjectile();
                     break;
                 case ProjectileAttackType.Parabola:

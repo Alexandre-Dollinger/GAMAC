@@ -2,17 +2,27 @@ using System;
 using _Scripts.GameManager;
 using _Scripts.Inputs;
 using _Scripts.Projectiles;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace _Scripts.Player.PowerUp
 {
-    public class PowerUp : MonoBehaviour
+    public class PowerUp : NetworkBehaviour
     {
         [Header("References")]
         public PowerUpStats powerStats;
 
         private Camera _plCamera;
+        
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                enabled = false;
+                return;
+            }
+        }
         
         public void Awake()
         {
