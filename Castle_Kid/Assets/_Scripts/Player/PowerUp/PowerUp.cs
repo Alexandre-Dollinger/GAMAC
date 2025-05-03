@@ -42,33 +42,51 @@ namespace _Scripts.Player.PowerUp
         {
             if (InputManager.PowerUp1WasReleased)
             {
-                Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                    transform.position, GetMouseDirection());
-                
-                projectile.InitDestroyCondition(GM.IsPlayer);
-                projectile.InitSpeed(100);
-                projectile.InitAttackLinear(50);
+                //GM.ProjM.CreateProjectileServerRpc(ProjectileType.Spark, GM.PlayerProjectileTag, transform.position, GetMouseDirection());
+                SpawnLinearProjectile();
             }
             
             if (InputManager.PowerUp2WasReleased)
             {
-                Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                    transform.position, GetMouseDirection());
-                
-                projectile.InitDestroyCondition(GM.IsPlayer, true, 50, true);
-                projectile.InitSpeed();
-                projectile.InitAttackTracking(50,200, transform);
+                SpawnTrackingFixedSpeedProjectile();
             }
             
             if (InputManager.PowerUp3WasReleased)
             {
-                Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                    transform.position, GetMouseDirection());
-                
-                projectile.InitDestroyCondition(GM.IsPlayer, true, 50, true);
-                projectile.InitSpeed(10, 50, 1000);
-                projectile.InitAttackTracking(50,200, transform);
+                SpawnTrackingAcceleratingProjectile();
             }
+        }
+        
+        
+
+        private void SpawnLinearProjectile()
+        {
+            Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
+                transform.position, GetMouseDirection());
+                
+            projectile.InitDestroyCondition(GM.IsPlayer);
+            projectile.InitSpeed(100);
+            projectile.InitAttackLinear(50);
+        }
+
+        private void SpawnTrackingFixedSpeedProjectile()
+        {
+            Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
+                transform.position, GetMouseDirection());
+                
+            projectile.InitDestroyCondition(GM.IsPlayer, true, 50, true);
+            projectile.InitSpeed();
+            projectile.InitAttackTracking(50,200, transform);
+        }
+
+        private void SpawnTrackingAcceleratingProjectile()
+        {
+            Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
+                transform.position, GetMouseDirection());
+                
+            projectile.InitDestroyCondition(GM.IsPlayer, true, 50, true);
+            projectile.InitSpeed(10, 50, 1000);
+            projectile.InitAttackTracking(50,200, transform);
         }
     }
 }

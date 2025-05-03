@@ -2,7 +2,9 @@ using System;
 using _Scripts.GameManager;
 using _Scripts.Health;
 using JetBrains.Annotations;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace _Scripts.Projectiles
 {
@@ -44,6 +46,24 @@ namespace _Scripts.Projectiles
             _rb = GetComponent<Rigidbody2D>();
         }
 
+        /*[ServerRpc]
+        public void BasicInitServerRpc(Vector3 spawnPos, Vector3 shootDir, float scale)
+        {
+            BasicInitClientRpc(spawnPos, shootDir, scale);
+        }
+
+        [ClientRpc]
+        public void BasicInitClientRpc(Vector3 spawnPos, Vector3 shootDir, float scale)
+        {
+            _direction = shootDir.normalized;
+            _spawnPos = spawnPos;
+            transform.position = _spawnPos;
+            
+            transform.localScale *= scale;
+            
+            UpdateProjRotation();
+        }*/
+        
         public void BasicInit(Vector3 spawnPos, Vector3 shootDir, float scale)
         {
             _direction = shootDir.normalized;
@@ -54,6 +74,7 @@ namespace _Scripts.Projectiles
             
             UpdateProjRotation();
         }
+
 
         public void InitDestroyCondition(GM.FilterType filterTarget,
             bool canBeDestroyedByPlayer = true, int health = 50,
@@ -128,7 +149,6 @@ namespace _Scripts.Projectiles
         {
             if (_acceleration is not null)
                 UpdateSpeed();
-
             switch (_projectileAttackType)
             {
                 case ProjectileAttackType.Linear:
