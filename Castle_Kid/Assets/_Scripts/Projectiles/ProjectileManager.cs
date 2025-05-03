@@ -30,12 +30,18 @@ namespace _Scripts.Projectiles
             /*Transform transformProj = NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(
             GetProjectilePrefab(projType),position: spawnPos,rotation: Quaternion.identity).transform; 
             // equivalent with : Instantiate(GetProjectilePrefab(projType),spawnPos, Quaternion.identity));  but for network
+            
+            
+            NetworkObject networkObject = NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(
+                GetProjectilePrefab(projType),position: spawnPos,rotation: Quaternion.identity);
+            //transformProj.gameObject.GetComponent<NetworkObject>().Spawn();
+            Transform transformProj = networkObject.transform;
             */
-
-            Transform transformProj = Instantiate(GetProjectilePrefab(projType), spawnPos, Quaternion.identity);
+            
+            Transform transformProj = Instantiate(GetProjectilePrefab(projType),spawnPos, Quaternion.identity);
             
             transformProj.gameObject.GetComponent<NetworkObject>().Spawn();
-            
+               
             transformProj.tag = projTag;
             
             Projectile projectile = transformProj.GetComponent<Projectile>();

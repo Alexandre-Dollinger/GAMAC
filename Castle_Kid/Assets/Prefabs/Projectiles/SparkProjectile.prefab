@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0185c3f7ec59ba14c85af4c4e0f34a66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!50 &6998508145511371832
 Rigidbody2D:
   serializedVersion: 5

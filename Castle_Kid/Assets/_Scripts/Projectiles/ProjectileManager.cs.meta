@@ -4,7 +4,7 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
-  - sparkPrefab: {fileID: 6618506637540708428, guid: 39e5b0f766eb5d44d956cf18d32436b1, type: 3}
+  - sparkPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
