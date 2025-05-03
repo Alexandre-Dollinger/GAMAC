@@ -63,5 +63,7 @@ namespace _Scripts.GameManager
 
             return angle;
         }
+
+        public static bool GameStarted = false;
     }
 }
