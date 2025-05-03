@@ -162,12 +162,14 @@ namespace _Scripts.Projectiles
         }
 
         private void TrackingProjectile()
+        // Don't ask me the formula : https://www.youtube.com/watch?v=Srn0K6iqLOs / https://www.youtube.com/watch?v=0v_H3oOR0aU
         {
             _rb.linearVelocity = _direction * (Speed * Time.fixedDeltaTime);
             
             
             _direction = (_targetTransform.position - transform.position).normalized;
             
+            // to understand Cross : https://www.youtube.com/watch?v=kz92vvioeng
             float rotateAmount = Vector3.Cross(_direction, transform.up).z;
 
             _rb.angularVelocity = -rotateAmount * _rotateSpeed;

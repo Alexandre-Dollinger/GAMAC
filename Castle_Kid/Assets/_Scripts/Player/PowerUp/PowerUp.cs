@@ -21,6 +21,7 @@ namespace _Scripts.Player.PowerUp
 
         private Vector3 GetMouseDirection()
         {
+            // just accept it or go look here : https://discussions.unity.com/t/point-towards-mouse-position/876845/4
             Vector2 mousePos = _plCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector3 direction = (mousePos - (Vector2)transform.position).normalized;
 
