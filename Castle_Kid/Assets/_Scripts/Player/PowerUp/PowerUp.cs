@@ -78,7 +78,7 @@ namespace _Scripts.Player.PowerUp
                 //SpawnLinearProjectile();
             }
             
-            if (InputManager.PowerUp2WasReleased)
+            if (InputManager.PowerUp2WasReleased && IsOwner)
             {
                 SpawnTriangleServerRpc();
                 //SpawnTrackingFixedSpeedProjectile();
