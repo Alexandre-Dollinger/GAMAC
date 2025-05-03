@@ -19,11 +19,11 @@ namespace _Scripts.Projectiles
     
     public class ProjectileManager : NetworkBehaviour
     {
-        public Transform sparkPrefab;
+        public GameObject sparkPrefab;
 
         //public List<GameObject> prefabList;
         
-        [ServerRpc]
+        /*[ServerRpc]
         public void CreateProjectileServerRpc(ProjectileType projType, string projTag, 
             Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
         {
@@ -36,22 +36,56 @@ namespace _Scripts.Projectiles
                 GetProjectilePrefab(projType),position: spawnPos,rotation: Quaternion.identity);
             //transformProj.gameObject.GetComponent<NetworkObject>().Spawn();
             Transform transformProj = networkObject.transform;
-            */
+            #1#
+            /*_recentProjectile.tag = projTag;
 
-            //InstantiateServerRpc(GetProjectilePrefab(projType), spawnPos, Quaternion.identity);
+            Projectile projectile = _recentProjectile.GetComponent<Projectile>();
+
+            projectile.BasicInit(spawnPos, shootDir, scale);
+
+            return projectile;#1#
+            
+            Vector3 spawnPos = startPos + (shootDir * offset);
+
+            Transform transformProj = Instantiate(GetProjectilePrefab(projType),spawnPos, Quaternion.identity).transform;
+            
+            transformProj.gameObject.GetComponent<NetworkObject>().Spawn();
+
+            transformProj.tag = projTag;
+
+            Projectile projectile = transformProj.GetComponent<Projectile>();
+            
+            projectile.BasicInitServerRpc(spawnPos, shootDir, scale);
             
             CreateProjectileClientRpc(projType, projTag, startPos, shootDir, offset, scale);
+        }*/
+        
+        [ServerRpc]
+        public void CreateProjectileServerRPC()
+        {
+            GameObject gameObjectProj = Instantiate(sparkPrefab, new Vector3(0,0,0), Quaternion.identity);
             
-            /*_recentProjectile.tag = projTag;
+            gameObjectProj.GetComponent<NetworkObject>().Spawn();
+        }
+        
+        [ClientRpc]
+        public void CreateProjectileClientRpc(ProjectileType projType, string projTag,
+            Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
+        {
+            Vector3 spawnPos = startPos + (shootDir * offset);
+
+            Transform transformProj = Instantiate(GetProjectilePrefab(projType),spawnPos, Quaternion.identity).transform;
+
+            transformProj.gameObject.GetComponent<NetworkObject>().Spawn();
             
-            Projectile projectile = _recentProjectile.GetComponent<Projectile>();
+            transformProj.tag = projTag;
+
+            Projectile projectile = transformProj.GetComponent<Projectile>();
             
-            projectile.BasicInit(spawnPos, shootDir, scale);
-            
-            return projectile;*/
+            //projectile.BasicInitClientRpc(spawnPos, shootDir, scale);
         }
 
-        public Projectile CreateProjectile(ProjectileType projType, string projTag,
+        /*public Projectile CreateProjectile(ProjectileType projType, string projTag,
             Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
         {
             Vector3 spawnPos = startPos + (shootDir * offset);
@@ -66,22 +100,9 @@ namespace _Scripts.Projectiles
             projectile.BasicInit(spawnPos, shootDir, scale);
 
             return projectile;
-        }
-
-        [ClientRpc]
-        public void CreateProjectileClientRpc(ProjectileType projType, string projTag,
-            Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
-        {
-            Vector3 spawnPos = startPos + (shootDir * offset);
-
-            Transform transformProj = Instantiate(GetProjectilePrefab(projType),spawnPos, Quaternion.identity).transform;
-
-            transformProj.tag = projTag;
-
-            Projectile projectile = transformProj.GetComponent<Projectile>();
-        }
+        }*/
         
-        private Transform GetProjectilePrefab(ProjectileType projType)
+        private GameObject GetProjectilePrefab(ProjectileType projType)
         {
             switch (projType)
             {

@@ -18,10 +18,7 @@ namespace _Scripts.GameManager
         
         public void Awake()
         {
-            if (ProjM == null)
-            {
-                ProjM = gameObject.AddComponent<ProjectileManager>();
-            }
+            ProjM = GetComponent<ProjectileManager>();
         }
 
         public delegate bool FilterType(Collider2D item);

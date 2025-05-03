@@ -184,10 +184,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6623959936151225779, guid: d37f42783eda8b246bf62f416a179078, type: 3}
       propertyPath: NetworkConfig.Prefabs.NetworkPrefabsLists.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6623959936151225779, guid: d37f42783eda8b246bf62f416a179078, type: 3}
       propertyPath: 'NetworkConfig.Prefabs.NetworkPrefabsLists.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5f8f7b8c247fcd649a19cd51a0fdc769, type: 2}
+    - target: {fileID: 6623959936151225779, guid: d37f42783eda8b246bf62f416a179078, type: 3}
+      propertyPath: 'NetworkConfig.Prefabs.NetworkPrefabsLists.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5f8f7b8c247fcd649a19cd51a0fdc769, type: 2}
     - target: {fileID: 9106892633163602574, guid: d37f42783eda8b246bf62f416a179078, type: 3}
@@ -305,6 +309,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1946074701553481908, guid: c15b51b7c456e3a48ac66bc723ac6706, type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2785575967
+      objectReference: {fileID: 0}
+    - target: {fileID: 1946074701553481908, guid: c15b51b7c456e3a48ac66bc723ac6706, type: 3}
+      propertyPath: InScenePlacedSourceGlobalObjectIdHash
+      value: 1899308326
+      objectReference: {fileID: 0}
     - target: {fileID: 3672410228147056034, guid: c15b51b7c456e3a48ac66bc723ac6706, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -345,6 +357,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6151862260960113120, guid: c15b51b7c456e3a48ac66bc723ac6706, type: 3}
+      propertyPath: sparkPrefab
+      value: 
+      objectReference: {fileID: 3305740393092187452, guid: ea628d59889f98343b9ace2385efbd34, type: 3}
     - target: {fileID: 7662805821326629954, guid: c15b51b7c456e3a48ac66bc723ac6706, type: 3}
       propertyPath: m_Name
       value: GAME_MANAGER

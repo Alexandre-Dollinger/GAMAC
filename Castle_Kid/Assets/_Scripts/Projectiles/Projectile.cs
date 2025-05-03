@@ -39,13 +39,12 @@ namespace _Scripts.Projectiles
         
         // still need sound, animation, sprite, collider
 
-        
-        
         public void Awake()
         {
+            CurrentHp = 10;
             _rb = GetComponent<Rigidbody2D>();
         }
-
+        
         /*[ServerRpc]
         public void BasicInitServerRpc(Vector3 spawnPos, Vector3 shootDir, float scale)
         {
@@ -206,6 +205,7 @@ namespace _Scripts.Projectiles
             Destroy(gameObject);
         }
 
+        /*
         public void OnTriggerEnter2D(Collider2D other)
         {
             if (_filterTarget(other)) // found target to attack
@@ -219,6 +219,7 @@ namespace _Scripts.Projectiles
                 Die();
             }
         }
+        */
 
         private void ManageDestroyWithTime()
         {

@@ -13,6 +13,8 @@ namespace _Scripts.Player.PowerUp
         [Header("References")]
         public PowerUpStats powerStats;
 
+        public GameObject triangleGameObject;
+
         private Camera _plCamera;
         
         public override void OnNetworkSpawn()
@@ -38,28 +40,41 @@ namespace _Scripts.Player.PowerUp
             return direction;
         }
 
+        [ServerRpc]
+        public void SpawnTriangleServerRPC()
+        {
+            GameObject triangle = Instantiate(triangleGameObject);
+            
+            triangle.GetComponent<NetworkObject>().Spawn();
+
+            Projectile proj = triangle.GetComponent<Projectile>();
+            
+            proj.BasicInit(new Vector3(0,0,0), Vector3.right, 1);
+            proj.InitSpeed();
+            proj.InitAttackLinear(5);
+        }
+
         public void Update()
         {
             if (InputManager.PowerUp1WasReleased)
             {
-                //GM.ProjM.CreateProjectileServerRpc(ProjectileType.Spark, GM.PlayerProjectileTag, transform.position, GetMouseDirection());
-                SpawnLinearProjectile();
+                GM.ProjM.CreateProjectileServerRPC();
+                //SpawnLinearProjectile();
             }
             
             if (InputManager.PowerUp2WasReleased)
             {
-                SpawnTrackingFixedSpeedProjectile();
+                SpawnTriangleServerRPC();
+                //SpawnTrackingFixedSpeedProjectile();
             }
             
             if (InputManager.PowerUp3WasReleased)
             {
-                SpawnTrackingAcceleratingProjectile();
+                //SpawnTrackingAcceleratingProjectile();
             }
         }
         
-        
-
-        private void SpawnLinearProjectile()
+        /*private void SpawnLinearProjectile()
         {
             Projectile projectile = GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
                 transform.position, GetMouseDirection());
@@ -87,6 +102,6 @@ namespace _Scripts.Player.PowerUp
             projectile.InitDestroyCondition(GM.IsPlayer, true, 50, true);
             projectile.InitSpeed(10, 50, 1000);
             projectile.InitAttackTracking(50,200, transform);
-        }
+        }*/
     }
 }
