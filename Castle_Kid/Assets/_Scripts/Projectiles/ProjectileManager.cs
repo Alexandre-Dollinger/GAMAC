@@ -1,5 +1,6 @@
 using System;
 using _Scripts.GameManager;
+using Unity.Netcode;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -25,9 +26,16 @@ namespace _Scripts.Projectiles
             Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
         {
             Vector3 spawnPos = startPos + (shootDir * offset);
-            Transform transformProj = Instantiate(GetProjectilePrefab(projType), 
-                spawnPos, Quaternion.identity);
+            
+            /*Transform transformProj = NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(
+            GetProjectilePrefab(projType),position: spawnPos,rotation: Quaternion.identity).transform; 
+            // equivalent with : Instantiate(GetProjectilePrefab(projType),spawnPos, Quaternion.identity));  but for network
+            */
 
+            Transform transformProj = Instantiate(GetProjectilePrefab(projType), spawnPos, Quaternion.identity);
+            
+            transformProj.gameObject.GetComponent<NetworkObject>().Spawn();
+            
             transformProj.tag = projTag;
             
             Projectile projectile = transformProj.GetComponent<Projectile>();
