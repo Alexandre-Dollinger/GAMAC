@@ -16,6 +16,12 @@ namespace _Scripts.Multiplayer
         private string _ipAddress;
         private UnityTransport _transport;
         
+        void Start()
+        {
+            _ipAddress = "0.0.0.0";
+            SetIpAddress(); // Set the Ip to the above address
+        }
+        
         // To Host a game
         public void StartHost() {
             NetworkManager.Singleton.StartHost();
