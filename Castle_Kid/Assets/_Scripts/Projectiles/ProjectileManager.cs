@@ -18,10 +18,10 @@ namespace _Scripts.Projectiles
         Parabola,
     }
     
-    public class ProjectileManager : MonoBehaviour
+    public class ProjectileManager : NetworkBehaviour
     {
         public Transform sparkPrefab;
-
+        
         public Projectile CreateProjectile(ProjectileType projType, string projTag, 
             Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
         {
