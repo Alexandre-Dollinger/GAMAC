@@ -41,7 +41,23 @@ namespace _Scripts.Player.PowerUp
         }
 
         [ServerRpc]
-        public void SpawnTriangleServerRPC()
+        public void SpawnTriangleServerRpc()
+        {
+            /*GameObject triangle = Instantiate(triangleGameObject);
+            
+            triangle.GetComponent<NetworkObject>().Spawn();
+
+            Projectile proj = triangle.GetComponent<Projectile>();
+            
+            proj.BasicInit(new Vector3(0,0,0), Vector3.right, 1);
+            proj.InitSpeed();
+            proj.InitAttackLinear(5);*/
+            
+            SpawnTriangleClientRpc();
+        }
+        
+        [ClientRpc]
+        public void SpawnTriangleClientRpc()
         {
             GameObject triangle = Instantiate(triangleGameObject);
             
@@ -64,7 +80,7 @@ namespace _Scripts.Player.PowerUp
             
             if (InputManager.PowerUp2WasReleased)
             {
-                SpawnTriangleServerRPC();
+                SpawnTriangleServerRpc();
                 //SpawnTrackingFixedSpeedProjectile();
             }
             
