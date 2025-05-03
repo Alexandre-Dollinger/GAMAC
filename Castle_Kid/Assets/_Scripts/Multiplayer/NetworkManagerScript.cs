@@ -31,6 +31,11 @@ namespace _Scripts.Multiplayer
         
         // To Join a game
         public void StartClient() {
+            if (ip.text == "")
+            {
+                Debug.Log("Please enter an IP that you want to Joint");
+                return;
+            }
             _ipAddress = ip.text;
             SetIpAddress();
             NetworkManager.Singleton.StartClient();
