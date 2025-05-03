@@ -184,7 +184,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9106892633163602574, guid: d37f42783eda8b246bf62f416a179078, type: 3}
       propertyPath: ConnectionData.ServerListenAddress
-      value: 127.0.0.1
+      value: 0.0.0.0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -273,6 +273,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!223 &484926323 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7906231718756014848, guid: 0678bd1855fcfe44380f77987d2cdd19, type: 3}
+  m_PrefabInstance: {fileID: 7341952825210107171}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1166648369 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3954878217760386786, guid: 0678bd1855fcfe44380f77987d2cdd19, type: 3}
@@ -361,6 +366,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ipAddressText: {fileID: 284061602}
   ip: {fileID: 1166648369}
+  multiplayerCanvas: {fileID: 484926323}
 --- !u!1001 &2845708737565858872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -461,6 +467,10 @@ PrefabInstance:
     - target: {fileID: 7688499745788150888, guid: 0678bd1855fcfe44380f77987d2cdd19, type: 3}
       propertyPath: m_Name
       value: MultiplayerCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 7688499745788150888, guid: 0678bd1855fcfe44380f77987d2cdd19, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8116397362759804092, guid: 0678bd1855fcfe44380f77987d2cdd19, type: 3}
       propertyPath: m_Pivot.x

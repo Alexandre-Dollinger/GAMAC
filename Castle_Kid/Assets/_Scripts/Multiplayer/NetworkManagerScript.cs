@@ -12,12 +12,14 @@ namespace _Scripts.Multiplayer
     {
         [SerializeField] private TextMeshProUGUI ipAddressText;
         [SerializeField] private TMP_InputField ip;
+        [SerializeField] private Canvas multiplayerCanvas;
         
         private string _ipAddress;
         private UnityTransport _transport;
         
         void Start()
         {
+            multiplayerCanvas.gameObject.SetActive(true);
             _ipAddress = "0.0.0.0";
             SetIpAddress(); // Set the Ip to the above address
         }
