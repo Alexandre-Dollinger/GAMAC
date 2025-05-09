@@ -74,14 +74,14 @@ namespace _Scripts.Player.Movement
         private AnimationEnum _curAnimationState;
         private float _animationTime;
 
-        public override void OnNetworkSpawn()
+        /*public override void OnNetworkSpawn()
         {
             if (!IsOwner)
             {
                 enabled = false;
                 return;
             }
-        }
+        }*/
 
         private void Awake()
         {
@@ -118,6 +118,8 @@ namespace _Scripts.Player.Movement
         //--------------------------------------------------------------------------------------------
         private void FixedUpdate()
         {
+            if (!IsOwner) return;
+            
             if (!_isDashing) // we don't want to change the velocity during a dash
             {
                 Gravity();
@@ -167,6 +169,8 @@ namespace _Scripts.Player.Movement
     
         private void Update()
         {
+            if (!IsOwner) return;
+            
             //DebugCollision();
             //DebugShortUp();
             
@@ -403,19 +407,25 @@ namespace _Scripts.Player.Movement
                 if (InputManager.Movement != Vector2.zero)
                 {
                     _rb.linearVelocity = InputManager.Movement * (MoveStats.MaxWalkSpeed * MoveStats.DashStrength);
+                    TurnCheck(InputManager.Movement);
                 }
                 else
                 {
                     Vector2 direction = new Vector2(1,0); // if he is facing right
                     if (!_isFacingRight) // if he is facing left 
-                    {
                         direction = new Vector2(-1, 0);
-                    }
+                    TurnCheck(direction);
                     _rb.linearVelocity = direction * (MoveStats.MaxWalkSpeed * MoveStats.DashStrength);
                 }
 
                 _initDashing = false;
             }
+        }
+
+        private void CancelDash()
+        {
+            _isDashing = false;
+            _dashDuration = 0;
         }
 
         #endregion
@@ -560,6 +570,7 @@ namespace _Scripts.Player.Movement
         void OnHeadTriggerEntered(Collider2D item)
         {
             _bumpedHead = true;
+            CancelDash();
         }
 
         void OnHeadTriggerExited(Collider2D item)
@@ -570,6 +581,7 @@ namespace _Scripts.Player.Movement
         void OnBodyRightTriggerEntered(Collider2D item)
         {
             _bodyRightWalled = true;
+            CancelDash();
         }
 
         void OnBodyRightTriggerExited(Collider2D item)
@@ -580,6 +592,7 @@ namespace _Scripts.Player.Movement
         void OnBodyLeftTriggerEntered(Collider2D item)
         {
             _bodyLeftWalled = true;
+            CancelDash();
         }
 
         void OnBodyLeftTriggerExited(Collider2D item)

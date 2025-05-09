@@ -1,9 +1,8 @@
-using Unity.Netcode;
 using UnityEngine;
 
 namespace _Scripts.Health
 {
-    public class UnitHp : NetworkBehaviour, IUnitHp // the script of the Hp must be added where the collider of the body of the object is
+    public class UnitHp : MonoBehaviour, IUnitHp // the script of the Hp must be added where the collider of the body of the object is
     { // maybe need NetworkBehaviour instead
         public bool CanDie { get; set; } = true;
 
@@ -19,9 +18,9 @@ namespace _Scripts.Health
                 if (value > MaxHp)
                     _currentHp = MaxHp;
 
-                _currentHp = value;
-                }
+                _currentHp = value; 
             }
+        }
 
         private int _maxHp;
         public int MaxHp

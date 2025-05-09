@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -19,69 +20,51 @@ namespace _Scripts.Projectiles
     
     public class ProjectileManager : NetworkBehaviour
     {
-        public Transform sparkPrefab;
+        public GameObject sparkPrefab;
 
-        //public List<GameObject> prefabList;
+        public List<Projectile> projList;
+
+        public Projectile GetLastProjectile()
+        {
+            if (projList.Count == 0)
+                Debug.Log("Cannot your projectile, it hasn't be spawned here !");
+            
+            return projList.Last();
+        }
         
+        public void CreateProjectile(ProjectileType projType, string projTag,
+            Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
+        {
+            Vector3 spawnPos = startPos + (shootDir * offset);
+            
+            if (IsOwner)
+                CreateProjectileServerRpc(projTag, projType, spawnPos, shootDir, scale);
+        }
+
         [ServerRpc]
-        public void CreateProjectileServerRpc(ProjectileType projType, string projTag, 
-            Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
+        private void CreateProjectileServerRpc(string projTag, ProjectileType projType,
+            Vector3 startPos, Vector3 shootDir, float scale)
         {
-            /*Transform transformProj = NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(
-            GetProjectilePrefab(projType),position: spawnPos,rotation: Quaternion.identity).transform; 
-            // equivalent with : Instantiate(GetProjectilePrefab(projType),spawnPos, Quaternion.identity);  but for network
-            
-            
-            NetworkObject networkObject = NetworkManager.Singleton.SpawnManager.InstantiateAndSpawn(
-                GetProjectilePrefab(projType),position: spawnPos,rotation: Quaternion.identity);
-            //transformProj.gameObject.GetComponent<NetworkObject>().Spawn();
-            Transform transformProj = networkObject.transform;
-            */
-
-            //InstantiateServerRpc(GetProjectilePrefab(projType), spawnPos, Quaternion.identity);
-            
-            CreateProjectileClientRpc(projType, projTag, startPos, shootDir, offset, scale);
-            
-            /*_recentProjectile.tag = projTag;
-            
-            Projectile projectile = _recentProjectile.GetComponent<Projectile>();
-            
-            projectile.BasicInit(spawnPos, shootDir, scale);
-            
-            return projectile;*/
-        }
-
-        public Projectile CreateProjectile(ProjectileType projType, string projTag,
-            Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
-        {
-            Vector3 spawnPos = startPos + (shootDir * offset);
-
-            Transform transformProj =
-                Instantiate(GetProjectilePrefab(projType), spawnPos, Quaternion.identity);
-
-            transformProj.tag = projTag;
-
-            Projectile projectile = transformProj.GetComponent<Projectile>();
-            
-            projectile.BasicInit(spawnPos, shootDir, scale);
-
-            return projectile;
-        }
-
-        [ClientRpc]
-        public void CreateProjectileClientRpc(ProjectileType projType, string projTag,
-            Vector3 startPos, Vector3 shootDir, float offset = 50, float scale = 1f)
-        {
-            Vector3 spawnPos = startPos + (shootDir * offset);
-
-            Transform transformProj = Instantiate(GetProjectilePrefab(projType),spawnPos, Quaternion.identity).transform;
-
-            transformProj.tag = projTag;
-
-            Projectile projectile = transformProj.GetComponent<Projectile>();
+            CreateProjectileClientRpc(projTag, projType, startPos, shootDir, scale);
         }
         
-        private Transform GetProjectilePrefab(ProjectileType projType)
+        [ClientRpc(RequireOwnership = false)]
+        private void CreateProjectileClientRpc(string projTag, ProjectileType projType,
+            Vector3 startPos, Vector3 shootDir, float scale)
+        {
+            Transform transformProj =
+                Instantiate(GetProjectilePrefab(projType), startPos, Quaternion.identity).transform;
+
+            transformProj.tag = projTag;
+
+            Projectile projectile = transformProj.GetComponent<Projectile>();
+            
+            projectile.BasicInit(startPos, shootDir, scale);
+            
+            projList.Add(projectile);
+        }
+        
+        private GameObject GetProjectilePrefab(ProjectileType projType)
         {
             switch (projType)
             {

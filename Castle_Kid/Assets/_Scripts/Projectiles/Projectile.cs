@@ -186,7 +186,6 @@ namespace _Scripts.Projectiles
         {
             _rb.linearVelocity = _direction * (Speed * Time.fixedDeltaTime);
             
-            
             _direction = (_targetTransform.position - transform.position).normalized;
             
             // to understand Cross : https://www.youtube.com/watch?v=kz92vvioeng
@@ -203,6 +202,13 @@ namespace _Scripts.Projectiles
         public override void Die()
         {
             // play sound + particle
+            GM.ProjM.projList.Remove(this);
+            Destroy(gameObject);
+        }
+        
+        private void DieSilent()
+        {
+            GM.ProjM.projList.Remove(this);
             Destroy(gameObject);
         }
 
@@ -230,7 +236,7 @@ namespace _Scripts.Projectiles
                     _destroyedTime -= deltaTime;
                 else
                 {
-                    Destroy(gameObject);
+                    DieSilent();
                     // not Die since we don't want noise or others;
                 }
             }

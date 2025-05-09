@@ -20,7 +20,7 @@ namespace _Scripts.GameManager
         {
             if (ProjM == null)
             {
-                ProjM = gameObject.AddComponent<ProjectileManager>();
+                ProjM = GameObject.Find("PROJECTILE_MANAGER").GetComponent<ProjectileManager>();
             }
         }
 
