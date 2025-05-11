@@ -7,8 +7,24 @@ namespace _Scripts.Health
     { // maybe need NetworkBehaviour instead
         public bool CanDie { get; set; } = true;
 
-        //private NetworkVariable<int> _currentHp = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        private NetworkVariable<int> _currentHp = new NetworkVariable<int>(); // https://www.youtube.com/watch?v=3yuBOB3VrCk&t=232s
+        public int CurrentHp
+        {
+            get => _currentHp.Value;
+            set
+            {
+                if (value < 0)
+                    _currentHp.Value = 0;
+
+                if (value > MaxHp)
+                    _currentHp.Value = MaxHp;
+
+                _currentHp.Value = value; 
+            }
+        }
+        /*
         private int _currentHp;
+
         public int CurrentHp
         {
             get => _currentHp;
@@ -20,9 +36,10 @@ namespace _Scripts.Health
                 if (value > MaxHp)
                     _currentHp = MaxHp;
 
-                _currentHp = value; 
+                _currentHp = value;
             }
         }
+        */
 
         private int _maxHp;
         public int MaxHp

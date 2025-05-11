@@ -17,7 +17,7 @@ namespace _Scripts.Projectiles
         Parabola,
     }
 
-    public struct ProjectileStruct : INetworkSerializable
+    public struct ProjectileStruct : INetworkSerializable // https://www.youtube.com/watch?v=j-fYT4MHNDk&list=PLyWwWSgyfz-XMvcmT6T5F1JGYUHCJyXBJ&index=33
     {
         public float Speed;
         public float Acceleration; // null value is 0f
@@ -167,7 +167,7 @@ namespace _Scripts.Projectiles
         }
     }
     
-    public class ProjectileManager : NetworkBehaviour
+    public class ProjectileManager : NetworkBehaviour // https://www.youtube.com/watch?v=3yuBOB3VrCk&t=232s
     {
         public GameObject sparkPrefab;
 
