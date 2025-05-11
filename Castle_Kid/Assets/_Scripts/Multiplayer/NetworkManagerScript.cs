@@ -39,6 +39,7 @@ namespace _Scripts.Multiplayer
                 return;
             }
             _ipAddress = ip.text;
+            ipAddressText.text = "IP : " + _ipAddress;
             SetIpAddress();
             NetworkManager.Singleton.StartClient();
             GM.GameStarted = true;
@@ -53,7 +54,7 @@ namespace _Scripts.Multiplayer
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (IPAddress eachIP in host.AddressList) {
                 if (eachIP.AddressFamily == AddressFamily.InterNetwork) {
-                    ipAddressText.text = "IP : " + eachIP.ToString();
+                    ipAddressText.text = "IP : " + eachIP;
                     _ipAddress = eachIP.ToString();
                     return eachIP.ToString();
                 }
