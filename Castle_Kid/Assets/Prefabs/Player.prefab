@@ -117,11 +117,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 3.8864694, y: 7.2025576}
-      - {x: 0.6229307, y: 1.3687015}
-      - {x: 0.731536, y: -1.8836527}
-      - {x: 5.8466053, y: -6.305562}
-      - {x: 11.247998, y: 2.5361261}
+    - - {x: 1.8233328, y: 2.4956396}
+      - {x: 0.019342065, y: 2.1166265}
+      - {x: 1.1748375, y: -0.61361927}
+      - {x: 2.842337, y: -0.6443902}
+      - {x: 2.8852146, y: 1.1984419}
   m_UseDelaunayMesh: 0
 --- !u!114 &3770089270766662972
 MonoBehaviour:
@@ -590,8 +590,8 @@ Transform:
   m_GameObject: {fileID: 3252636824997225483}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.2827536, w: 0.9591926}
-  m_LocalPosition: {x: 1.5, y: 0.65, z: 0}
-  m_LocalScale: {x: 0.41754806, y: 0.89504635, z: 0.689558}
+  m_LocalPosition: {x: 1.7, y: 0.79, z: -6.2088e-10}
+  m_LocalScale: {x: 0.50243556, y: 1.0770093, z: 0.8297452}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 433759603325953839}
@@ -861,7 +861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2471435133
+  GlobalObjectIdHash: 2871261664
   InScenePlacedSourceGlobalObjectIdHash: 2471435133
   DeferredDespawnTick: 0
   Ownership: 1
