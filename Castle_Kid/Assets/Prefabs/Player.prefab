@@ -232,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf946c10b8a5f2b45a9da9ca3446faab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &1851507631623712522
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,6 +961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   powerStats: {fileID: 11400000, guid: bb17963ecfd0865488129f50f1a58831, type: 2}
+  toSpawn: {fileID: 3037767760468158043, guid: 07408459e8cac8e4c92bc396bbccd7cd, type: 3}
 --- !u!1 &5820214350479505772
 GameObject:
   m_ObjectHideFlags: 0

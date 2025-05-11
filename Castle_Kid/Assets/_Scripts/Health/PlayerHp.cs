@@ -15,6 +15,8 @@ namespace _Scripts.Health
 
         public void Update()
         {
+            //if (!IsOwner) return;
+            
             if (CurrentHp <= 0)
                 Die();
         }

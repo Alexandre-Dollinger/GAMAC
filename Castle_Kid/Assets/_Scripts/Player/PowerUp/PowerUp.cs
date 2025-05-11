@@ -8,21 +8,24 @@ using UnityEngine.InputSystem;
 
 namespace _Scripts.Player.PowerUp
 {
-    public class PowerUp : MonoBehaviour
+    public class PowerUp : NetworkBehaviour
     {
         [Header("References")]
         public PowerUpStats powerStats;
 
+        [SerializeField] private GameObject toSpawn;
+
         private Camera _plCamera;
         
-        /*public override void OnNetworkSpawn()
+        public override void OnNetworkSpawn()
         {
             if (!IsOwner)
             {
                 enabled = false;
                 return;
             }
-        }*/
+            
+        }
         
         public void Awake()
         {
@@ -38,55 +41,35 @@ namespace _Scripts.Player.PowerUp
             return direction;
         }
 
+        [ServerRpc]
+        private void SpawnServerRpc()
+        {
+            GameObject spawned = Instantiate(toSpawn, transform.position, Quaternion.identity);
+            spawned.GetComponent<NetworkObject>().Spawn(true);
+        }
+
         public void Update()
         {
             if (InputManager.PowerUp1WasReleased)
             {
-                //GM.ProjM.CreateProjectileServerRpc(ProjectileType.Spark, GM.PlayerProjectileTag, transform.position, GetMouseDirection());
-                SpawnLinearProjectile();
+                ProjectileStruct linearProj =
+                    GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
+                GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
             }
             
             if (InputManager.PowerUp2WasReleased)
             {
-                SpawnTrackingFixedSpeedProjectile();
+                ProjectileStruct trackingProj =
+                    GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
+                GM.ProjM.CreateProjectileServerRpc(trackingProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
             }
             
             if (InputManager.PowerUp3WasReleased)
             {
-                SpawnTrackingAcceleratingProjectile();
+                ProjectileStruct trackingProjAccelerating = 
+                    GM.GetBasicTrackingAcceleratingProjectileStruct(transform.position, GetMouseDirection());
+                GM.ProjM.CreateProjectileServerRpc(trackingProjAccelerating, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
             }
-        }
-        
-        
-
-        private void SpawnLinearProjectile()
-        {
-            GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                transform.position, GetMouseDirection());
-                
-            GM.ProjM.GetLastProjectile().InitDestroyCondition(GM.IsPlayer);
-            GM.ProjM.GetLastProjectile().InitSpeed(100);
-            GM.ProjM.GetLastProjectile().InitAttackLinear(50);
-        }
-
-        private void SpawnTrackingFixedSpeedProjectile()
-        {
-            GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                transform.position, GetMouseDirection());
-                
-            GM.ProjM.GetLastProjectile().InitDestroyCondition(GM.IsPlayer, true, 50, true);
-            GM.ProjM.GetLastProjectile().InitSpeed();
-            GM.ProjM.GetLastProjectile().InitAttackTracking(50,200, transform);
-        }
-
-        private void SpawnTrackingAcceleratingProjectile()
-        {
-            GM.ProjM.CreateProjectile(ProjectileType.Spark, GM.PlayerProjectileTag,
-                transform.position, GetMouseDirection());
-                
-            GM.ProjM.GetLastProjectile().InitDestroyCondition(GM.IsPlayer, true, 50, true);
-            GM.ProjM.GetLastProjectile().InitSpeed(10, 50, 1000);
-            GM.ProjM.GetLastProjectile().InitAttackTracking(50,200, transform);
         }
     }
 }

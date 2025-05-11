@@ -1,11 +1,13 @@
+using Unity.Netcode;
 using UnityEngine;
 
 namespace _Scripts.Health
 {
-    public class UnitHp : MonoBehaviour, IUnitHp // the script of the Hp must be added where the collider of the body of the object is
+    public class UnitHp : NetworkBehaviour, IUnitHp // the script of the Hp must be added where the collider of the body of the object is
     { // maybe need NetworkBehaviour instead
         public bool CanDie { get; set; } = true;
 
+        //private NetworkVariable<int> _currentHp = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
         private int _currentHp;
         public int CurrentHp
         {
