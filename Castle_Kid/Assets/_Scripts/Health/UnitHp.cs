@@ -16,10 +16,11 @@ namespace _Scripts.Health
                 if (value < 0)
                     _currentHp.Value = 0;
 
-                if (value > MaxHp)
+                else if (value > MaxHp)
                     _currentHp.Value = MaxHp;
 
-                _currentHp.Value = value; 
+                else 
+                    _currentHp.Value = value; 
             }
         }
         /*
@@ -48,11 +49,10 @@ namespace _Scripts.Health
             set
             {
                 if (value < 0)
-                {
                     _maxHp.Value = 0;
-                }
-
-                _maxHp.Value = value;
+                
+                else 
+                    _maxHp.Value = value;
             }
         }
         /*

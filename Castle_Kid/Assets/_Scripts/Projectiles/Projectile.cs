@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using _Scripts.GameManager;
 using _Scripts.Health;
+using _Scripts.Multiplayer;
 using JetBrains.Annotations;
 using UnityEngine;
 
@@ -208,9 +209,19 @@ namespace _Scripts.Projectiles
         }
         #endregion
 
+        private bool SelfTargetingBehaviour(Collider2D other)
+        {
+            if (!Proj.CanTargetSelf)
+            {
+                return Proj.SenderId != other.transform.parent.parent.GetComponent<PlayerId>().GetPlayerId();
+            }
+
+            return true;
+        }
+
         private bool CanAttackThat(Collider2D other)
         {
-            return (Proj.TargetingPlayer && GM.IsPlayer(other)) ||
+            return (Proj.TargetingPlayer && GM.IsPlayer(other) && SelfTargetingBehaviour(other)) ||
                    (Proj.TargetingEnemy && GM.IsEnemy(other)) ||
                    (Proj.TargetingPlayerProjectile && GM.IsPlayerProjectile(other)) ||
                    (Proj.TargetingEnemyProjectile && GM.IsEnemyProjectile(other));
@@ -230,7 +241,12 @@ namespace _Scripts.Projectiles
             if (CanAttackThat(other)) // found target to attack
             {
                 IUnitHp otherHp = other.GetComponent<IUnitHp>();
-                otherHp.TakeDamage(Proj.Damage);
+                
+                if (Proj.Healing == 0)
+                    otherHp.TakeDamage(Proj.Damage);
+                else
+                    otherHp.GainHealth(Proj.Healing);
+                
                 Die();
             }
             else if (!Proj.CanCrossWalls && GM.CrossedWall(other)) // got destroyed by wall

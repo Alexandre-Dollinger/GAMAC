@@ -47,6 +47,7 @@ namespace _Scripts.Player.PowerUp
             {
                 ProjectileStruct linearProj =
                     GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
+                linearProj.InitHealing();
                 GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
             }
             
@@ -54,6 +55,7 @@ namespace _Scripts.Player.PowerUp
             {
                 ProjectileStruct trackingProj =
                     GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
+                trackingProj.CanTargetSelf = false;
                 GM.ProjM.CreateProjectileServerRpc(trackingProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
             }
             

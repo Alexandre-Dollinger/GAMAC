@@ -1,13 +1,11 @@
-using System.Collections.Generic;
 using Unity.Netcode;
-using UnityEngine;
 
 namespace _Scripts.Multiplayer
 {
     public class PlayerId : NetworkBehaviour
     {
-        private NetworkVariable<ulong> _playerId = new NetworkVariable<ulong>();
-        public ulong GetPlayerId()
+        private NetworkVariable<int> _playerId = new NetworkVariable<int>();
+        public int GetPlayerId()
         {
             return _playerId.Value;
         }
@@ -22,7 +20,7 @@ namespace _Scripts.Multiplayer
         private void SetPlayerIdServerRpc(ServerRpcParams serverRpcParams = default)
         {
             if (IsServer)
-                _playerId.Value = serverRpcParams.Receive.SenderClientId;
+                _playerId.Value = (int)serverRpcParams.Receive.SenderClientId;
         }
     }
 }
