@@ -41,13 +41,6 @@ namespace _Scripts.Player.PowerUp
             return direction;
         }
 
-        [ServerRpc]
-        private void SpawnServerRpc()
-        {
-            GameObject spawned = Instantiate(toSpawn, transform.position, Quaternion.identity);
-            spawned.GetComponent<NetworkObject>().Spawn(true);
-        }
-
         public void Update()
         {
             if (InputManager.PowerUp1WasReleased)

@@ -41,7 +41,22 @@ namespace _Scripts.Health
         }
         */
 
-        private int _maxHp;
+        private NetworkVariable<int> _maxHp = new NetworkVariable<int>();
+        public int MaxHp
+        {
+            get => _maxHp.Value;
+            set
+            {
+                if (value < 0)
+                {
+                    _maxHp.Value = 0;
+                }
+
+                _maxHp.Value = value;
+            }
+        }
+        /*
+         private int _maxHp;
         public int MaxHp
         {
             get => _maxHp;
@@ -55,6 +70,7 @@ namespace _Scripts.Health
                 _maxHp = value;
             }
         }
+        */
 
         public void TakeDamage(int damage)
         {

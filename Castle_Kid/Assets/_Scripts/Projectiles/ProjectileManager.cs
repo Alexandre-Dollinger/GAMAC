@@ -177,7 +177,7 @@ namespace _Scripts.Projectiles
         public void CreateProjectileServerRpc(ProjectileStruct projStruct, 
             ProjectilePrefabType projPrefabType, string projTag, float offset = 50)
         {
-            projStruct.SpawnPos = projStruct.SpawnPos + (projStruct.Direction * offset); 
+            projStruct.SpawnPos += projStruct.Direction * offset; 
             // To not spawn the projectile in our caster
 
             GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
