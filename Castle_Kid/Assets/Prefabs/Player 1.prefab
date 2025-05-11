@@ -117,11 +117,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 3.8864694, y: 7.2025576}
+    - - {x: 1.5215385, y: 2.2332098}
       - {x: 0.6229307, y: 1.3687015}
-      - {x: 0.731536, y: -1.8836527}
-      - {x: 5.8466053, y: -6.305562}
-      - {x: 11.247998, y: 2.5361261}
+      - {x: 1.2404451, y: -0.4167969}
+      - {x: 2.553664, y: -0.40820327}
+      - {x: 2.5965416, y: 1.1590774}
   m_UseDelaunayMesh: 0
 --- !u!114 &3770089270766662972
 MonoBehaviour:
@@ -720,7 +720,7 @@ GameObject:
   - component: {fileID: 8085595380963024030}
   - component: {fileID: 1201757108727470182}
   m_Layer: 6
-  m_Name: Player
+  m_Name: Player 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

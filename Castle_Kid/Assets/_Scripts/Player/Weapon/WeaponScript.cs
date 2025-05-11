@@ -1,8 +1,9 @@
 using System;
-using System.Runtime.InteropServices;
 using _Scripts.GameManager;
 using _Scripts.Health;
 using _Scripts.Inputs;
+using _Scripts.Multiplayer;
+using _Scripts.Projectiles;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -30,6 +31,8 @@ namespace _Scripts.Player.Weapon
         
         private float _fixedYRotation;
         private Quaternion _slashRotation;
+
+        private int _playerId;
         
         public override void OnNetworkSpawn()
         {
@@ -38,6 +41,8 @@ namespace _Scripts.Player.Weapon
                 enabled = false;
                 return;
             }
+
+            _playerId = transform.parent.GetComponent<PlayerId>().GetPlayerId();
         }
         
         private void Awake()
@@ -161,9 +166,28 @@ namespace _Scripts.Player.Weapon
             }
         }
 
+        private bool TargetingPlayerProjectileBehaviour(Collider2D other)
+        {
+            Projectile proj = other.GetComponent<Projectile>();
+
+            if (proj.Proj.CanBeDestroyedByPlayer && !proj.Proj.CanBeDestroyedBySelf)
+                return proj.Proj.SenderId != _playerId;
+
+            return proj.Proj.CanBeDestroyedBySelf && proj.Proj.SenderId == _playerId;
+        }
+
+        private bool CanAttackThat(Collider2D other)
+        {
+            //return GM.IsTargetForPlayer(other) || GM.IsTargetForEnemy(other);
+            return GM.IsPlayer(other) ||
+                   GM.IsEnemy(other) ||
+                   (GM.IsPlayerProjectile(other) && TargetingPlayerProjectileBehaviour(other)) ||
+                   GM.IsEnemyProjectile(other);
+        }
+
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (GM.IsTargetForPlayer(other) || GM.IsTargetForEnemy(other))
+            if (CanAttackThat(other))
             {
                 IUnitHp otherHp = other.GetComponent<IUnitHp>();
                 otherHp.TakeDamage(playerAttack);

@@ -33,6 +33,7 @@ namespace _Scripts.Projectiles
         
         public bool CanCrossWalls;
         public bool CanBeDestroyedByPlayer;
+        public bool CanBeDestroyedBySelf;
         public float DestroyedTime; // null value is -1f
 
         //public GM.FilterType FilterTarget; // if only but no because of NetworkVariable instead a lot of boolean
@@ -80,6 +81,7 @@ namespace _Scripts.Projectiles
             
             CanCrossWalls = false;
             CanBeDestroyedByPlayer = false;
+            CanBeDestroyedBySelf = false; // takes the priority compared to CanBeDestroyedByPlayer
             DestroyedTime = -1f;
 
             Scale = scale;
@@ -95,13 +97,14 @@ namespace _Scripts.Projectiles
         }
         
         public void InitDestroyCondition(bool canBeDestroyedByPlayer = true, 
-            int health = 50, bool canCrossWalls = false, float destroyedTime = -1f)
+            int health = 50, bool canCrossWalls = false, bool canBeDestroyedBySelf = true, float destroyedTime = -1f)
         {
             _maxHpPrefab = health;
             
             CanBeDestroyedByPlayer = canBeDestroyedByPlayer;
             CanCrossWalls = canCrossWalls;
             DestroyedTime = destroyedTime;
+            CanBeDestroyedBySelf = CanBeDestroyedByPlayer && canBeDestroyedBySelf;
         }
 
         public void InitTargeting(bool targetPlayer = false, bool targetEnemy = false, 

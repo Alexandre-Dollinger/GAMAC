@@ -209,7 +209,7 @@ namespace _Scripts.Projectiles
         }
         #endregion
 
-        private bool SelfTargetingBehaviour(Collider2D other)
+        private bool SelfTargetingPlayerBehaviour(Collider2D other)
         {
             if (!Proj.CanTargetSelf)
             {
@@ -218,12 +218,22 @@ namespace _Scripts.Projectiles
 
             return true;
         }
+        
+        private bool SelfTargetingProjectileBehaviour(Collider2D other)
+        {
+            if (!Proj.CanTargetSelf)
+            {
+                return Proj.SenderId != other.GetComponent<Projectile>().Proj.SenderId;
+            }
+
+            return true;
+        }
 
         private bool CanAttackThat(Collider2D other)
         {
-            return (Proj.TargetingPlayer && GM.IsPlayer(other) && SelfTargetingBehaviour(other)) ||
+            return (Proj.TargetingPlayer && GM.IsPlayer(other) && SelfTargetingPlayerBehaviour(other)) ||
                    (Proj.TargetingEnemy && GM.IsEnemy(other)) ||
-                   (Proj.TargetingPlayerProjectile && GM.IsPlayerProjectile(other)) ||
+                   (Proj.TargetingPlayerProjectile && GM.IsPlayerProjectile(other) && SelfTargetingProjectileBehaviour(other)) ||
                    (Proj.TargetingEnemyProjectile && GM.IsEnemyProjectile(other));
         }
         
