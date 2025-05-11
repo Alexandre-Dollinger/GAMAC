@@ -15,9 +15,11 @@ namespace _Scripts.Health
         public override void OnNetworkSpawn()
         {
             _playerTransform = transform.parent.parent.transform;
-            MaxHp = 100;
             if (IsServer)
+            {
                 CurrentHp = MaxHp;
+                MaxHp = 100;
+            }
         }
 
         public void Update()
@@ -25,27 +27,32 @@ namespace _Scripts.Health
             if (CurrentHp <= 0)
                     Die();
         }
+        
+        public override void Die()
+        {
+            if (IsOwner)
+                DieServerRpc();
+        }
 
         [ClientRpc]
-        public void DieClientRpc(ClientRpcParams clientRpcParams)
+        private void DieClientRpc(ClientRpcParams clientRpcParams)
         {
-            _playerTransform.position = Vector3.zero;
+            DieLocally();
         }
 
         [ServerRpc(RequireOwnership = false)]
-        public void DieServerRpc(ServerRpcParams serverRpcParams = default)
+        private void DieServerRpc(ServerRpcParams serverRpcParams = default)
         {
-            _playerTransform.position = Vector3.zero;
+            DieLocally();
             if (IsServer)
                 CurrentHp = MaxHp;
             DieClientRpc(new ClientRpcParams{ Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>{ serverRpcParams.Receive.SenderClientId }}});
             // That line above is my baby 
         }
-
-        public override void Die()
+        
+        private void DieLocally()
         {
-            if (IsOwner)
-                DieServerRpc();
+            _playerTransform.position = Vector3.zero;
         }
     }
 }

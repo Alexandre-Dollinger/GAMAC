@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Scripts.GameManager;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -24,6 +25,7 @@ namespace _Scripts.Projectiles
         public float MaxSpeed; // null value if -1f
         
         public int Damage;
+        public int Healing;
         public ProjectileAttackType AttackType;
         
         public Vector3 SpawnPos;
@@ -31,6 +33,7 @@ namespace _Scripts.Projectiles
         
         public bool CanCrossWalls;
         public bool CanBeDestroyedByPlayer;
+        public bool CanBeDestroyedBySelf;
         public float DestroyedTime; // null value is -1f
 
         //public GM.FilterType FilterTarget; // if only but no because of NetworkVariable instead a lot of boolean
@@ -38,6 +41,9 @@ namespace _Scripts.Projectiles
         public bool TargetingEnemy;
         public bool TargetingPlayerProjectile;
         public bool TargetingEnemyProjectile;
+        public bool CanTargetSelf;
+        
+        public int SenderId; // null value is -1
         
         public int Scale;
         
@@ -59,6 +65,7 @@ namespace _Scripts.Projectiles
             MaxSpeed = -1f;
             
             Damage = 0;
+            Healing = 0;
             AttackType = ProjectileAttackType.Linear;
             
             SpawnPos = spawnPos;
@@ -68,9 +75,13 @@ namespace _Scripts.Projectiles
             TargetingEnemy = false;
             TargetingPlayerProjectile = false;
             TargetingEnemyProjectile = false;
+            CanTargetSelf = true;
+
+            SenderId = -1;
             
             CanCrossWalls = false;
             CanBeDestroyedByPlayer = false;
+            CanBeDestroyedBySelf = false; // takes the priority compared to CanBeDestroyedByPlayer
             DestroyedTime = -1f;
 
             Scale = scale;
@@ -81,25 +92,29 @@ namespace _Scripts.Projectiles
             RotateSpeed = 0f;
             
             _maxHpPrefab = 1;
+
+            SenderId = -1;
         }
         
         public void InitDestroyCondition(bool canBeDestroyedByPlayer = true, 
-            int health = 50, bool canCrossWalls = false, float destroyedTime = -1f)
+            int health = 50, bool canCrossWalls = false, bool canBeDestroyedBySelf = true, float destroyedTime = -1f)
         {
             _maxHpPrefab = health;
             
             CanBeDestroyedByPlayer = canBeDestroyedByPlayer;
             CanCrossWalls = canCrossWalls;
             DestroyedTime = destroyedTime;
+            CanBeDestroyedBySelf = CanBeDestroyedByPlayer && canBeDestroyedBySelf;
         }
 
         public void InitTargeting(bool targetPlayer = false, bool targetEnemy = false, 
-            bool targetPlayerProjectile = false, bool targetEnemyProjectile = false)
+            bool targetPlayerProjectile = false, bool targetEnemyProjectile = false, bool canTargetSelf = true)
         {
             TargetingPlayer = targetPlayer;
             TargetingEnemy = targetEnemy;
             TargetingPlayerProjectile = targetPlayerProjectile;
             TargetingEnemyProjectile = targetEnemyProjectile;
+            CanTargetSelf = TargetingPlayer && canTargetSelf; // enemy has no Id so only work for player
         }
         
         public void InitSpeed(float speed = 50, float acceleration = 0f, float maxSpeed = -1f) 
@@ -108,6 +123,12 @@ namespace _Scripts.Projectiles
             Speed = speed;
             Acceleration = acceleration;
             MaxSpeed = maxSpeed;
+        }
+
+        public void InitHealing(int healing = 50)
+        {
+            Damage = 0;
+            Healing = healing;
         }
         
         public void InitAttackLinear(int damage)
@@ -142,12 +163,16 @@ namespace _Scripts.Projectiles
             serializer.SerializeValue(ref MaxSpeed);
             
             serializer.SerializeValue(ref Damage);
+            serializer.SerializeValue(ref Healing);
             serializer.SerializeValue(ref AttackType);
             
             serializer.SerializeValue(ref TargetingPlayer);
             serializer.SerializeValue(ref TargetingEnemy);
             serializer.SerializeValue(ref TargetingPlayerProjectile);
             serializer.SerializeValue(ref TargetingEnemyProjectile);
+            serializer.SerializeValue(ref CanTargetSelf);
+            
+            serializer.SerializeValue(ref SenderId);
             
             serializer.SerializeValue(ref SpawnPos);
             serializer.SerializeValue(ref Direction);
@@ -175,9 +200,9 @@ namespace _Scripts.Projectiles
  
         [ServerRpc(RequireOwnership = false)]
         public void CreateProjectileServerRpc(ProjectileStruct projStruct, 
-            ProjectilePrefabType projPrefabType, string projTag, float offset = 50)
+            ProjectilePrefabType projPrefabType, string projTag, float offset = 50, ServerRpcParams serverRpcParams = default)
         {
-            projStruct.SpawnPos = projStruct.SpawnPos + (projStruct.Direction * offset); 
+            projStruct.SpawnPos += projStruct.Direction * offset; 
             // To not spawn the projectile in our caster
 
             GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
@@ -188,6 +213,9 @@ namespace _Scripts.Projectiles
             gameObjectProj.tag = projTag;
 
             Projectile projectile = gameObjectProj.GetComponent<Projectile>();
+
+            if (projTag == GM.PlayerProjectileTag) // if it does not come from a player then we don't care about it's sender Id 
+                projStruct.SenderId = (int)serverRpcParams.Receive.SenderClientId;
             
             projectile.InitProjectile(projStruct);
             
