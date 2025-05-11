@@ -1,3 +1,4 @@
+using _Scripts.Inputs;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;

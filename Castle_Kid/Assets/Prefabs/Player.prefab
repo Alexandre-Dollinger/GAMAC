@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8896972895860700231}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 433759603325953839}
   - component: {fileID: 2037543224884804271}
   - component: {fileID: 3770089270766662972}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Weapon
   m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 268542fd630f9a7418be71915125a8b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   playerAttack: 50
   offset: -20
   attackDelay: 1.3
@@ -151,7 +152,7 @@ GameObject:
   - component: {fileID: 4463863993066575062}
   - component: {fileID: 675487166528951840}
   - component: {fileID: 4640663771938732689}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Body
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -231,6 +232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf946c10b8a5f2b45a9da9ca3446faab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &1851507631623712522
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +388,7 @@ GameObject:
   - component: {fileID: 5725243200418713038}
   - component: {fileID: 753560291316940277}
   - component: {fileID: 5107522098962871974}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,6 +468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46057451b2d4914b829a815aa2fe58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &2741549953207343299
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +480,7 @@ GameObject:
   - component: {fileID: 6400343755475003926}
   - component: {fileID: 5188463020754643427}
   - component: {fileID: 9115195911561347360}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LeftSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,6 +560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46057451b2d4914b829a815aa2fe58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &3252636824997225483
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,8 +572,9 @@ GameObject:
   - component: {fileID: 8525260817255763557}
   - component: {fileID: 8455124110308843794}
   - component: {fileID: 9215719977070075989}
+  - component: {fileID: 820164472376144709}
   - component: {fileID: 799762402900797486}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: SlashAnimation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -668,6 +673,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &820164472376144709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3252636824997225483}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4d150f05fdf224a87c25544e17cf87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 9215719977070075989}
 --- !u!114 &799762402900797486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,6 +700,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a17984a881c2ad429c9b8633f681a3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &3908118593388261863
 GameObject:
   m_ObjectHideFlags: 0
@@ -693,9 +714,11 @@ GameObject:
   - component: {fileID: 1662947158602630737}
   - component: {fileID: 5694143812840908137}
   - component: {fileID: -2032460980340778766}
-  - component: {fileID: 8460779684271987065}
   - component: {fileID: 8569773332329524971}
-  m_Layer: 0
+  - component: {fileID: 1777083667600921613}
+  - component: {fileID: 8460779684271987065}
+  - component: {fileID: 8085595380963024030}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -850,6 +873,57 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &8569773332329524971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908118593388261863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e879ce358428f274d9929d8f3ccffc09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  NetworkTransformExpanded: 1
+  AuthorityMode: 0
+  TickSyncChildren: 0
+  UseUnreliableDeltas: 0
+  SyncPositionX: 1
+  SyncPositionY: 1
+  SyncPositionZ: 0
+  SyncRotAngleX: 0
+  SyncRotAngleY: 1
+  SyncRotAngleZ: 0
+  SyncScaleX: 0
+  SyncScaleY: 0
+  SyncScaleZ: 0
+  PositionThreshold: 0.001
+  RotAngleThreshold: 0.01
+  ScaleThreshold: 0.01
+  UseQuaternionSynchronization: 0
+  UseQuaternionCompression: 0
+  UseHalfFloatPrecision: 0
+  InLocalSpace: 0
+  SwitchTransformSpaceWhenParented: 0
+  Interpolate: 1
+  SlerpPosition: 0
+--- !u!114 &1777083667600921613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908118593388261863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4d150f05fdf224a87c25544e17cf87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  TransitionStateInfoList: []
+  m_Animator: {fileID: 5694143812840908137}
 --- !u!114 &8460779684271987065
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -873,7 +947,7 @@ MonoBehaviour:
   bodyLeftTrigger: {fileID: 9115195911561347360}
   landingTrigger: {fileID: 1054455476818824560}
   colliders: {fileID: 8896972895860700231}
---- !u!114 &8569773332329524971
+--- !u!114 &8085595380963024030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -882,33 +956,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3908118593388261863}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e879ce358428f274d9929d8f3ccffc09, type: 3}
+  m_Script: {fileID: 11500000, guid: b3e50716d3774d54a829ee213513d160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  NetworkTransformExpanded: 0
-  AuthorityMode: 0
-  TickSyncChildren: 0
-  UseUnreliableDeltas: 0
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
-  SyncRotAngleX: 1
-  SyncRotAngleY: 1
-  SyncRotAngleZ: 1
-  SyncScaleX: 1
-  SyncScaleY: 1
-  SyncScaleZ: 1
-  PositionThreshold: 0.001
-  RotAngleThreshold: 0.01
-  ScaleThreshold: 0.01
-  UseQuaternionSynchronization: 0
-  UseQuaternionCompression: 0
-  UseHalfFloatPrecision: 0
-  InLocalSpace: 0
-  SwitchTransformSpaceWhenParented: 0
-  Interpolate: 1
-  SlerpPosition: 0
+  powerStats: {fileID: 11400000, guid: bb17963ecfd0865488129f50f1a58831, type: 2}
+  toSpawn: {fileID: 3037767760468158043, guid: 07408459e8cac8e4c92bc396bbccd7cd, type: 3}
 --- !u!1 &5820214350479505772
 GameObject:
   m_ObjectHideFlags: 0
@@ -920,7 +973,7 @@ GameObject:
   - component: {fileID: 3892384966388348088}
   - component: {fileID: 809489882451931197}
   - component: {fileID: 1054455476818824560}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: LandingDetect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1000,6 +1053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46057451b2d4914b829a815aa2fe58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &7209476586415495971
 GameObject:
   m_ObjectHideFlags: 0
@@ -1011,7 +1065,7 @@ GameObject:
   - component: {fileID: 5720451183662803399}
   - component: {fileID: 1732096421920450341}
   - component: {fileID: 2305321288596674134}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RightSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1091,6 +1145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46057451b2d4914b829a815aa2fe58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &7555412443006342803
 GameObject:
   m_ObjectHideFlags: 0
@@ -1102,7 +1157,7 @@ GameObject:
   - component: {fileID: 1447919877593479613}
   - component: {fileID: 3631099811162131040}
   - component: {fileID: 7072593264455866802}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1182,6 +1237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46057451b2d4914b829a815aa2fe58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1001 &845372623119204405
 PrefabInstance:
   m_ObjectHideFlags: 0

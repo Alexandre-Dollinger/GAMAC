@@ -17,7 +17,7 @@ TagManager:
   - Ground
   - Water
   - UI
-  - 
+  - Player
   - 
   - 
   - 
@@ -64,6 +64,9 @@ TagManager:
     locked: 0
   - name: PlayerAttacks
     uniqueID: 1946064357
+    locked: 0
+  - name: Projectiles
+    uniqueID: 599498193
     locked: 0
   m_RenderingLayers:
   - Default

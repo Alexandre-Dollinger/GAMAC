@@ -1,9 +1,20 @@
+using _Scripts.GameManager;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace _Scripts.Player.Trigger
 {
-    public class CustomTrigger : MonoBehaviour
+    public class CustomTrigger : NetworkBehaviour
     {
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                enabled = false;
+                return;
+            }
+        }
+        
         public event System.Action<Collider2D> EnteredTrigger;
         public event System.Action<Collider2D> ExitedTrigger;
 
