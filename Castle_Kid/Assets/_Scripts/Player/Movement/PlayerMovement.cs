@@ -236,7 +236,7 @@ namespace _Scripts.Player.Movement
             else // if the player stopped
             {
                 _moveVelocity = Vector2.Lerp(_moveVelocity, Vector2.zero, deceleration * Time.fixedDeltaTime); // same as before but to decelerate
-                if (Abs(_moveVelocity.x) < 0.001f) _moveVelocity.x = 0f; // to make it to zero fast
+                if (Abs(_moveVelocity.x) < 10) _moveVelocity.x = 0f; // to make it to zero fast
             }
 
             _rb.linearVelocity = new Vector2(_moveVelocity.x, _rb.linearVelocity.y); // we change the velocity of the player with new x velocity and current y velocity
