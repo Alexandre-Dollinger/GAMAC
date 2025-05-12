@@ -115,7 +115,7 @@ namespace _Scripts.Projectiles
             RotateSpeed = 0f;
             
             _maxHpPrefab = 1;
-
+            
             SenderId = -1;
         }
         

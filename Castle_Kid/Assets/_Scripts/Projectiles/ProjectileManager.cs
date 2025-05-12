@@ -7,7 +7,7 @@ using UnityEngine;
 namespace _Scripts.Projectiles
 {
     public class ProjectileManager : NetworkBehaviour // https://www.youtube.com/watch?v=3yuBOB3VrCk&t=232s
-    {
+    {   
         public ProjectileScriptableObject ProjSO;
         
         public GameObject sparkPrefab;
@@ -15,17 +15,17 @@ namespace _Scripts.Projectiles
         public List<Projectile> projList; // A list only for the owner
  
         [ServerRpc(RequireOwnership = false)]
-        public void CreateProjectileServerRpc(ProjectileStruct projStruct, 
+        public void CreateProjectileServerRpc(ProjectileStruct projStruct,
             ProjectilePrefabType projPrefabType, string projTag, float offset = 50, ServerRpcParams serverRpcParams = default)
         {
-            projStruct.SpawnPos += projStruct.Direction * offset; 
+            projStruct.SpawnPos += projStruct.Direction * offset;
             // To not spawn the projectile in our caster
 
             GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
                 projStruct.SpawnPos, Quaternion.identity);
             
             gameObjectProj.GetComponent<NetworkObject>().Spawn(true);
-
+            
             gameObjectProj.tag = projTag;
 
             Projectile projectile = gameObjectProj.GetComponent<Projectile>();
