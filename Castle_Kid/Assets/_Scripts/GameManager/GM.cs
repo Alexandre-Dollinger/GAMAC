@@ -1,5 +1,6 @@
 using System;
 using _Scripts.Projectiles;
+using _Scripts.Enemy;
 using UnityEngine;
 
 namespace _Scripts.GameManager
@@ -17,13 +18,15 @@ namespace _Scripts.GameManager
         public static bool GameStarted = false;
 
         public static ProjectileManager ProjM;
+        public static EnemyManager EnemyM;
         
         public void Awake()
         {
             if (ProjM == null)
-            {
                 ProjM = GameObject.Find("PROJECTILE_MANAGER").GetComponent<ProjectileManager>();
-            }
+
+            if (EnemyM == null)
+                EnemyM = GameObject.Find("ENEMY_MANAGER").GetComponent<EnemyManager>();
         }
 
         #region FilterType

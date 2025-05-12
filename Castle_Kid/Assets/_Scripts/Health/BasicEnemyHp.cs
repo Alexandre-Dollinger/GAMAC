@@ -46,7 +46,7 @@ namespace _Scripts.Health
         
         private void DieLocally()
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

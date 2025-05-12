@@ -1,11 +1,12 @@
 using UnityEngine;
 using System;
 using _Scripts.Player.Movement;
-using _Scripts.Health;
+using Unity.Netcode;
+using _Scripts.GameManager;
+using _Scripts.Enemy;
 
-public abstract class BasicEnemy : UnitHp
+public abstract class BasicEnemy : NetworkBehaviour
 {
-
     //Base class that all enemies will inherit from
     #region Player variable
     protected GameObject closestPlayer;
@@ -15,6 +16,7 @@ public abstract class BasicEnemy : UnitHp
     #endregion
 
     protected Rigidbody2D enemyRb;
+    protected EnemyType enemyType;
 
     #region Booleans
     protected bool isFacingRight;
@@ -55,7 +57,6 @@ public abstract class BasicEnemy : UnitHp
     }
     protected float chaseDistance;
     #endregion
-
 
     protected abstract void BasicAttack();
 

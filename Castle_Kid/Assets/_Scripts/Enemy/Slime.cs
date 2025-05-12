@@ -26,6 +26,7 @@ public class Slime : BasicEnemy
     #region Updates and Start
     void Awake()
     {
+        enemyType = EnemyType.Slime;
         closestPlayerTime = 2f;
         closestPlayerCooldown = 0f;
 
