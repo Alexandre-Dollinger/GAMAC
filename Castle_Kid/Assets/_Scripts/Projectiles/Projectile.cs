@@ -18,8 +18,9 @@ namespace _Scripts.Projectiles
 
         private Rigidbody2D _rb;
 
-        private CircleCollider2D _hitBoxCollider;
-        private PolygonCollider2D _findTargetCollider;
+        private Collider2D _hitBoxCollider;
+        private Collider2D _findTargetCollider;
+        
         private List<Collider2D> _targetsFound = new List<Collider2D>();
         private bool _searchingTarget = false;
         private string _objectTag;
@@ -111,6 +112,12 @@ namespace _Scripts.Projectiles
                 case ProjectileAttackType.Parabola:
                     ParabolaProjectile();
                     break;
+                case ProjectileAttackType.OnSender:
+                    if ((UnityEngine.Object)_targetTransform is not null)
+                        OnSenderProjectile();
+                    else
+                        FindFollowingTarget();
+                    break;
             }
         }
         
@@ -135,6 +142,11 @@ namespace _Scripts.Projectiles
         private void ParabolaProjectile()
         {
             
+        }
+        
+        private void OnSenderProjectile()
+        {
+            transform.Rotate(Vector3.forward, Proj.RotateSpeed * Time.fixedDeltaTime * (Proj.RotateSelfRight ? 1 : -1));
         }
         
         private Vector3 GetParabolaPos(Vector3 targetPos)
@@ -192,6 +204,12 @@ namespace _Scripts.Projectiles
             if (!Proj.FoundTrackingTarget) // When we are looking for a target it's a linear projectile
                 LinearProjectile();
         }
+
+        private void FindFollowingTarget()
+        {
+            
+        }
+
         #endregion
 
         #region Die
