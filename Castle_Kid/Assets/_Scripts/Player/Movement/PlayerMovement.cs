@@ -1,4 +1,5 @@
 using System.Numerics;
+using _Scripts.Inputs;
 using _Scripts.Player.Animation;
 using _Scripts.Player.Trigger;
 using Unity.Netcode;
@@ -73,14 +74,14 @@ namespace _Scripts.Player.Movement
         private AnimationEnum _curAnimationState;
         private float _animationTime;
 
-        public override void OnNetworkSpawn()
+        /*public override void OnNetworkSpawn()
         {
             if (!IsOwner)
             {
                 enabled = false;
                 return;
             }
-        }
+        }*/
 
         private void Awake()
         {
@@ -111,14 +112,14 @@ namespace _Scripts.Player.Movement
             _animator = GetComponent<Animator>();
 
             _animationTime = 0;
-
-            PlayerTracking.players.Add(this.gameObject); //To add to the List of all players in Game
         }
         //============================================================================================
         //UPDATES
         //--------------------------------------------------------------------------------------------
         private void FixedUpdate()
         {
+            if (!IsOwner) return;
+            
             if (!_isDashing) // we don't want to change the velocity during a dash
             {
                 Gravity();
@@ -168,6 +169,8 @@ namespace _Scripts.Player.Movement
     
         private void Update()
         {
+            if (!IsOwner) return;
+            
             //DebugCollision();
             //DebugShortUp();
             
@@ -233,7 +236,7 @@ namespace _Scripts.Player.Movement
             else // if the player stopped
             {
                 _moveVelocity = Vector2.Lerp(_moveVelocity, Vector2.zero, deceleration * Time.fixedDeltaTime); // same as before but to decelerate
-                if (Abs(_moveVelocity.x) < 0.001f) _moveVelocity.x = 0f; // to make it to zero fast
+                if (Abs(_moveVelocity.x) < 10) _moveVelocity.x = 0f; // to make it to zero fast
             }
 
             _rb.linearVelocity = new Vector2(_moveVelocity.x, _rb.linearVelocity.y); // we change the velocity of the player with new x velocity and current y velocity
@@ -297,8 +300,6 @@ namespace _Scripts.Player.Movement
             colliders.transform.rotation = Quaternion.Euler (0.0f, 0.0f, gameObject.transform.rotation.z * -1.0f);
         }
 
-        public bool GetPlayerIsGrounded() => _isGrounded;
-        
         #endregion
 
         #region Jump
@@ -406,19 +407,25 @@ namespace _Scripts.Player.Movement
                 if (InputManager.Movement != Vector2.zero)
                 {
                     _rb.linearVelocity = InputManager.Movement * (MoveStats.MaxWalkSpeed * MoveStats.DashStrength);
+                    TurnCheck(InputManager.Movement);
                 }
                 else
                 {
                     Vector2 direction = new Vector2(1,0); // if he is facing right
                     if (!_isFacingRight) // if he is facing left 
-                    {
                         direction = new Vector2(-1, 0);
-                    }
+                    TurnCheck(direction);
                     _rb.linearVelocity = direction * (MoveStats.MaxWalkSpeed * MoveStats.DashStrength);
                 }
 
                 _initDashing = false;
             }
+        }
+
+        private void CancelDash()
+        {
+            _isDashing = false;
+            _dashDuration = 0;
         }
 
         #endregion
@@ -563,6 +570,7 @@ namespace _Scripts.Player.Movement
         void OnHeadTriggerEntered(Collider2D item)
         {
             _bumpedHead = true;
+            CancelDash();
         }
 
         void OnHeadTriggerExited(Collider2D item)
@@ -573,6 +581,7 @@ namespace _Scripts.Player.Movement
         void OnBodyRightTriggerEntered(Collider2D item)
         {
             _bodyRightWalled = true;
+            CancelDash();
         }
 
         void OnBodyRightTriggerExited(Collider2D item)
@@ -583,6 +592,7 @@ namespace _Scripts.Player.Movement
         void OnBodyLeftTriggerEntered(Collider2D item)
         {
             _bodyLeftWalled = true;
+            CancelDash();
         }
 
         void OnBodyLeftTriggerExited(Collider2D item)

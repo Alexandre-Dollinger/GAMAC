@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 2674646400243834877}
   - component: {fileID: 2305615979289680473}
   - component: {fileID: 3299482882399849472}
+  - component: {fileID: 7243847478813433902}
   - component: {fileID: 6735601534087935052}
+  - component: {fileID: 8674961262581807448}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Enemy
@@ -167,6 +169,31 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7243847478813433902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59842334827957665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &6735601534087935052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,10 +206,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309a7716a213f9a4e948dbf095baafa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   BodyCheckTrigger: {fileID: 8883449591926453027}
   WillFallCheckTrigger: {fileID: 1762956739541584779}
   WallCheckTrigger: {fileID: 6629466794795206893}
   AirborneCheckTrigger: {fileID: 1025824894263911705}
+--- !u!114 &8674961262581807448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 59842334827957665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 492f336023774fd4da9bd3d63d11e9b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &6492729711558309966
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,6 +406,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f46057451b2d4914b829a815aa2fe58f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
 --- !u!1 &7936920914715006605
 GameObject:
   m_ObjectHideFlags: 0

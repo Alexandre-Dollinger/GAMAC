@@ -1,20 +1,20 @@
 using System;
-using System.Runtime.InteropServices;
-using _Scripts.Player.Movement;
+using _Scripts.GameManager;
+using _Scripts.Health;
+using _Scripts.Inputs;
+using _Scripts.Multiplayer;
+using _Scripts.Projectiles;
 using Unity.Netcode;
 using UnityEngine;
-using Random = System.Random;
-using Vector2 = System.Numerics.Vector2;
 
 namespace _Scripts.Player.Weapon
 {
-    public class WeaponScript : MonoBehaviour
+    public class WeaponScript : NetworkBehaviour
     {
+        public int playerAttack = 50;
+        
         public float offset;
 
-        public static int AttackPower = 10; //Can be changed later
-
-        //Timers and Delays
         public float attackDelay = 1.3f;
         private float _curAttDelay;
         
@@ -24,7 +24,6 @@ namespace _Scripts.Player.Weapon
         public float bufferAttackTimer = 0.2f;
         private float _curBufferTimer;
         
-
         private PolygonCollider2D _polygonCollider2D;
         private Camera _playerCamera;
 
@@ -32,6 +31,19 @@ namespace _Scripts.Player.Weapon
         
         private float _fixedYRotation;
         private Quaternion _slashRotation;
+
+        private int _playerId;
+        
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                enabled = false;
+                return;
+            }
+
+            _playerId = transform.parent.GetComponent<PlayerId>().GetPlayerId();
+        }
         
         private void Awake()
         {
@@ -151,6 +163,34 @@ namespace _Scripts.Player.Weapon
             if (_curBufferTimer > 0)
             {
                 _curBufferTimer -= deltaTime;
+            }
+        }
+
+        private bool TargetingPlayerProjectileBehaviour(Collider2D other)
+        {
+            Projectile proj = other.GetComponent<Projectile>();
+
+            if (proj.Proj.CanBeDestroyedByPlayer && !proj.Proj.CanBeDestroyedBySelf)
+                return proj.Proj.SenderId != _playerId;
+
+            return proj.Proj.CanBeDestroyedBySelf && proj.Proj.SenderId == _playerId;
+        }
+
+        private bool CanAttackThat(Collider2D other)
+        {
+            //return GM.IsTargetForPlayer(other) || GM.IsTargetForEnemy(other);
+            return GM.IsPlayer(other) ||
+                   GM.IsEnemy(other) ||
+                   (GM.IsPlayerProjectile(other) && TargetingPlayerProjectileBehaviour(other)) ||
+                   GM.IsEnemyProjectile(other);
+        }
+
+        public void OnTriggerEnter2D(Collider2D other)
+        {
+            if (CanAttackThat(other))
+            {
+                IUnitHp otherHp = other.GetComponent<IUnitHp>();
+                otherHp.TakeDamage(playerAttack);
             }
         }
     }

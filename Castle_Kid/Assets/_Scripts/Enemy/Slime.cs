@@ -5,6 +5,8 @@ using _Scripts.Player.Trigger;
 using _Scripts.Enemy;
 using System;
 using _Scripts.Player.Movement;
+using _Scripts.Health;
+using _Scripts.GameManager;
 public class Slime : BasicEnemy
 {
     public EnemyCustomTrigger BodyCheckTrigger;
@@ -134,13 +136,6 @@ public class Slime : BasicEnemy
         throw new NotImplementedException();
     }
 
-    protected override void GetHit(int damage)
-    {
-        Hp -= damage;
-        if (Hp <= 0)
-            Destroy(this.gameObject);
-    }
-
     private bool PlayerIsRight()
     {
         return transform.position.x < closestPlayer.transform.position.x;
@@ -160,7 +155,7 @@ public class Slime : BasicEnemy
     {
         if (isChasing) //Chasing
         {
-            if ((PlayerIsRight() ^ isFacingRight) && closestPlayerMovement.GetPlayerIsGrounded())  // '^' symbol --> XOR
+            if ((PlayerIsRight() ^ isFacingRight))//&& closestPlayerMovement.GetPlayerIsGrounded())  // '^' symbol --> XOR
                 Flip();
             //Player on a side and Facing the other side
             //!PlayerIsRight() && isFacingRight || PlayerIsRight() && !isFacingRight
@@ -176,8 +171,6 @@ public class Slime : BasicEnemy
 
     private void SetAllCombatStats()
     {
-        MaxHp = 100;
-        Hp = MaxHp;
         AttackPower = 1;
     }
     private void SetAllMovementStats()
@@ -199,9 +192,6 @@ public class Slime : BasicEnemy
     private void SetAllTriggers()
     {
         // Setting all the Enter and Exit triggers for the different triggers
-        BodyCheckTrigger.EnteredTrigger += OnBodyCheckEnter2D;
-        BodyCheckTrigger.ExitedTrigger += OnBodyCheckExit2D;
-
         WillFallCheckTrigger.EnteredTrigger += OnWillFallCheckEnter2D;
         WillFallCheckTrigger.ExitedTrigger += OnWillFallCheckExit2D;
 
@@ -215,7 +205,6 @@ public class Slime : BasicEnemy
     private void SetAllTriggerConditions()
     {
         //Setting all the conditions for the different triggers
-        BodyCheckTrigger.condition = GotAttacked();
         WillFallCheckTrigger.condition = TouchedGround();
         WallCheckTrigger.condition = item => TouchedGround()(item) || TouchedEnemy()(item);
         //AirborneCheckTrigger.condition = item => groundLayerId == item.gameObject.layer;
@@ -223,19 +212,15 @@ public class Slime : BasicEnemy
     #endregion
 
     #region Predicates (Conditions)
-    private Predicate<Collider2D> GotAttacked()
-    {
-        return item => item.gameObject.tag == playerAttackTag;
-    }
 
     private Predicate<Collider2D> TouchedGround()
     {
-        return item => groundLayerId == item.gameObject.layer;
+        return item => GM.CrossedWall(item);
     }
 
     private Predicate<Collider2D> TouchedEnemy()
     {
-        return item => item.gameObject.tag == gameObject.tag;
+        return item => GM.IsEnemy(item);
     }
 
     #endregion
@@ -282,22 +267,13 @@ public class Slime : BasicEnemy
         isGrounded = false;
     }
 
-    private void OnBodyCheckEnter2D(Collider2D item) //For detecting if the slime got attacked by a player
+    private void OnColliderEnter2D(Collider2D other) //For detecting if the slime collided with a player
     {
-        GetHit(WeaponScript.AttackPower);
-    }
-
-    private void OnBodyCheckExit2D(Collider2D item) //if there is no exit function, we have a null reference Exception
-    {
-        Debug.Log($"Got hit ! Current HP: {Hp}/{MaxHp}");
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision) //For detecting if the slime collided with a player
-    {
-        if (collision.gameObject.tag == playerTag)
+        if (GM.IsPlayer(other))
         {
             Debug.Log("Collision with Player");
-            collision.gameObject.GetComponent<PlayerStats>().GetHit(AttackPower);
+            IUnitHp otherHp = other.GetComponent<IUnitHp>();
+            otherHp.TakeDamage(AttackPower);
         }
     }
 

@@ -1,33 +1,37 @@
 using UnityEngine;
 using System;
 using _Scripts.Player.Movement;
+using _Scripts.Health;
 
-public abstract class BasicEnemy : MonoBehaviour
+public abstract class BasicEnemy : UnitHp
 {
 
     //Base class that all enemies will inherit from
+    #region Player variable
     protected GameObject closestPlayer;
     protected PlayerMovement closestPlayerMovement;
     protected float closestPlayerCooldown; // The one which is updated
     protected float closestPlayerTime; // Max time
+    #endregion
+
     protected Rigidbody2D enemyRb;
 
+    #region Booleans
     protected bool isFacingRight;
     protected bool willFall;
     protected bool isGrounded;
     protected bool isChasing;
+    #endregion
 
 
     //Combat Stats
-    protected int MaxHp {get; set;}
-    protected int Hp {get; set;}
     protected int AttackPower {get; set;} //How much damage the enemy deals per attack
     
     //Drops
     protected int MoneyDrop {get;}
     protected bool IsGuardian {get;} //Rare enemy
 
-    //Movement Stats
+    #region Movement Stats
     private float _groundSpeed;
     public float GroundSpeed 
     {
@@ -50,16 +54,11 @@ public abstract class BasicEnemy : MonoBehaviour
         set => _chaseSpeed = Math.Abs(value);
     }
     protected float chaseDistance;
+    #endregion
 
-    //References to Id and tags
-    protected int groundLayerId = 3; 
-
-    protected string playerTag = "Player";
-    protected string playerAttackTag = "PlayerAttack"; 
 
     protected abstract void BasicAttack();
 
-    protected abstract void GetHit(int damage);
 
     // private void OnTriggerEnter2D(Collider2D item)
     // {
