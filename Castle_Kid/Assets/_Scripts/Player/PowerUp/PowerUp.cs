@@ -48,8 +48,6 @@ namespace _Scripts.Player.PowerUp
                 ProjectileStruct linearProj =
                     GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
                 linearProj.InitHealing();
-                linearProj.CanBeDestroyedBySelf = false;
-                linearProj.CanBeDestroyedByPlayer = false;
                 GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
             }
             

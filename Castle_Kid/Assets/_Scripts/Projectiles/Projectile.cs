@@ -17,15 +17,17 @@ namespace _Scripts.Projectiles
         }
 
         private Rigidbody2D _rb;
+        
+        private string _objectTag;
 
         private Collider2D _hitBoxCollider;
         private Collider2D _findTargetCollider;
         
         private List<Collider2D> _targetsFound = new List<Collider2D>();
         private bool _searchingTarget = false;
-        private string _objectTag;
         
-        [CanBeNull] private Transform _targetTransform = null;
+        private GameObject _targetGameObject = null;
+        private Transform TargetTransform => _targetGameObject == null ? null : _targetGameObject.transform;
         
         private bool _initialised = false;
         public ProjectileStruct Proj;
@@ -69,8 +71,8 @@ namespace _Scripts.Projectiles
         {
             if (!_initialised) return;
             
-
             UpdateSpeed();
+            UpdateProjRotation(); // because we rotate the rigid body rotation (angular velocity)
             
             if (!Mathf.Approximately(Proj.DestroyedTime, -1f) && Proj.DestroyedTime <= 0)
                 DieSilent();
@@ -104,7 +106,7 @@ namespace _Scripts.Projectiles
                     LinearProjectile();
                     break;
                 case ProjectileAttackType.Tracking:
-                    if ((UnityEngine.Object)_targetTransform is not null)
+                    if (TargetTransform is not null)
                         TrackingProjectile();
                     else
                         FindTrackingTarget();
@@ -113,7 +115,7 @@ namespace _Scripts.Projectiles
                     ParabolaProjectile();
                     break;
                 case ProjectileAttackType.OnSender:
-                    if ((UnityEngine.Object)_targetTransform is not null)
+                    if (TargetTransform is not null)
                         OnSenderProjectile();
                     else
                         FindFollowingTarget();
@@ -131,7 +133,7 @@ namespace _Scripts.Projectiles
         {
             _rb.linearVelocity = Proj.Direction * (Speed * Time.fixedDeltaTime);
             
-            Proj.Direction = (_targetTransform!.position - transform.position).normalized;
+            Proj.Direction = (TargetTransform.position - transform.position).normalized;
             
             // to understand Cross : https://www.youtube.com/watch?v=kz92vvioeng
             float rotateAmount = Vector3.Cross(Proj.Direction, transform.up).z;
@@ -157,22 +159,22 @@ namespace _Scripts.Projectiles
         }
 
         [CanBeNull]
-        private Transform GetClosestTarget()
+        private GameObject GetClosestTarget()
         {
             float? closestDis = null;
-            Transform closestTransform = null;
-
+            GameObject closestGameObject = null;
+            
             foreach (Collider2D target in _targetsFound)
             {
                 float curDis = Vector2.Distance(target.transform.position, transform.position);
                 if (closestDis is null || curDis < closestDis)
                 {
                     closestDis = curDis;
-                    closestTransform = target.transform;
+                    closestGameObject = target.gameObject;
                 }
             }
 
-            return closestTransform;
+            return closestGameObject;
         }
         
         private void FindTrackingTarget() // Only run when the timer got finished 
@@ -185,9 +187,9 @@ namespace _Scripts.Projectiles
                 Proj.TrackingTargetTime = Proj.TrackingTargetCooldown;
                 _hitBoxCollider.enabled = true;
                 _findTargetCollider.enabled = false;
-                _targetTransform = GetClosestTarget();
+                _targetGameObject = GetClosestTarget();
                 _targetsFound = new List<Collider2D>();
-                if ((UnityEngine.Object)_targetTransform is not null)
+                if (TargetTransform is not null)
                     Proj.FoundTrackingTarget = true;
                 _searchingTarget = false;
                 gameObject.tag = _objectTag;

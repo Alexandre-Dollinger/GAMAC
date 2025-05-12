@@ -127,7 +127,7 @@ namespace _Scripts.Projectiles
             CanBeDestroyedByPlayer = canBeDestroyedByPlayer;
             CanCrossWalls = canCrossWalls;
             DestroyedTime = destroyedTime;
-            CanBeDestroyedBySelf = CanBeDestroyedByPlayer && canBeDestroyedBySelf;
+            CanBeDestroyedBySelf = canBeDestroyedBySelf;
         }
 
         public void InitTargeting(bool targetPlayer = false, bool targetEnemy = false, 
@@ -213,6 +213,7 @@ namespace _Scripts.Projectiles
             
             serializer.SerializeValue(ref CanCrossWalls);
             serializer.SerializeValue(ref CanBeDestroyedByPlayer);
+            serializer.SerializeValue(ref CanBeDestroyedBySelf);
             serializer.SerializeValue(ref DestroyedTime);
             
             serializer.SerializeValue(ref Scale);

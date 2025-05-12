@@ -170,8 +170,13 @@ namespace _Scripts.Player.Weapon
         {
             Projectile proj = other.GetComponent<Projectile>();
 
-            if (proj.Proj.CanBeDestroyedByPlayer && !proj.Proj.CanBeDestroyedBySelf)
-                return proj.Proj.SenderId != _playerId;
+            if (proj.Proj.CanBeDestroyedByPlayer)
+            {
+                if (proj.Proj.CanBeDestroyedBySelf)
+                    return true;
+                else
+                    return proj.Proj.SenderId != _playerId;
+            }
 
             return proj.Proj.CanBeDestroyedBySelf && proj.Proj.SenderId == _playerId;
         }
