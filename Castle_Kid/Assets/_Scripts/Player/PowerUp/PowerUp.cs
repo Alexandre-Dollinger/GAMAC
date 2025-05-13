@@ -48,7 +48,8 @@ namespace _Scripts.Player.PowerUp
                 ProjectileStruct linearProj =
                     GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
                 linearProj.InitHealing();
-                GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
+                //GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
+                GM.ProjM.CreateProjectileManager(NetworkManager.Singleton.ServerTime.Tick, NetworkManager.Singleton.LocalTime.Tick, linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
             
             if (InputManager.PowerUp2WasReleased)
