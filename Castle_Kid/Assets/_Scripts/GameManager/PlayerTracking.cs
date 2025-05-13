@@ -2,8 +2,9 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Unity.Netcode;
 
-public class PlayerTracking : MonoBehaviour
+public class PlayerTracking : NetworkBehaviour
 {
     public static List<GameObject> players = new List<GameObject>();
 
