@@ -91,9 +91,9 @@ namespace _Scripts.GameManager
         #region GetProjectile
         public static ProjectileStruct GetBasicLinearProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct linearProj = new ProjectileStruct(spawnPos, direction);
+            ProjectileStruct linearProj = new ProjectileStruct(spawnPos, direction, ProjectileAnimation.Spark);
             linearProj.InitSpeed(100);
-            linearProj.InitDestroyCondition();
+            linearProj.InitDestroyCondition(ProjectileBasicCollider.Spark);
             linearProj.InitTargeting(true, true, true, true);
             linearProj.InitAttackLinear(50);
 
@@ -102,9 +102,9 @@ namespace _Scripts.GameManager
         
         public static ProjectileStruct GetBasicTrackingFixedSpeedProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction);
+            ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction, ProjectileAnimation.Spark);
             trackingProj.InitSpeed();
-            trackingProj.InitDestroyCondition(true, 50, true);
+            trackingProj.InitDestroyCondition(ProjectileBasicCollider.Spark, true, 50, true);
             trackingProj.InitTargeting(true, true, true, true);
             trackingProj.InitAttackTracking(50, 200);
 
@@ -113,9 +113,9 @@ namespace _Scripts.GameManager
         
         public static ProjectileStruct GetBasicTrackingAcceleratingProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction);
+            ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction, ProjectileAnimation.Spark);
             trackingProj.InitSpeed(10,50 ,500);
-            trackingProj.InitDestroyCondition(true, 50, true);
+            trackingProj.InitDestroyCondition(ProjectileBasicCollider.Spark, true, 50, true);
             trackingProj.InitTargeting(true, true, true, true);
             trackingProj.InitAttackTracking(50, 200);
 

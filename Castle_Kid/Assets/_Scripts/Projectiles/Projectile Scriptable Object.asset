@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96eda53723fcdaa438c16f6f610b9a23, type: 3}
   m_Name: Projectile Scriptable Object
   m_EditorClassIdentifier: 
-  SparkCollider2D: {fileID: 0}
-  ConeSearchTargetCollider2D: {fileID: 0}
+  SparkProjAnimation: {fileID: 9100000, guid: 5ec12a717bc591e44b1e4cae35082816, type: 2}
+  SparkCollider2D: {fileID: 7981788950898802918, guid: 39e5b0f766eb5d44d956cf18d32436b1, type: 3}
+  ConeSearchTargetCollider2D: {fileID: 8754571697859288550, guid: 39e5b0f766eb5d44d956cf18d32436b1, type: 3}
   CircleSearchSenderCollider2D: {fileID: 0}

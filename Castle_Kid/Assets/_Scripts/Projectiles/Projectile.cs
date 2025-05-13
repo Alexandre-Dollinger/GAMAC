@@ -33,6 +33,8 @@ namespace _Scripts.Projectiles
         
         private bool _initialised = false;
         public ProjectileStruct Proj;
+
+        private Animator _animator;
         
         // still need sound, animation, sprite, collider
 
@@ -41,7 +43,8 @@ namespace _Scripts.Projectiles
             _rb = GetComponent<Rigidbody2D>();
             _hitBoxCollider = GetComponent<CircleCollider2D>();
             _findTargetCollider = GetComponent<PolygonCollider2D>();
-            _findTargetCollider.enabled = false;    
+            _animator = GetComponent<Animator>();
+            _findTargetCollider.enabled = false;
         }
         
         public void InitProjectile(ProjectileStruct projectileStruct, bool isServerProj = false)
@@ -53,12 +56,24 @@ namespace _Scripts.Projectiles
             CurrentHp = MaxHp;
             
             transform.localScale *= Proj.Scale;
-
+            _animator.runtimeAnimatorController = GM.ProjM.GetProjectileAnimation(Proj.ProjectileAnimation);
+            
             _objectTag = gameObject.tag;
             
             _isServerProj = isServerProj;
             
             UpdateProjRotation();
+            
+            //InitColliders();
+        }
+
+        public ProjectileScriptableObject ProjSO;
+        
+        private void InitColliders()
+        {
+            //_hitBoxCollider = projSO.SparkCollider2D;
+            //CircleCollider2D circleCollider2D = gameObject.AddComponent<CircleCollider2D>();
+            //circleCollider2D.radius = ProjSO.SparkCollider2D.radius;
         }
         
         public void Update()

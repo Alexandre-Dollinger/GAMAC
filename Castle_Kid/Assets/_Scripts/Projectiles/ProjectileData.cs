@@ -22,6 +22,7 @@ namespace _Scripts.Projectiles
     
     public enum ProjectileSearchCollider
     {
+        None,
         Cone,
         FindSender,
     }
@@ -46,12 +47,17 @@ namespace _Scripts.Projectiles
         public ProjectileAttackType AttackType;
         
         public Vector3 SpawnPos;
-        public Vector3 Direction; // _direction is normalized
+        public Vector3 CasterPos; // not updated, only the caster pos at the start
+        public Vector3 Direction; // Direction is normalized
         
         public bool CanCrossWalls;
         public bool CanBeDestroyedByPlayer;
         public bool CanBeDestroyedBySelf;
         public float DestroyedTime; // null value is -1f
+
+        public ProjectileAnimation ProjectileAnimation;
+        public ProjectileBasicCollider ProjectileBasicCollider;
+        public ProjectileSearchCollider ProjectileSearchCollider;
 
         //public GM.FilterType FilterTarget; // if only but no because of NetworkVariable instead a lot of boolean
         public bool TargetingPlayer;
@@ -78,7 +84,7 @@ namespace _Scripts.Projectiles
             return _maxHpPrefab;
         }
 
-        public ProjectileStruct(Vector3 spawnPos, Vector3 direction, int scale = 1)
+        public ProjectileStruct(Vector3 spawnPos, Vector3 direction, ProjectileAnimation projectileAnimation, int scale = 1)
         {
             Speed = 0f;
             Acceleration = 0f;
@@ -89,6 +95,7 @@ namespace _Scripts.Projectiles
             AttackType = ProjectileAttackType.Linear;
             
             SpawnPos = spawnPos;
+            CasterPos = SpawnPos;
             Direction = direction.normalized;
 
             TargetingPlayer = false;
@@ -107,6 +114,10 @@ namespace _Scripts.Projectiles
             CanBeDestroyedBySelf = false; // takes the priority compared to CanBeDestroyedByPlayer
             DestroyedTime = -1f;
 
+            ProjectileAnimation = projectileAnimation;
+            ProjectileBasicCollider = ProjectileBasicCollider.Spark;
+            ProjectileSearchCollider = ProjectileSearchCollider.None;
+
             Scale = scale;
             
             TrackingTargetCooldown = -1f;
@@ -119,9 +130,11 @@ namespace _Scripts.Projectiles
             SenderId = -1;
         }
         
-        public void InitDestroyCondition(bool canBeDestroyedByPlayer = true, 
+        public void InitDestroyCondition(ProjectileBasicCollider projectileCollider, bool canBeDestroyedByPlayer = true, 
             int health = 50, bool canCrossWalls = false, bool canBeDestroyedBySelf = true, float destroyedTime = -1f)
         {
+            ProjectileBasicCollider = projectileCollider;
+            
             _maxHpPrefab = health;
             
             CanBeDestroyedByPlayer = canBeDestroyedByPlayer;
@@ -209,12 +222,17 @@ namespace _Scripts.Projectiles
             serializer.SerializeValue(ref SenderId);
             
             serializer.SerializeValue(ref SpawnPos);
+            serializer.SerializeValue(ref CasterPos);
             serializer.SerializeValue(ref Direction);
             
             serializer.SerializeValue(ref CanCrossWalls);
             serializer.SerializeValue(ref CanBeDestroyedByPlayer);
             serializer.SerializeValue(ref CanBeDestroyedBySelf);
             serializer.SerializeValue(ref DestroyedTime);
+            
+            serializer.SerializeValue(ref ProjectileAnimation);
+            serializer.SerializeValue(ref ProjectileBasicCollider);
+            serializer.SerializeValue(ref ProjectileSearchCollider);
             
             serializer.SerializeValue(ref Scale);
             

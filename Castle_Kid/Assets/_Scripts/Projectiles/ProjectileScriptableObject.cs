@@ -6,7 +6,7 @@ namespace _Scripts.Projectiles
     public class ProjectileScriptableObject : ScriptableObject
     {
         [Header("Projectile Sprite and Animation")]
-        public Animation SparkProjAnimation;
+        public RuntimeAnimatorController SparkProjAnimation;
         [Space(5)]
         
         [Header("Projectile Basic Collider")] 

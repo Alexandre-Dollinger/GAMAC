@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Scripts.GameManager;
+using JetBrains.Annotations;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -129,7 +130,7 @@ namespace _Scripts.Projectiles
         #endregion
 
         #region References getters for projectile
-        private GameObject GetProjectilePrefab(ProjectilePrefabType projType)
+        public GameObject GetProjectilePrefab(ProjectilePrefabType projType)
         {
             switch (projType)
             {
@@ -140,7 +141,7 @@ namespace _Scripts.Projectiles
             throw new NotImplementedException($"Projectile not known : {projType}");
         }
         
-        private Animation GetProjectileAnimation(ProjectileAnimation projAnimation)
+        public RuntimeAnimatorController GetProjectileAnimation(ProjectileAnimation projAnimation)
         {
             switch (projAnimation)
             {
@@ -151,7 +152,7 @@ namespace _Scripts.Projectiles
             throw new NotImplementedException($"Projectile Animation not known : {projAnimation}");
         }
 
-        private Collider2D GetProjectileBasicCollider2D(ProjectileBasicCollider projBasicCollider)
+        public Collider2D GetProjectileBasicCollider2D(ProjectileBasicCollider projBasicCollider)
         {
             switch (projBasicCollider)
             {
@@ -162,10 +163,13 @@ namespace _Scripts.Projectiles
             throw new NotImplementedException($"Projectile Basic Collider not known : {projBasicCollider}");
         }
         
-        private Collider2D GetProjectileSearchCollider2D(ProjectileSearchCollider projSearchCollider)
+        [CanBeNull]
+        public Collider2D GetProjectileSearchCollider2D(ProjectileSearchCollider projSearchCollider)
         {
             switch (projSearchCollider)
             {
+                case ProjectileSearchCollider.None:
+                    return null;
                 case ProjectileSearchCollider.FindSender:
                     return ProjSO.CircleSearchSenderCollider2D; 
                 case ProjectileSearchCollider.Cone:
