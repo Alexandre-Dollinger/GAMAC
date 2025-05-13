@@ -8,8 +8,10 @@ using UnityEngine;
 
 namespace _Scripts.Projectiles
 {
-    public class Projectile : UnitHp
+    public class Projectile : UnitLocalHp
     {
+        private bool _isServerProj;
+        
         private readonly float _speedCoefficient = 100;
         private float Speed
         {
@@ -33,16 +35,16 @@ namespace _Scripts.Projectiles
         public ProjectileStruct Proj;
         
         // still need sound, animation, sprite, collider
-        
+
         public void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _hitBoxCollider = GetComponent<CircleCollider2D>();
             _findTargetCollider = GetComponent<PolygonCollider2D>();
-            _findTargetCollider.enabled = false;
+            _findTargetCollider.enabled = false;    
         }
         
-        public void InitProjectile(ProjectileStruct projectileStruct)
+        public void InitProjectile(ProjectileStruct projectileStruct, bool isServerProj = false)
         {
             Proj = projectileStruct;
             _initialised = true;
@@ -53,6 +55,8 @@ namespace _Scripts.Projectiles
             transform.localScale *= Proj.Scale;
 
             _objectTag = gameObject.tag;
+            
+            _isServerProj = isServerProj;
             
             UpdateProjRotation();
         }
@@ -256,6 +260,14 @@ namespace _Scripts.Projectiles
                    (Proj.TargetingPlayerProjectile && GM.IsPlayerProjectile(other) && SelfTargetingProjectileBehaviour(other)) ||
                    (Proj.TargetingEnemyProjectile && GM.IsEnemyProjectile(other));
         }
+
+        private void DoDamageOrHeal(IUnitHp otherHp)
+        {
+            if (Proj.Healing == 0)
+                otherHp.TakeDamage(Proj.Damage);
+            else
+                otherHp.GainHealth(Proj.Healing);
+        }
         
         public void OnTriggerEnter2D(Collider2D other)
         {
@@ -270,12 +282,16 @@ namespace _Scripts.Projectiles
             
             if (CanAttackThat(other)) // found target to attack
             {
+
                 IUnitHp otherHp = other.GetComponent<IUnitHp>();
-                
-                if (Proj.Healing == 0)
-                    otherHp.TakeDamage(Proj.Damage);
-                else
-                    otherHp.GainHealth(Proj.Healing);
+
+                if (otherHp.IsNetwork) // if the other hp is a NetworkVariable
+                {
+                    if (_isServerProj) // then only the server can do it damage
+                        DoDamageOrHeal(otherHp);
+                }
+                else // if the enemy is local hp variable, all the projectiles need to do it damage
+                    DoDamageOrHeal(otherHp);
                 
                 Die();
             }

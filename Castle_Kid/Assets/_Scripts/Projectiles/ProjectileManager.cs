@@ -15,31 +15,57 @@ namespace _Scripts.Projectiles
         public List<Projectile> projList; // A list only for the owner
 
         private bool _spawnedLocally = false; // to exclude the one that spawned locally from the clientRpc
- 
-        [ServerRpc(RequireOwnership = false)]
-        public void CreateProjectileServerRpc(ProjectileStruct projStruct,
-            ProjectilePrefabType projPrefabType, string projTag, float offset = 50, ServerRpcParams serverRpcParams = default)
+        private bool _attackedLocally = false;
+
+        #region Damage a projectile not Network
+
+        public int GetProjLstId(Projectile projectile)
         {
-            projStruct.SpawnPos += projStruct.Direction * offset;
-            // To not spawn the projectile in our caster
+            int id = 0;
+            int n = projList.Count;
+            while (id < n && projList[id] != projectile)
+            {
+                id++;
+            }
 
-            GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
-                projStruct.SpawnPos, Quaternion.identity);
-            
-            gameObjectProj.GetComponent<NetworkObject>().Spawn(true);
-            
-            gameObjectProj.tag = projTag;
+            if (id < n)
+                return id;
 
-            Projectile projectile = gameObjectProj.GetComponent<Projectile>();
-
-            if (projTag == GM.PlayerProjectileTag) // if it does not come from a player then we don't care about it's sender Id 
-                projStruct.SenderId = (int)serverRpcParams.Receive.SenderClientId;
-            
-            projectile.InitProjectile(projStruct);
-            
-            projList.Add(projectile);
+            throw new ArgumentException("The projectile couldn't be found in the list for player " + OwnerClientId);
+        }
+        public void DoDamageToProjManager(int lstId, int attack)
+        {
+            DoDamageToProjList(lstId, attack, true);
+            DoDamageToProjListServerRpc(lstId, attack);
         }
         
+        private void DoDamageToProjList(int lstId, int attack, bool locally = false)
+        {
+            _attackedLocally = locally;
+            projList[lstId].TakeDamage(attack);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void DoDamageToProjListServerRpc(int lstId, int attack)
+        {
+            DoDamageToProjListClientRpc(lstId, attack);
+        }
+
+        [ClientRpc]
+        private void DoDamageToProjListClientRpc(int lstId, int attack)
+        {
+            if (_attackedLocally)
+            {
+                _attackedLocally = false;
+                return;
+            }
+            
+            DoDamageToProjList(lstId, attack);
+        }
+        #endregion
+        
+        
+        #region Create projectile not Network
         private void CreateProjectile(ProjectileStruct projStruct,
             ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset)
         {
@@ -58,41 +84,31 @@ namespace _Scripts.Projectiles
             if (projTag == GM.PlayerProjectileTag && playerId != -1) // if it does not come from a player then we don't care about it's sender Id 
                 projStruct.SenderId = playerId;
             
-            projectile.InitProjectile(projStruct);
+            projectile.InitProjectile(projStruct, IsServer);
             
             projList.Add(projectile);
         }
 
-        public void CreateProjectileManager(int startTickServer, int startTickClient, ProjectileStruct projStruct,
+        public void CreateProjectileManager(ProjectileStruct projStruct,
             ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset = 50)
-        {
+        { // for now we don't care about server prediction but we will probably need it : int startTickServer, int startTickClient, | NetworkManager.Singleton.ServerTime.Tick, NetworkManager.Singleton.LocalTime.Tick,
             if (projTag != GM.PlayerProjectileTag)
                 playerId = -1;
 
-            CreateProjectileLocally(startTickServer, startTickClient, projStruct, projPrefabType, projTag, playerId, offset);
-            CreateProjectile2ServerRpc(startTickServer, startTickClient, projStruct, projPrefabType, projTag, playerId, offset);
+            CreateProjectileLocally(projStruct, projPrefabType, projTag, playerId, offset);
+            CreateProjectileServerRpc(projStruct, projPrefabType, projTag, playerId, offset);
         }
 
-        private void CreateProjectileLocally(int startTickServer, int startTickClient, ProjectileStruct projStruct,
+        private void CreateProjectileLocally(ProjectileStruct projStruct,
             ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset)
         { 
             CreateProjectile(projStruct, projPrefabType, projTag, playerId, offset);
             
-            Debug.Log(playerId);
-            
-            Debug.Log("Spawned Locally");
-            float timeDifferenceServer = (float)(NetworkManager.Singleton.ServerTime.Tick - startTickServer) / 
-                                         NetworkManager.Singleton.ServerTime.TickRate;
-            float timeDifferenceClient = (float)(NetworkManager.Singleton.LocalTime.Tick - startTickClient) /
-                                         NetworkManager.Singleton.LocalTime.TickRate;
-            Debug.Log($"Server : Called num {OwnerClientId} with time difference : {timeDifferenceServer} || Current Tick : {NetworkManager.Singleton.ServerTime.Tick}, start Tick : {startTickServer}");
-            Debug.Log($"Client : Called num {OwnerClientId} with time difference : {timeDifferenceClient} || Current Tick : {NetworkManager.Singleton.LocalTime.Tick}, start Tick : {startTickClient}");
-
             _spawnedLocally = true;
         }
 
         [ClientRpc]
-        private void CreateProjectileClientRpc(int startTickServer, int startTickClient, ProjectileStruct projStruct,
+        private void CreateProjectileClientRpc(ProjectileStruct projStruct,
             ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset)
         {
             if (_spawnedLocally) // to exclude the client that spawned locally
@@ -101,25 +117,18 @@ namespace _Scripts.Projectiles
                 return;
             }
             
-            Debug.Log(playerId);
-
             CreateProjectile(projStruct, projPrefabType, projTag, playerId, offset);
-            
-            float timeDifferenceServer = (float)(NetworkManager.Singleton.ServerTime.Tick - startTickServer) / 
-                                         NetworkManager.Singleton.ServerTime.TickRate;
-            float timeDifferenceClient = (float)(NetworkManager.Singleton.LocalTime.Tick - startTickClient) /
-                                         NetworkManager.Singleton.LocalTime.TickRate;
-            Debug.Log($"Server : Called num {OwnerClientId} with time difference : {timeDifferenceServer} || Current Tick : {NetworkManager.Singleton.ServerTime.Tick}, start Tick : {startTickServer}");
-            Debug.Log($"Client : Called num {OwnerClientId} with time difference : {timeDifferenceClient} || Current Tick : {NetworkManager.Singleton.LocalTime.Tick}, start Tick : {startTickClient}");
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void CreateProjectile2ServerRpc(int startTickServer, int startTickClient, ProjectileStruct projStruct,
+        private void CreateProjectileServerRpc(ProjectileStruct projStruct,
             ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset)
         {
-            CreateProjectileClientRpc(startTickServer, startTickClient, projStruct, projPrefabType, projTag, playerId, offset);
+            CreateProjectileClientRpc(projStruct, projPrefabType, projTag, playerId, offset);
         }
-        
+        #endregion
+
+        #region References getters for projectile
         private GameObject GetProjectilePrefab(ProjectilePrefabType projType)
         {
             switch (projType)
@@ -164,6 +173,17 @@ namespace _Scripts.Projectiles
             }
             
             throw new NotImplementedException($"Projectile Search Collider not known : {projSearchCollider}");
+        }
+        #endregion
+        
+        public void DebugTickServerAndClient(int startTickServer, int startTickClient)
+        {
+            float timeDifferenceServer = (float)(NetworkManager.Singleton.ServerTime.Tick - startTickServer) / 
+                                         NetworkManager.Singleton.ServerTime.TickRate;
+            float timeDifferenceClient = (float)(NetworkManager.Singleton.LocalTime.Tick - startTickClient) /
+                                         NetworkManager.Singleton.LocalTime.TickRate;
+            Debug.Log($"Server : Called num {OwnerClientId} with time difference : {timeDifferenceServer} || Current Tick : {NetworkManager.Singleton.ServerTime.Tick}, start Tick : {startTickServer}");
+            Debug.Log($"Client : Called num {OwnerClientId} with time difference : {timeDifferenceClient} || Current Tick : {NetworkManager.Singleton.LocalTime.Tick}, start Tick : {startTickClient}");
         }
     }
 }
