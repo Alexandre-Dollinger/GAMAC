@@ -34,15 +34,21 @@ namespace _Scripts.Player.Weapon
 
         private int _playerId;
         
+        // https://discussions.unity.com/t/mouse-movements-for-client-side-becoming-server-side-mouse-movements/938064/2
+        private NetworkVariable<Vector2> _dirToMouse = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
         public override void OnNetworkSpawn()
         {
-            if (!IsOwner)
+            /*if (!IsOwner)
             {
                 enabled = false;
                 return;
-            }
-
+            }*/
+            
             _playerId = transform.parent.GetComponent<PlayerId>().GetPlayerId();
+            
+            if (IsOwner)
+                UpdateDirToMouse();
         }
         
         private void Awake()
@@ -103,16 +109,25 @@ namespace _Scripts.Player.Weapon
             if (!_polygonCollider2D.enabled) // We only face to the mouse when the player is not attacking (else he could turn fast and attack everywhere)
             {
                 // Don't ask me, I don't know : https://youtu.be/bY4Hr2x05p8?t=133
-                Vector3 difference = _playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+                //Vector3 difference = _playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                if (IsOwner)
+                    UpdateDirToMouse();
+                //float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+                float rotZ = Mathf.Atan2(_dirToMouse.Value.y, _dirToMouse.Value.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0f, 0f, rotZ + offset);
                 _slashRotation = transform.rotation;
             }
         }
+        
+        private void UpdateDirToMouse()
+        {
+            Vector3 mouseWorld = _playerCamera.ScreenToWorldPoint(Input.mousePosition);
+            _dirToMouse.Value = (mouseWorld - transform.position).normalized;
+        }
 
         private void CheckAttack()
         {
-            if (InputManager.AttackWasPressed) // init the buffer
+            if (InputManager.AttackWasPressed && IsOwner) // init the buffer
             {
                 _curBufferTimer = bufferAttackTimer;
             }
@@ -121,6 +136,8 @@ namespace _Scripts.Player.Weapon
             {
                 _curBufferTimer = 0;
                 Attack();
+                /*Debug.Log($"Mouse pos : {(Input.mousePosition - transform.parent.transform.position).normalized}, posWithCam : {_playerCamera.ScreenToWorldPoint(Input.mousePosition).normalized}");
+                Debug.Log($"Player pos : {transform.position}");*/
             }
         }
 
@@ -170,8 +187,13 @@ namespace _Scripts.Player.Weapon
         {
             Projectile proj = other.GetComponent<Projectile>();
 
-            if (proj.Proj.CanBeDestroyedByPlayer && !proj.Proj.CanBeDestroyedBySelf)
-                return proj.Proj.SenderId != _playerId;
+            if (proj.Proj.CanBeDestroyedByPlayer)
+            {
+                if (proj.Proj.CanBeDestroyedBySelf)
+                    return true;
+                else
+                    return proj.Proj.SenderId != _playerId;
+            }
 
             return proj.Proj.CanBeDestroyedBySelf && proj.Proj.SenderId == _playerId;
         }
@@ -190,7 +212,13 @@ namespace _Scripts.Player.Weapon
             if (CanAttackThat(other))
             {
                 IUnitHp otherHp = other.GetComponent<IUnitHp>();
-                otherHp.TakeDamage(playerAttack);
+                
+                if (otherHp.IsNetwork)
+                    otherHp.TakeDamage(playerAttack);
+                else if (other.TryGetComponent<Projectile>(out Projectile projectile)) // if the attacked object is local
+                    GM.ProjM.DoDamageToProjManager(GM.ProjM.GetProjLstId(projectile), playerAttack);
+                else
+                    Debug.Log($"Couldn't locally remove health to : {other.gameObject.name}");
             }
         }
     }

@@ -9,20 +9,23 @@ public class FollowScript : NetworkBehaviour
     private Vector3 posParent;
     private Vector3 newPos;
     private Quaternion myRotation;
+
+    private Camera _myCamera;
     
 
     public override void OnNetworkSpawn()
     {
+        _myCamera = GetComponent<Camera>();
+        
         if (!IsOwner)
         {
-            gameObject.SetActive(false);
+            _myCamera.enabled = false;
         }
         else
         {
             myRotation = transform.rotation;
             newPos = transform.position;
         }
-       
     }
 
     void Update()

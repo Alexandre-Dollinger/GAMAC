@@ -371,6 +371,7 @@ PrefabInstance:
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c15b51b7c456e3a48ac66bc723ac6706, type: 3}
 --- !u!1 &1558366465 stripped
+<<<<<<< HEAD
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4302700371015292631, guid: d37f42783eda8b246bf62f416a179078, type: 3}
   m_PrefabInstance: {fileID: 373009908}
@@ -391,11 +392,19 @@ MonoBehaviour:
   ip: {fileID: 1166648369}
   multiplayerCanvas: {fileID: 484926323}
 --- !u!1 &1676872041
+=======
+>>>>>>> Projectile3
 GameObject:
+  m_CorrespondingSourceObject: {fileID: 4302700371015292631, guid: d37f42783eda8b246bf62f416a179078, type: 3}
+  m_PrefabInstance: {fileID: 373009908}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1558366470
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< HEAD
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1676872042}
@@ -462,6 +471,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   enemyPrefab: {fileID: 0}
+=======
+  m_GameObject: {fileID: 1558366465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f2ab8afaf3afa478b5766f3cbde196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ipAddressText: {fileID: 284061602}
+  ip: {fileID: 1166648369}
+  multiplayerCanvas: {fileID: 484926323}
+>>>>>>> Projectile3
 --- !u!1001 &2845708737565858872
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59719,7 +59739,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19eacd87b06ccbc4c99cc50bf069941a, type: 3}
+<<<<<<< HEAD
 --- !u!1001 &6633021790444396125
+=======
+--- !u!1001 &7339207364815934902
+>>>>>>> Projectile3
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -59727,6 +59751,7 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+<<<<<<< HEAD
     - target: {fileID: 204828799547108164, guid: a51eeecf13350074f86e39069c23e03e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -370.7192
@@ -59792,6 +59817,8 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+=======
+>>>>>>> Projectile3
     - target: {fileID: 4389021173996742175, guid: 17eb88ae4c93d054fb6f232122bf3076, type: 3}
       propertyPath: m_Name
       value: PROJECTILE_MANAGER
@@ -59855,8 +59882,14 @@ SceneRoots:
   m_Roots:
   - {fileID: 1256811726}
   - {fileID: 7339207364815934902}
+<<<<<<< HEAD
   - {fileID: 6633021790444396125}
   - {fileID: 373009908}
   - {fileID: 409922130}
   - {fileID: 2845708737565858872}
   - {fileID: 1676872042}
+=======
+  - {fileID: 373009908}
+  - {fileID: 409922130}
+  - {fileID: 2845708737565858872}
+>>>>>>> Projectile3
