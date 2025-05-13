@@ -8,8 +8,10 @@ using UnityEngine;
 
 namespace _Scripts.Projectiles
 {
-    public class Projectile : UnitHp
+    public class Projectile : UnitLocalHp
     {
+        private bool _isServerProj;
+        
         private readonly float _speedCoefficient = 100;
         private float Speed
         {
@@ -17,29 +19,32 @@ namespace _Scripts.Projectiles
         }
 
         private Rigidbody2D _rb;
+        
+        private string _objectTag;
 
-        private CircleCollider2D _hitBoxCollider;
-        private PolygonCollider2D _findTargetCollider;
+        private Collider2D _hitBoxCollider;
+        private Collider2D _findTargetCollider;
+        
         private List<Collider2D> _targetsFound = new List<Collider2D>();
         private bool _searchingTarget = false;
-        private string _objectTag;
         
-        [CanBeNull] private Transform _targetTransform = null;
+        private GameObject _targetGameObject = null;
+        private Transform TargetTransform => _targetGameObject == null ? null : _targetGameObject.transform;
         
         private bool _initialised = false;
         public ProjectileStruct Proj;
         
         // still need sound, animation, sprite, collider
-        
+
         public void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             _hitBoxCollider = GetComponent<CircleCollider2D>();
             _findTargetCollider = GetComponent<PolygonCollider2D>();
-            _findTargetCollider.enabled = false;
+            _findTargetCollider.enabled = false;    
         }
         
-        public void InitProjectile(ProjectileStruct projectileStruct)
+        public void InitProjectile(ProjectileStruct projectileStruct, bool isServerProj = false)
         {
             Proj = projectileStruct;
             _initialised = true;
@@ -50,6 +55,8 @@ namespace _Scripts.Projectiles
             transform.localScale *= Proj.Scale;
 
             _objectTag = gameObject.tag;
+            
+            _isServerProj = isServerProj;
             
             UpdateProjRotation();
         }
@@ -68,8 +75,8 @@ namespace _Scripts.Projectiles
         {
             if (!_initialised) return;
             
-
             UpdateSpeed();
+            UpdateProjRotation(); // because we rotate the rigid body rotation (angular velocity)
             
             if (!Mathf.Approximately(Proj.DestroyedTime, -1f) && Proj.DestroyedTime <= 0)
                 DieSilent();
@@ -103,13 +110,19 @@ namespace _Scripts.Projectiles
                     LinearProjectile();
                     break;
                 case ProjectileAttackType.Tracking:
-                    if ((UnityEngine.Object)_targetTransform is not null)
+                    if (TargetTransform is not null)
                         TrackingProjectile();
                     else
                         FindTrackingTarget();
                     break;
                 case ProjectileAttackType.Parabola:
                     ParabolaProjectile();
+                    break;
+                case ProjectileAttackType.OnSender:
+                    if (TargetTransform is not null)
+                        OnSenderProjectile();
+                    else
+                        FindFollowingTarget();
                     break;
             }
         }
@@ -124,7 +137,7 @@ namespace _Scripts.Projectiles
         {
             _rb.linearVelocity = Proj.Direction * (Speed * Time.fixedDeltaTime);
             
-            Proj.Direction = (_targetTransform!.position - transform.position).normalized;
+            Proj.Direction = (TargetTransform.position - transform.position).normalized;
             
             // to understand Cross : https://www.youtube.com/watch?v=kz92vvioeng
             float rotateAmount = Vector3.Cross(Proj.Direction, transform.up).z;
@@ -137,6 +150,11 @@ namespace _Scripts.Projectiles
             
         }
         
+        private void OnSenderProjectile()
+        {
+            transform.Rotate(Vector3.forward, Proj.RotateSpeed * Time.fixedDeltaTime * (Proj.RotateSelfRight ? 1 : -1));
+        }
+        
         private Vector3 GetParabolaPos(Vector3 targetPos)
         {
             // should return the ground under that pos
@@ -145,22 +163,22 @@ namespace _Scripts.Projectiles
         }
 
         [CanBeNull]
-        private Transform GetClosestTarget()
+        private GameObject GetClosestTarget()
         {
             float? closestDis = null;
-            Transform closestTransform = null;
-
+            GameObject closestGameObject = null;
+            
             foreach (Collider2D target in _targetsFound)
             {
                 float curDis = Vector2.Distance(target.transform.position, transform.position);
                 if (closestDis is null || curDis < closestDis)
                 {
                     closestDis = curDis;
-                    closestTransform = target.transform;
+                    closestGameObject = target.gameObject;
                 }
             }
 
-            return closestTransform;
+            return closestGameObject;
         }
         
         private void FindTrackingTarget() // Only run when the timer got finished 
@@ -173,9 +191,9 @@ namespace _Scripts.Projectiles
                 Proj.TrackingTargetTime = Proj.TrackingTargetCooldown;
                 _hitBoxCollider.enabled = true;
                 _findTargetCollider.enabled = false;
-                _targetTransform = GetClosestTarget();
+                _targetGameObject = GetClosestTarget();
                 _targetsFound = new List<Collider2D>();
-                if ((UnityEngine.Object)_targetTransform is not null)
+                if (TargetTransform is not null)
                     Proj.FoundTrackingTarget = true;
                 _searchingTarget = false;
                 gameObject.tag = _objectTag;
@@ -192,6 +210,12 @@ namespace _Scripts.Projectiles
             if (!Proj.FoundTrackingTarget) // When we are looking for a target it's a linear projectile
                 LinearProjectile();
         }
+
+        private void FindFollowingTarget()
+        {
+            
+        }
+
         #endregion
 
         #region Die
@@ -236,6 +260,14 @@ namespace _Scripts.Projectiles
                    (Proj.TargetingPlayerProjectile && GM.IsPlayerProjectile(other) && SelfTargetingProjectileBehaviour(other)) ||
                    (Proj.TargetingEnemyProjectile && GM.IsEnemyProjectile(other));
         }
+
+        private void DoDamageOrHeal(IUnitHp otherHp)
+        {
+            if (Proj.Healing == 0)
+                otherHp.TakeDamage(Proj.Damage);
+            else
+                otherHp.GainHealth(Proj.Healing);
+        }
         
         public void OnTriggerEnter2D(Collider2D other)
         {
@@ -250,12 +282,16 @@ namespace _Scripts.Projectiles
             
             if (CanAttackThat(other)) // found target to attack
             {
+
                 IUnitHp otherHp = other.GetComponent<IUnitHp>();
-                
-                if (Proj.Healing == 0)
-                    otherHp.TakeDamage(Proj.Damage);
-                else
-                    otherHp.GainHealth(Proj.Healing);
+
+                if (otherHp.IsNetwork) // if the other hp is a NetworkVariable
+                {
+                    if (_isServerProj) // then only the server can do it damage
+                        DoDamageOrHeal(otherHp);
+                }
+                else // if the enemy is local hp variable, all the projectiles need to do it damage
+                    DoDamageOrHeal(otherHp);
                 
                 Die();
             }

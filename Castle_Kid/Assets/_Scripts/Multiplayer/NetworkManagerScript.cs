@@ -35,7 +35,7 @@ namespace _Scripts.Multiplayer
         public void StartClient() {
             if (ip.text == "")
             {
-                Debug.Log("Please enter an IP that you want to Joint");
+                Debug.Log("Please enter an IP that you want to Join");
                 return;
             }
             _ipAddress = ip.text;

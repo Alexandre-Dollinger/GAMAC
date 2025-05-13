@@ -11,5 +11,6 @@ namespace _Scripts.Health
         public virtual void Die() {}
         public void GainHealth(int healthGained) {}
         public virtual void GainFullLife() {}
+        public bool IsNetwork { get; }
     }
 }

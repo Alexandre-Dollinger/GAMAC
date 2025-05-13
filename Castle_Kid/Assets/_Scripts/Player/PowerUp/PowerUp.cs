@@ -37,7 +37,7 @@ namespace _Scripts.Player.PowerUp
             // just accept it or go look here : https://discussions.unity.com/t/point-towards-mouse-position/876845/4
             Vector2 mousePos = _plCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
             Vector3 direction = (mousePos - (Vector2)transform.position).normalized;
-
+            
             return direction;
         }
 
@@ -48,23 +48,22 @@ namespace _Scripts.Player.PowerUp
                 ProjectileStruct linearProj =
                     GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
                 linearProj.InitHealing();
-                linearProj.CanBeDestroyedBySelf = false;
-                linearProj.CanBeDestroyedByPlayer = false;
-                GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
+                //GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
+                GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
             
             if (InputManager.PowerUp2WasReleased)
             {
                 ProjectileStruct trackingProj =
                     GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
-                GM.ProjM.CreateProjectileServerRpc(trackingProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
+                GM.ProjM.CreateProjectileManager(trackingProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
             
             if (InputManager.PowerUp3WasReleased)
             {
                 ProjectileStruct trackingProjAccelerating = 
                     GM.GetBasicTrackingAcceleratingProjectileStruct(transform.position, GetMouseDirection());
-                GM.ProjM.CreateProjectileServerRpc(trackingProjAccelerating, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
+                GM.ProjM.CreateProjectileManager(trackingProjAccelerating, ProjectilePrefabType.Spark, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
         }
     }
