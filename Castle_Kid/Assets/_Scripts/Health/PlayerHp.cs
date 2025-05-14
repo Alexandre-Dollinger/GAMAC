@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using _Scripts.GameManager;
 
 namespace _Scripts.Health
 {
@@ -17,6 +18,7 @@ namespace _Scripts.Health
             _playerTransform = transform.parent.parent.transform;
             if (IsServer)
             {
+                PlayerTracking.PlayerList.Add(transform.parent.parent.gameObject);
                 CurrentHp = MaxHp;
                 MaxHp = 100;
             }

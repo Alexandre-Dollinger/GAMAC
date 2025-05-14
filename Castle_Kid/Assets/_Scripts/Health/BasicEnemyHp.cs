@@ -12,9 +12,14 @@ namespace _Scripts.Health
         {
             if (IsServer)
             {
-                CurrentHp = MaxHp;
                 MaxHp = 100;
+                CurrentHp = MaxHp;
             }
+        }
+
+        void Awake()
+        {
+           //transform.parent.parent.GetComponent<NetworkObject>().Spawn();
         }
 
         public void Update()
@@ -38,7 +43,7 @@ namespace _Scripts.Health
         [ServerRpc(RequireOwnership = false)]
         private void DieServerRpc(ServerRpcParams serverRpcParams = default)
         {
-            DieLocally();
+            //DieLocally();
   
             DieClientRpc(new ClientRpcParams{ Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>{ serverRpcParams.Receive.SenderClientId }}});
             // That line above is my baby 
@@ -46,7 +51,8 @@ namespace _Scripts.Health
         
         private void DieLocally()
         {
-            Destroy(gameObject);
+            Debug.Log("EnemyDied");
+            Destroy(transform.parent.parent.gameObject);
         }
     }
 }

@@ -3,11 +3,9 @@ using Unity.Netcode;
 using UnityEngine;
 using _Scripts.GameManager;
 
-
-
 public class EnemySpawner : NetworkBehaviour
 {
-    [SerializeField] private GameObject enemyPrefab;
+    [SerializeField] private EnemyType enemyType;
     private Vector2 closestPlayerPos;
     private float closestPlayerCooldown; //The one that is decreased
     private float closestPlayerTime; //Max time
@@ -19,18 +17,24 @@ public class EnemySpawner : NetworkBehaviour
     #region Start and Update
     public override void OnNetworkSpawn()
     {
-        closestPlayerTime = 5f;
+        closestPlayerTime = 3f;
         closestPlayerCooldown = 0f;
         spawnRange = 300f;
     }
 
     void Update()
     {
+        if (!GM.GameStarted)
+            return;
+
         CountTimers();
         UpdateClosestPlayer();
 
         if (needSpawn)
+        {
             SpawnEnemyServerRpc();
+            needSpawn = false; 
+        }
     }
 
     #endregion
@@ -63,12 +67,17 @@ public class EnemySpawner : NetworkBehaviour
     [ServerRpc(RequireOwnership = false)] 
     private void SpawnEnemyServerRpc()
     {
-        GameObject gameObjectEnemy = Instantiate(enemyPrefab);
+        SpawnEnemyClientRpc();
+    }
 
-        gameObjectEnemy.GetComponent<NetworkObject>().Spawn(true);
-        gameObjectEnemy.tag = GM.EnemyTag;
+    [ClientRpc]
+
+    private void SpawnEnemyClientRpc()
+    {
+        GM.EnemyM.CreateEnemyServerRpc(enemyType, transform.position);
         hasSpawned = true;
     }
+
     #endregion
 
     #region Timer

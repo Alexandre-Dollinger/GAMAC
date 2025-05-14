@@ -1,6 +1,4 @@
 using UnityEngine;
-using _Scripts.Player.Weapon;
-using _Scripts.Player;
 using _Scripts.Player.Trigger;
 using _Scripts.Enemy;
 using System;
@@ -51,6 +49,9 @@ public class Slime : BasicEnemy
 
     void FixedUpdate()
     {
+        if (!GM.GameStarted)
+            return;
+
         UpdateChasingMode();
         CheckFlip();
 
@@ -64,6 +65,8 @@ public class Slime : BasicEnemy
 
     void Update()
     {
+        if (!GM.GameStarted)
+            return;
         CountTimers();
     }
 
@@ -76,14 +79,14 @@ public class Slime : BasicEnemy
         if (willFall)
         {
             if (!isGrounded)
-                enemyRb.linearVelocity = new Vector2(AirSpeed, -50);
+                enemyRb.linearVelocity = new Vector2(AirSpeed, gravity);
             else
-                enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
+                enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
         }
 
         else
         {
-            enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
+            enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
         }
     }
 
@@ -94,20 +97,20 @@ public class Slime : BasicEnemy
         if (willFall)
         {
             if (!isGrounded)
-                enemyRb.linearVelocity = new Vector2(AirSpeed, -50);
+                enemyRb.linearVelocity = new Vector2(AirSpeed, gravity);
             else
             {
-                enemyRb.linearVelocity = new Vector2(GroundSpeed, 0);
+                enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
             }
         }
         else if (isTouchingWall)
         {
             Debug.Log("Wall Touched in Chasing Mode");
-            enemyRb.linearVelocity = new Vector2(0, 0);
+            enemyRb.linearVelocity = new Vector2(0, -50);
         }
         else
         {
-            enemyRb.linearVelocity = new Vector2(ChaseSpeed, 0);
+            enemyRb.linearVelocity = new Vector2(ChaseSpeed, gravity);
         }
     }
 
@@ -176,9 +179,10 @@ public class Slime : BasicEnemy
     }
     private void SetAllMovementStats()
     {
-        GroundSpeed = 40f;
-        AirSpeed = GroundSpeed / 2;
-        ChaseSpeed = 75f;
+        gravity = -50f;
+        GroundSpeed = 100f;
+        AirSpeed = GroundSpeed * 0.75f;
+        ChaseSpeed = GroundSpeed * 1.5f;
         chaseDistance = 125f; //Can be changed later if needed
     }
     private void SetAllBooleans()
@@ -193,6 +197,8 @@ public class Slime : BasicEnemy
     private void SetAllTriggers()
     {
         // Setting all the Enter and Exit triggers for the different triggers
+        BodyCheckTrigger.EnteredTrigger += OnColliderEnter2D;
+
         WillFallCheckTrigger.EnteredTrigger += OnWillFallCheckEnter2D;
         WillFallCheckTrigger.ExitedTrigger += OnWillFallCheckExit2D;
 
@@ -270,7 +276,7 @@ public class Slime : BasicEnemy
 
     private void OnColliderEnter2D(Collider2D other) //For detecting if the slime collided with a player
     {
-        if (GM.IsPlayer(other))
+         if (GM.IsPlayer(other))
         {
             Debug.Log("Collision with Player");
             IUnitHp otherHp = other.GetComponent<IUnitHp>();

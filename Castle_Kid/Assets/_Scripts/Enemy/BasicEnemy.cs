@@ -4,6 +4,7 @@ using _Scripts.Player.Movement;
 using Unity.Netcode;
 using _Scripts.GameManager;
 using _Scripts.Enemy;
+using _Scripts.Health;
 
 public abstract class BasicEnemy : NetworkBehaviour
 {
@@ -34,6 +35,7 @@ public abstract class BasicEnemy : NetworkBehaviour
     protected bool IsGuardian {get;} //Rare enemy
 
     #region Movement Stats
+    protected float gravity;
     private float _groundSpeed;
     public float GroundSpeed 
     {

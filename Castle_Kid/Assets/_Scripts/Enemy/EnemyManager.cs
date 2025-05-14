@@ -30,11 +30,12 @@ namespace _Scripts.Enemy
 
         [ServerRpc(RequireOwnership = false)] 
 
-        public void CreateEnemyServerRpc(EnemyType enemyType)
+        public void CreateEnemyServerRpc(EnemyType enemyType, Vector2 position)
         {
-            GameObject gameObjectEnemy = Instantiate(GetEnemyPrefab(enemyType));
+            GameObject gameObjectEnemy = Instantiate(GetEnemyPrefab(enemyType), position, Quaternion.identity);
 
             gameObjectEnemy.GetComponent<NetworkObject>().Spawn(true);
+            Debug.Log("Enemy Spawned");
             gameObjectEnemy.tag = GM.EnemyTag;
         }
 
