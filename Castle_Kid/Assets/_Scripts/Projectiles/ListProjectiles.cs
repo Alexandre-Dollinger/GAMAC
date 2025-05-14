@@ -10,12 +10,14 @@ namespace _Scripts.Projectiles
         [Space(5)]
         
         [Header("Spark")]
-        public GameObject SparkPrefabConeTrack;
-        public GameObject SparkPrefabCircleTrack;
-        [Space(5)] 
-        
-        [Header("Shield")] 
-        public GameObject ShieldPrefab;
+        public GameObject SparkPrefabCone;
+        public GameObject SparkPrefabCircle;
+        public GameObject ShieldBlueCircle;
+        public GameObject FireCone;
+        public GameObject FireBallCone;
+        public GameObject FireBall2Cone;
+        public GameObject TornadoCone;
+        public GameObject BlackHoleCone;
 
     }
 }

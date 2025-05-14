@@ -8,6 +8,12 @@ namespace _Scripts.Projectiles
     {
         SparkCone,
         SparkCircle,
+        ShieldBlueCircle,
+        FireCone,
+        FireBallCone,
+        FireBall2Cone,
+        TornadoCone,
+        BlackHoleCone,
     }
 
     public enum ProjectileAttackTypes

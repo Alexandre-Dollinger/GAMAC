@@ -61,7 +61,8 @@ namespace _Scripts.Player.PowerUp
             if (InputManager.PowerUp2WasReleased)
             {
                 ProjectileStruct aroundSenderProj = GM.GetBasicAroundSenderProjectileStruct(transform.position, GetMouseDirection());
-                GM.ProjM.CreateProjectileManager(aroundSenderProj, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId, Vector3.Distance(transform.position, GetMousePos()));
+                aroundSenderProj.RotateSpeed = 0f;
+                GM.ProjM.CreateProjectileManager(aroundSenderProj, ProjectilePrefabs.BlackHoleCone, GM.PlayerProjectileTag, (int)OwnerClientId, Vector3.Distance(transform.position, GetMousePos()));
                 /*ProjectileStruct trackingProj =
                     GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
                 GM.ProjM.CreateProjectileManager(trackingProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);*/
@@ -70,13 +71,7 @@ namespace _Scripts.Player.PowerUp
             if (InputManager.PowerUp3WasReleased)
             {
                 ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
-                GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId);
-                
-                if (InputManager.RunIsHeld)
-                {
-                    ProjectileStruct fixProjectile = GM.GetBasicFixProjectileStruct(GetMousePos());
-                    GM.ProjM.CreateProjectileManager(fixProjectile, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId, 0);
-                }
+                GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.ShieldBlueCircle, GM.PlayerProjectileTag, (int)OwnerClientId);
                 /*ProjectileStruct trackingProjAccelerating =
                     GM.GetBasicTrackingAcceleratingProjectileStruct(transform.position, GetMouseDirection());
                 GM.ProjM.CreateProjectileManager(trackingProjAccelerating, ProjectilePrefab.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);*/

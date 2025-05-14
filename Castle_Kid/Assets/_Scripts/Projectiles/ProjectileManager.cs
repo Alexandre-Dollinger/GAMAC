@@ -133,9 +133,21 @@ namespace _Scripts.Projectiles
             switch (projType)
             {
                 case ProjectilePrefabs.SparkCone:
-                    return lstProjPrefabs.SparkPrefabConeTrack;
+                    return lstProjPrefabs.SparkPrefabCone;
                 case ProjectilePrefabs.SparkCircle:
-                    return lstProjPrefabs.SparkPrefabCircleTrack;
+                    return lstProjPrefabs.SparkPrefabCircle;
+                case ProjectilePrefabs.ShieldBlueCircle:
+                    return lstProjPrefabs.ShieldBlueCircle;
+                case ProjectilePrefabs.FireCone:
+                    return lstProjPrefabs.FireCone;
+                case ProjectilePrefabs.FireBallCone:
+                    return lstProjPrefabs.FireBallCone;
+                case ProjectilePrefabs.FireBall2Cone:
+                    return lstProjPrefabs.FireBall2Cone;
+                case ProjectilePrefabs.TornadoCone:
+                    return lstProjPrefabs.TornadoCone;
+                case ProjectilePrefabs.BlackHoleCone:
+                    return lstProjPrefabs.BlackHoleCone;
             }
 
             throw new NotImplementedException($"Projectile not known : {projType}");

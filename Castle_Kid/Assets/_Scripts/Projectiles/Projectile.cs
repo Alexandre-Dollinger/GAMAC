@@ -22,7 +22,7 @@ namespace _Scripts.Projectiles
         private Rigidbody2D _rb;
         
         private string _objectTag;
-
+        
         public Collider2D hitBoxCollider;
         public Collider2D findTargetCollider;
 
@@ -38,6 +38,8 @@ namespace _Scripts.Projectiles
         
         private GameObject _fakeSenderGameObject = null;
         private Transform FakeSenderTransform => _fakeSenderGameObject == null ? null : _fakeSenderGameObject.transform;
+
+        private bool _attachedConstraint = false;
         
         
         private List<Collider2D> _targetsFound = new List<Collider2D>();
@@ -196,8 +198,22 @@ namespace _Scripts.Projectiles
         private void OnSenderProjectile()
         {
             UpdateRotationSelf();
+
+            if (!_attachedConstraint)
+            {
+                PositionConstraint positionConstraint = gameObject.AddComponent<PositionConstraint>();
+
+                ConstraintSource constraint = new ConstraintSource();
+                constraint.sourceTransform = SenderTransform;
+                constraint.weight = 1f;
+
+                positionConstraint.AddSource(constraint);
+                positionConstraint.constraintActive = true;
+
+                _attachedConstraint = true;
+            }
             
-            transform.position = SenderTransform.position;
+            //transform.position = SenderTransform.position;
         }
         
         private void AroundSenderProjectile()

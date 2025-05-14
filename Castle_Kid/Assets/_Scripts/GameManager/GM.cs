@@ -129,10 +129,10 @@ namespace _Scripts.GameManager
         
         public static ProjectileStruct GetBasicOnSenderProjectileStruct(Vector3 spawnPos)
         {
-            ProjectileStruct onSenderProj = new ProjectileStruct(spawnPos, Vector3.zero, 3f);
+            ProjectileStruct onSenderProj = new ProjectileStruct(spawnPos, Vector3.zero);
             onSenderProj.InitDestroyCondition(true, 50, true, false);
             onSenderProj.InitTargeting(true, true, false, true, false);
-            onSenderProj.InitAttackOnSender(50, SenderTags.Player,180f, false);
+            onSenderProj.InitAttackOnSender(50, SenderTags.Player);
             onSenderProj.BecomeBehindPlayerProjectile();
 
             return onSenderProj;
