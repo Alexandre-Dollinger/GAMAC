@@ -12,15 +12,20 @@ namespace _Scripts.Health
         // my sensei : https://www.youtube.com/watch?v=3yuBOB3VrCk&t=232s
         
         private Transform _playerTransform;
-
+        [SerializeField] private UI _playerUI;
         public override void OnNetworkSpawn()
         {
             _playerTransform = transform.parent.parent.transform;
+            
+            if (IsOwner)
+                GM.playerTracking.SetPlayerList();
+            else
+                GM.playerTracking.PlayerList.Add(transform.parent.parent.gameObject);
+            
             if (IsServer)
             {
-                PlayerTracking.PlayerList.Add(transform.parent.parent.gameObject);
-                CurrentHp = MaxHp;
                 MaxHp = 100;
+                CurrentHp = MaxHp;
             }
         }
 
@@ -29,7 +34,25 @@ namespace _Scripts.Health
             if (CurrentHp <= 0)
                     Die();
         }
-        
+
+        public override void GainHealth(int healthGained)
+        {
+            base.GainHealth(healthGained);
+            _playerUI.UpdateHeartsState();
+        }
+
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
+            _playerUI.UpdateHeartsState();
+        }
+
+        public override void GainFullLife()
+        {
+            base.GainFullLife();
+            _playerUI.UpdateHeartsState();
+        }
+
         public override void Die()
         {
             if (IsOwner)
@@ -47,7 +70,7 @@ namespace _Scripts.Health
         {
             DieLocally();
             if (IsServer)
-                CurrentHp = MaxHp;
+                GainFullLife();
             DieClientRpc(new ClientRpcParams{ Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>{ serverRpcParams.Receive.SenderClientId }}});
             // That line above is my baby 
         }

@@ -46,7 +46,8 @@ namespace _Scripts.Player.PowerUp
             {
                 ProjectileStruct linearProj =
                     GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
-                linearProj.InitHealing();
+                linearProj.InitHealing(20);
+
                 linearProj.CanBeDestroyedBySelf = false;
                 linearProj.CanBeDestroyedByPlayer = false;
 
@@ -59,6 +60,7 @@ namespace _Scripts.Player.PowerUp
                 ProjectileStruct trackingProj =
                     GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
 
+                trackingProj.Damage = 30;
                 GM.ProjM.CreateProjectileManager(trackingProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
             

@@ -30,29 +30,8 @@ namespace _Scripts.Health
         
         public override void Die()
         {
-            if (IsOwner)
-                DieServerRpc();
-        }
-
-        [ClientRpc]
-        private void DieClientRpc(ClientRpcParams clientRpcParams)
-        {
-            DieLocally();
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void DieServerRpc(ServerRpcParams serverRpcParams = default)
-        {
-            //DieLocally();
-  
-            DieClientRpc(new ClientRpcParams{ Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>{ serverRpcParams.Receive.SenderClientId }}});
-            // That line above is my baby 
-        }
-        
-        private void DieLocally()
-        {
-            Debug.Log("EnemyDied");
-            Destroy(transform.parent.parent.gameObject);
+            if (IsServer)
+                Destroy(transform.parent.parent.gameObject);
         }
     }
 }

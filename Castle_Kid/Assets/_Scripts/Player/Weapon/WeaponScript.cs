@@ -214,7 +214,10 @@ namespace _Scripts.Player.Weapon
                 IUnitHp otherHp = other.GetComponent<IUnitHp>();
                 
                 if (otherHp.IsNetwork)
-                    otherHp.TakeDamage(playerAttack);
+                    {
+                        if (IsServer)
+                            otherHp.TakeDamage(playerAttack);
+                    }
                 else if (other.TryGetComponent<Projectile>(out Projectile projectile)) // if the attacked object is local
                     GM.ProjM.DoDamageToProjManager(GM.ProjM.GetProjLstId(projectile), playerAttack);
                 else

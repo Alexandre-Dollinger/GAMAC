@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using Unity.Netcode;
+using _Scripts.GameManager;
 
 public class PlayerTracking : NetworkBehaviour
 {
-    public static List<GameObject> PlayerList = new List<GameObject>();
+    public List<GameObject> PlayerList;
 
-    public static GameObject GetClosestPlayer(GameObject other) //Assuming the list is not empty
+    public GameObject GetClosestPlayer(GameObject other) //Assuming the list is not empty
     {
         return (from player in PlayerList
                 orderby Vector2.Distance(player.transform.position, other.transform.position) descending 
@@ -17,5 +18,11 @@ public class PlayerTracking : NetworkBehaviour
         // return (from pl in players 
         //         orderby Math.Abs(pl.transform.position - other.transform.position) descending
         //         select pl).FirstOrDefault();
-    } 
+    }
+
+    public void SetPlayerList()
+    {
+        GameObject[] lstPlayer = GameObject.FindGameObjectsWithTag(GM.PlayerTag);
+        PlayerList = lstPlayer.ToList();
+    }
 }

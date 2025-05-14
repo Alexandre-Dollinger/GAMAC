@@ -19,6 +19,7 @@ namespace _Scripts.GameManager
 
         public static ProjectileManager ProjM;
         public static EnemyManager EnemyM;
+        public static PlayerTracking playerTracking;
         
         public void Awake()
         {
@@ -27,6 +28,9 @@ namespace _Scripts.GameManager
 
             if (EnemyM == null)
                 EnemyM = GameObject.Find("ENEMY_MANAGER").GetComponent<EnemyManager>();
+
+            if (playerTracking == null)
+                playerTracking = GameObject.Find("ENEMY_MANAGER").GetComponent<PlayerTracking>();
         }
 
         #region FilterType

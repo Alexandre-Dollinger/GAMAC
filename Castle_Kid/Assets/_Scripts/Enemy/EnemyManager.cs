@@ -35,10 +35,8 @@ namespace _Scripts.Enemy
             GameObject gameObjectEnemy = Instantiate(GetEnemyPrefab(enemyType), position, Quaternion.identity);
 
             gameObjectEnemy.GetComponent<NetworkObject>().Spawn(true);
-            Debug.Log("Enemy Spawned");
+
             gameObjectEnemy.tag = GM.EnemyTag;
         }
-
-
     }
 }

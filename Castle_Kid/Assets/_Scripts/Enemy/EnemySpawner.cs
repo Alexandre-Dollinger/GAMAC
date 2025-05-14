@@ -17,9 +17,26 @@ public class EnemySpawner : NetworkBehaviour
     #region Start and Update
     public override void OnNetworkSpawn()
     {
+        if (!IsServer)
+            gameObject.SetActive(false);
+
         closestPlayerTime = 3f;
         closestPlayerCooldown = 0f;
         spawnRange = 300f;
+    }
+
+    void FixedUpdate()
+    {
+        if (!GM.GameStarted)
+            return;
+
+        UpdateClosestPlayer();
+
+        if (needSpawn)
+        {
+            SpawnEnemy();   
+            needSpawn = false; 
+        }
     }
 
     void Update()
@@ -28,13 +45,6 @@ public class EnemySpawner : NetworkBehaviour
             return;
 
         CountTimers();
-        UpdateClosestPlayer();
-
-        if (needSpawn)
-        {
-            SpawnEnemyServerRpc();
-            needSpawn = false; 
-        }
     }
 
     #endregion
@@ -45,7 +55,7 @@ public class EnemySpawner : NetworkBehaviour
         {
             closestPlayerCooldown = closestPlayerTime;
 
-            GameObject closestPlayer = PlayerTracking.GetClosestPlayer(gameObject);
+            GameObject closestPlayer = GM.playerTracking.GetClosestPlayer(gameObject);
 
             if (closestPlayer is not null)
             {
@@ -63,20 +73,12 @@ public class EnemySpawner : NetworkBehaviour
         return Vector2.Distance(closestPlayerPos, gameObject.transform.position) <= spawnRange;
     }
 
-    
-    [ServerRpc(RequireOwnership = false)] 
-    private void SpawnEnemyServerRpc()
-    {
-        SpawnEnemyClientRpc();
-    }
-
-    [ClientRpc]
-
-    private void SpawnEnemyClientRpc()
+    private void SpawnEnemy()
     {
         GM.EnemyM.CreateEnemyServerRpc(enemyType, transform.position);
         hasSpawned = true;
     }
+
 
     #endregion
 
