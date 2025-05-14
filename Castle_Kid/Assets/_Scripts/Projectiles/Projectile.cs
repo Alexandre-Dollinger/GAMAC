@@ -127,11 +127,11 @@ namespace _Scripts.Projectiles
             }
         }
 
-        public void OnDestroy()
+        /*public void OnDestroy()
         {
             if (Proj.AttackType == ProjectileAttackTypes.AroundSender && _fakeSenderGameObject is not null)
-                Destroy(transform.parent); // maybe error because it destroys both
-        }
+                Destroy(transform.parent.gameObject); // maybe error because it destroys both
+        }*/
 
         #region AttackTypeManaging
         private void ManageProjectileBehaviour()
@@ -202,7 +202,7 @@ namespace _Scripts.Projectiles
         
         private void AroundSenderProjectile()
         {
-            //UpdateRotationSelf();
+            UpdateRotationSelf();
 
             FakeSenderTransform.position = SenderTransform.position;
             
@@ -330,7 +330,7 @@ namespace _Scripts.Projectiles
                 hitBoxCollider.enabled = true;
 
                 _finishedSearchingSender = true;
-                _searchingSender = true;
+                _searchingSender = false;
             }
         }
 
@@ -346,12 +346,20 @@ namespace _Scripts.Projectiles
         {
             // play sound + particle
             GM.ProjM.projListSpawned.Remove(this);
+            
+            if (Proj.AttackType == ProjectileAttackTypes.AroundSender && _fakeSenderGameObject is not null)
+                Destroy(transform.parent.gameObject);
+            
             Destroy(gameObject);
         }
         
         private void DieSilent()
         {
             GM.ProjM.projListSpawned.Remove(this);
+            
+            if (Proj.AttackType == ProjectileAttackTypes.AroundSender && _fakeSenderGameObject is not null)
+                Destroy(transform.parent.gameObject);
+            
             Destroy(gameObject);
         }
         #endregion
