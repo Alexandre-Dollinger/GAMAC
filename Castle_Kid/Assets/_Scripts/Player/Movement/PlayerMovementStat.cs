@@ -5,7 +5,6 @@ namespace _Scripts.Player.Movement
     [CreateAssetMenu(menuName = "PlayerMovementStats")]
     public class PlayerMovementStats : ScriptableObject
     {
-
         [Header("Walk")] // Header is an organizer for unity debug (to organize the values that we can tweak values while the game is running)
         // the little f behind the values indicates that those values are of type float (not integers)
         [Range(1f, 1000f)] public float MaxWalkSpeed = 85f; // Maximum walking speed

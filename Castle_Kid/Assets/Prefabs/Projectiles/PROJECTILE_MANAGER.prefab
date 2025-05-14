@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 714982516
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1092197194
+  InScenePlacedSourceGlobalObjectIdHash: 2084355810
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
@@ -71,5 +71,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  sparkPrefab: {fileID: 3305740393092187452, guid: 39e5b0f766eb5d44d956cf18d32436b1, type: 3}
-  projList: []
+  lstProjPrefabs: {fileID: 11400000, guid: 2c5ea72070d851e48b59c47f07b44377, type: 2}
+  projListSpawned: []

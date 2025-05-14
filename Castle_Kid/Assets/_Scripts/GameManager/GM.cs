@@ -13,6 +13,8 @@ namespace _Scripts.GameManager
         public static readonly string EnemyAttackTag = "EnemyAttack";
         public static readonly string EnemyProjectileTag = "EnemyProjectile";
         public static readonly int GroundLayerId = 3;
+        public static int CurrentPlayerSortingLayerId;
+        public static int BehindProjectileSortingLayer;
         
         public static bool GameStarted = false;
 
@@ -24,6 +26,9 @@ namespace _Scripts.GameManager
             {
                 ProjM = GameObject.Find("PROJECTILE_MANAGER").GetComponent<ProjectileManager>();
             }
+
+            CurrentPlayerSortingLayerId = SortingLayer.NameToID("CurrentPayer");
+            BehindProjectileSortingLayer = SortingLayer.NameToID("Behind_Projectiles");
         }
 
         #region FilterType
@@ -91,9 +96,9 @@ namespace _Scripts.GameManager
         #region GetProjectile
         public static ProjectileStruct GetBasicLinearProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct linearProj = new ProjectileStruct(spawnPos, direction, ProjectileAnimation.Spark);
+            ProjectileStruct linearProj = new ProjectileStruct(spawnPos, direction);
             linearProj.InitSpeed(100);
-            linearProj.InitDestroyCondition(ProjectileBasicCollider.Spark);
+            linearProj.InitDestroyCondition();
             linearProj.InitTargeting(true, true, true, true);
             linearProj.InitAttackLinear(50);
 
@@ -102,9 +107,9 @@ namespace _Scripts.GameManager
         
         public static ProjectileStruct GetBasicTrackingFixedSpeedProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction, ProjectileAnimation.Spark);
+            ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction);
             trackingProj.InitSpeed();
-            trackingProj.InitDestroyCondition(ProjectileBasicCollider.Spark, true, 50, true);
+            trackingProj.InitDestroyCondition(true, 50, true);
             trackingProj.InitTargeting(true, true, true, true);
             trackingProj.InitAttackTracking(50, 200);
 
@@ -113,14 +118,47 @@ namespace _Scripts.GameManager
         
         public static ProjectileStruct GetBasicTrackingAcceleratingProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction, ProjectileAnimation.Spark);
+            ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction);
             trackingProj.InitSpeed(10,50 ,500);
-            trackingProj.InitDestroyCondition(ProjectileBasicCollider.Spark, true, 50, true);
+            trackingProj.InitDestroyCondition(true, 50, true);
             trackingProj.InitTargeting(true, true, true, true);
             trackingProj.InitAttackTracking(50, 200);
 
             return trackingProj;
         }
+        
+        public static ProjectileStruct GetBasicOnSenderProjectileStruct(Vector3 spawnPos)
+        {
+            ProjectileStruct onSenderProj = new ProjectileStruct(spawnPos, Vector3.zero, 3f);
+            onSenderProj.InitDestroyCondition(true, 50, true, false);
+            onSenderProj.InitTargeting(true, true, false, true, false);
+            onSenderProj.InitAttackOnSender(50, SenderTags.Player,180f, false);
+            onSenderProj.BecomeBehindPlayerProjectile();
+
+            return onSenderProj;
+        }
+        
+        public static ProjectileStruct GetBasicAroundSenderProjectileStruct(Vector3 spawnPos, Vector3 direction)
+        {
+            ProjectileStruct aroundSenderProj = new ProjectileStruct(spawnPos, direction, 2f);
+            aroundSenderProj.InitDestroyCondition(true, 50, true, false);
+            aroundSenderProj.InitTargeting(true, true, false, true, false);
+            aroundSenderProj.InitAttackAroundSender(50, SenderTags.Player,180f, false, 45f);
+            aroundSenderProj.BecomeBehindPlayerProjectile();
+
+            return aroundSenderProj;
+        }
+        
+        public static ProjectileStruct GetBasicFixProjectileStruct(Vector3 spawnPos)
+        {
+            ProjectileStruct fixProj = new ProjectileStruct(spawnPos, Vector3.zero);
+            fixProj.InitDestroyCondition(true, 50, true);
+            fixProj.InitTargeting(true, true, true, true);
+            fixProj.InitAttackFix(50, 180f, false);
+
+            return fixProj;
+        }
+        
         #endregion
     }
 }

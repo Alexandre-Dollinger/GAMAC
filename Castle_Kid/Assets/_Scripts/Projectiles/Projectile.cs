@@ -5,6 +5,7 @@ using _Scripts.Health;
 using _Scripts.Multiplayer;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Animations;
 
 namespace _Scripts.Projectiles
 {
@@ -22,8 +23,22 @@ namespace _Scripts.Projectiles
         
         private string _objectTag;
 
-        private Collider2D _hitBoxCollider;
-        private Collider2D _findTargetCollider;
+        public Collider2D hitBoxCollider;
+        public Collider2D findTargetCollider;
+
+        private float _distanceToSpawn;
+
+        private CircleCollider2D _findSenderCollider;
+        private bool _searchingSender;
+        private bool _finishedSearchingSender = false;
+        private string _senderTag;
+        
+        private GameObject _senderGameObject = null;
+        private Transform SenderTransform => _senderGameObject == null ? null : _senderGameObject.transform;
+        
+        private GameObject _fakeSenderGameObject = null;
+        private Transform FakeSenderTransform => _fakeSenderGameObject == null ? null : _fakeSenderGameObject.transform;
+        
         
         private List<Collider2D> _targetsFound = new List<Collider2D>();
         private bool _searchingTarget = false;
@@ -41,10 +56,8 @@ namespace _Scripts.Projectiles
         public void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
-            _hitBoxCollider = GetComponent<CircleCollider2D>();
-            _findTargetCollider = GetComponent<PolygonCollider2D>();
             _animator = GetComponent<Animator>();
-            _findTargetCollider.enabled = false;
+            findTargetCollider.enabled = false;
         }
         
         public void InitProjectile(ProjectileStruct projectileStruct, bool isServerProj = false)
@@ -56,24 +69,20 @@ namespace _Scripts.Projectiles
             CurrentHp = MaxHp;
             
             transform.localScale *= Proj.Scale;
-            _animator.runtimeAnimatorController = GM.ProjM.GetProjectileAnimation(Proj.ProjectileAnimation);
             
             _objectTag = gameObject.tag;
             
             _isServerProj = isServerProj;
-            
-            UpdateProjRotation();
-            
-            //InitColliders();
-        }
 
-        public ProjectileScriptableObject ProjSO;
-        
-        private void InitColliders()
-        {
-            //_hitBoxCollider = projSO.SparkCollider2D;
-            //CircleCollider2D circleCollider2D = gameObject.AddComponent<CircleCollider2D>();
-            //circleCollider2D.radius = ProjSO.SparkCollider2D.radius;
+            _senderTag = GM.ProjM.GetSenderTag(Proj.SenderTag);
+
+            if (Proj.IsBehindProjectile)
+                GetComponent<SpriteRenderer>().sortingLayerID = GM.BehindProjectileSortingLayer;
+            
+            if (Proj.AttackType != ProjectileAttackTypes.AroundSender)
+                UpdateProjRotation();
+
+            _distanceToSpawn = Vector3.Distance(Proj.SpawnPos, Proj.CasterPos);
         }
         
         public void Update()
@@ -91,7 +100,9 @@ namespace _Scripts.Projectiles
             if (!_initialised) return;
             
             UpdateSpeed();
-            UpdateProjRotation(); // because we rotate the rigid body rotation (angular velocity)
+            
+            if (Proj.AttackType == ProjectileAttackTypes.Tracking)
+                UpdateProjRotation(); // because we rotate the rigid body rotation (angular velocity)
             
             if (!Mathf.Approximately(Proj.DestroyedTime, -1f) && Proj.DestroyedTime <= 0)
                 DieSilent();
@@ -116,28 +127,45 @@ namespace _Scripts.Projectiles
             }
         }
 
+        public void OnDestroy()
+        {
+            if (Proj.AttackType == ProjectileAttackTypes.AroundSender && _fakeSenderGameObject is not null)
+                Destroy(transform.parent); // maybe error because it destroys both
+        }
+
         #region AttackTypeManaging
         private void ManageProjectileBehaviour()
         {
             switch (Proj.AttackType)
             {
-                case ProjectileAttackType.Linear:
+                case ProjectileAttackTypes.Linear:
                     LinearProjectile();
                     break;
-                case ProjectileAttackType.Tracking:
+                case ProjectileAttackTypes.Tracking:
                     if (TargetTransform is not null)
                         TrackingProjectile();
                     else
                         FindTrackingTarget();
                     break;
-                case ProjectileAttackType.Parabola:
+                case ProjectileAttackTypes.Parabola:
                     ParabolaProjectile();
                     break;
-                case ProjectileAttackType.OnSender:
-                    if (TargetTransform is not null)
+                case ProjectileAttackTypes.OnSender:
+                    if (SenderTransform is not null)
                         OnSenderProjectile();
                     else
-                        FindFollowingTarget();
+                        NoSenderManagement();
+                    break;
+                case ProjectileAttackTypes.AroundSender:
+                    if (SenderTransform is not null && FakeSenderTransform is not null)
+                        AroundSenderProjectile();
+                    else if (SenderTransform is not null && FakeSenderTransform is null)
+                        CreateFakeSender();
+                    else
+                        NoSenderManagement();
+                    break;
+                case ProjectileAttackTypes.Fix:
+                    FixProjectile();
                     break;
             }
         }
@@ -167,7 +195,45 @@ namespace _Scripts.Projectiles
         
         private void OnSenderProjectile()
         {
-            transform.Rotate(Vector3.forward, Proj.RotateSpeed * Time.fixedDeltaTime * (Proj.RotateSelfRight ? 1 : -1));
+            UpdateRotationSelf();
+            
+            transform.position = SenderTransform.position;
+        }
+        
+        private void AroundSenderProjectile()
+        {
+            //UpdateRotationSelf();
+
+            FakeSenderTransform.position = SenderTransform.position;
+            
+            transform.RotateAround(FakeSenderTransform.position, Vector3.forward, 
+            Proj.RotateAroundSpeed * Time.fixedDeltaTime * (Proj.RotateAroundRight ? -1 : 1));
+        }
+
+        private void CreateFakeSender()
+        {
+            _fakeSenderGameObject = new GameObject("RotateAroundPlayerGameObject");
+            FakeSenderTransform.position = SenderTransform.position;
+            
+            transform.parent = _fakeSenderGameObject.transform;
+
+            PositionConstraint constraintPosition = _fakeSenderGameObject.AddComponent<PositionConstraint>();
+            ConstraintSource constraint = new ConstraintSource();
+            constraint.sourceTransform = SenderTransform;
+            constraint.weight = 1f;
+            constraintPosition.AddSource(constraint);
+        }
+        
+        private void FixProjectile()
+        {
+            UpdateRotationSelf();
+            
+            transform.position = Proj.CasterPos;
+        }
+
+        private void UpdateRotationSelf()
+        {
+            transform.Rotate(Vector3.forward, Proj.RotateSpeed * Time.fixedDeltaTime * (Proj.RotateSelfRight ? -1 : 1));
         }
         
         private Vector3 GetParabolaPos(Vector3 targetPos)
@@ -178,14 +244,14 @@ namespace _Scripts.Projectiles
         }
 
         [CanBeNull]
-        private GameObject GetClosestTarget()
+        private GameObject GetClosestTarget(Vector3 ourPos)
         {
             float? closestDis = null;
             GameObject closestGameObject = null;
             
             foreach (Collider2D target in _targetsFound)
             {
-                float curDis = Vector2.Distance(target.transform.position, transform.position);
+                float curDis = Vector2.Distance(target.transform.position, ourPos);
                 if (closestDis is null || curDis < closestDis)
                 {
                     closestDis = curDis;
@@ -204,9 +270,9 @@ namespace _Scripts.Projectiles
             if (_searchingTarget)
             {
                 Proj.TrackingTargetTime = Proj.TrackingTargetCooldown;
-                _hitBoxCollider.enabled = true;
-                _findTargetCollider.enabled = false;
-                _targetGameObject = GetClosestTarget();
+                hitBoxCollider.enabled = true;
+                findTargetCollider.enabled = false;
+                _targetGameObject = GetClosestTarget(transform.position);
                 _targetsFound = new List<Collider2D>();
                 if (TargetTransform is not null)
                     Proj.FoundTrackingTarget = true;
@@ -218,17 +284,59 @@ namespace _Scripts.Projectiles
             {
                 _searchingTarget = true;
                 gameObject.tag = "Untagged";
-                _hitBoxCollider.enabled = false;
-                _findTargetCollider.enabled = true;
+                hitBoxCollider.enabled = false;
+                findTargetCollider.enabled = true;
             }
 
             if (!Proj.FoundTrackingTarget) // When we are looking for a target it's a linear projectile
                 LinearProjectile();
         }
 
-        private void FindFollowingTarget()
+        private void NoSenderManagement()
         {
+            if (_finishedSearchingSender)
+            {
+                if (Proj.AttackType == ProjectileAttackTypes.AroundSender)
+                    Proj.CasterPos = Proj.SpawnPos;
+                
+                FixProjectile();
+            }
+            else
+                FindSenderTarget();
+        }
+
+        private void FindSenderTarget()
+        {
+            if (!_searchingSender)
+            {
+                hitBoxCollider.enabled = false;
+                findTargetCollider.enabled = false;
+
+                _searchingSender = true;
             
+                _findSenderCollider = gameObject.AddComponent<CircleCollider2D>();
+                _findSenderCollider.radius = 1f / Proj.Scale;
+                _findSenderCollider.offset = GetCasterOffsetPos();
+                _findSenderCollider.isTrigger = true;
+            }
+            else
+            {
+                _senderGameObject = GetClosestTarget(Proj.CasterPos);
+                _targetsFound = new List<Collider2D>();
+
+                _findSenderCollider.enabled = false;
+                Destroy(_findSenderCollider);
+                
+                hitBoxCollider.enabled = true;
+
+                _finishedSearchingSender = true;
+                _searchingSender = true;
+            }
+        }
+
+        private Vector2 GetCasterOffsetPos()
+        {
+            return (Proj.CasterPos - Proj.SpawnPos) / transform.localScale.x;
         }
 
         #endregion
@@ -237,17 +345,18 @@ namespace _Scripts.Projectiles
         public override void Die()
         {
             // play sound + particle
-            GM.ProjM.projList.Remove(this);
+            GM.ProjM.projListSpawned.Remove(this);
             Destroy(gameObject);
         }
         
         private void DieSilent()
         {
-            GM.ProjM.projList.Remove(this);
+            GM.ProjM.projListSpawned.Remove(this);
             Destroy(gameObject);
         }
         #endregion
 
+        #region Can Attack
         private bool SelfTargetingPlayerBehaviour(Collider2D other)
         {
             if (!Proj.CanTargetSelf)
@@ -275,6 +384,7 @@ namespace _Scripts.Projectiles
                    (Proj.TargetingPlayerProjectile && GM.IsPlayerProjectile(other) && SelfTargetingProjectileBehaviour(other)) ||
                    (Proj.TargetingEnemyProjectile && GM.IsEnemyProjectile(other));
         }
+        #endregion
 
         private void DoDamageOrHeal(IUnitHp otherHp)
         {
@@ -283,12 +393,26 @@ namespace _Scripts.Projectiles
             else
                 otherHp.GainHealth(Proj.Healing);
         }
+
+        private bool MayBeSender(Collider2D other)
+        {
+            return other.CompareTag(_senderTag);
+        }
         
         public void OnTriggerEnter2D(Collider2D other)
         {
             if (_searchingTarget)
             {
                 if (CanAttackThat(other))
+                {
+                    _targetsFound.Add(other);
+                }
+                return;
+            }
+
+            if (_searchingSender)
+            {
+                if (MayBeSender(other))
                 {
                     _targetsFound.Add(other);
                 }
@@ -323,7 +447,7 @@ namespace _Scripts.Projectiles
             
             if (!Mathf.Approximately(Proj.DestroyedTime, -1f) && Proj.DestroyedTime >= 0)
                 Proj.DestroyedTime -= deltaTime;
-            if (Proj.AttackType == ProjectileAttackType.Tracking && !Proj.FoundTrackingTarget && 
+            if (Proj.AttackType == ProjectileAttackTypes.Tracking && !Proj.FoundTrackingTarget && 
                 Proj.TrackingTargetTime > 0)
                 Proj.TrackingTargetTime -= deltaTime;
         }
