@@ -59703,10 +59703,6 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 1092197194
       objectReference: {fileID: 0}
-    - target: {fileID: 6009138470225360244, guid: 17eb88ae4c93d054fb6f232122bf3076, type: 3}
-      propertyPath: InScenePlacedSourceGlobalObjectIdHash
-      value: 2084355810
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

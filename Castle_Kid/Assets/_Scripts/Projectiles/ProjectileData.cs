@@ -4,35 +4,34 @@ using UnityEngine;
 
 namespace _Scripts.Projectiles
 {
-    public enum ProjectilePrefabType
+    public enum ProjectilePrefabs
     {
-        Spark,
-    }
-    
-    public enum ProjectileAnimation
-    {
-        Spark,
-    }
-
-    public enum ProjectileBasicCollider
-    {
-        Spark,
-        
-    }
-    
-    public enum ProjectileSearchCollider
-    {
-        Cone,
-        FindSender,
+        SparkCone,
+        SparkCircle,
+        ShieldBlueCircle,
+        FireCone,
+        FireBallCone,
+        FireBall2Cone,
+        TornadoCone,
+        BlackHoleCone,
     }
 
-    public enum ProjectileAttackType
+    public enum ProjectileAttackTypes
     {
         Linear,
         Tracking,
         Parabola,
         OnSender, // spawn a projectile on the sender, example : a shield
-        RotateAroundSender,
+        AroundSender,
+        Fix,
+    }
+    
+    public enum SenderTags
+    {
+        Player,
+        Enemy,
+        PlayerProjectile,
+        EnemyProjectile,
     }
     
     public struct ProjectileStruct : INetworkSerializable // https://www.youtube.com/watch?v=j-fYT4MHNDk&list=PLyWwWSgyfz-XMvcmT6T5F1JGYUHCJyXBJ&index=33
@@ -43,16 +42,17 @@ namespace _Scripts.Projectiles
         
         public int Damage;
         public int Healing;
-        public ProjectileAttackType AttackType;
+        public ProjectileAttackTypes AttackType;
         
         public Vector3 SpawnPos;
-        public Vector3 Direction; // _direction is normalized
+        public Vector3 CasterPos; // not updated, only the caster pos at the start
+        public Vector3 Direction; // Direction is normalized
         
         public bool CanCrossWalls;
         public bool CanBeDestroyedByPlayer;
         public bool CanBeDestroyedBySelf;
         public float DestroyedTime; // null value is -1f
-
+        
         //public GM.FilterType FilterTarget; // if only but no because of NetworkVariable instead a lot of boolean
         public bool TargetingPlayer;
         public bool TargetingEnemy;
@@ -62,10 +62,13 @@ namespace _Scripts.Projectiles
 
         public bool RotateSelfRight;
         public bool RotateAroundRight;
+        public float RotateAroundSpeed;
         
         public int SenderId; // null value is -1
+        public SenderTags SenderTag;
         
-        public int Scale;
+        public float Scale;
+        public bool IsBehindProjectile;
         
         public float TrackingTargetCooldown; // maxTime // null value is -1f
         public float TrackingTargetTime; // Time updating continuously // null value is -1f
@@ -78,7 +81,7 @@ namespace _Scripts.Projectiles
             return _maxHpPrefab;
         }
 
-        public ProjectileStruct(Vector3 spawnPos, Vector3 direction, int scale = 1)
+        public ProjectileStruct(Vector3 spawnPos, Vector3 direction, float scale = 1f)
         {
             Speed = 0f;
             Acceleration = 0f;
@@ -86,9 +89,10 @@ namespace _Scripts.Projectiles
             
             Damage = 0;
             Healing = 0;
-            AttackType = ProjectileAttackType.Linear;
+            AttackType = ProjectileAttackTypes.Linear;
             
             SpawnPos = spawnPos;
+            CasterPos = SpawnPos;
             Direction = direction.normalized;
 
             TargetingPlayer = false;
@@ -99,8 +103,10 @@ namespace _Scripts.Projectiles
 
             RotateSelfRight = true;
             RotateAroundRight = true;
+            RotateAroundSpeed = 0f;
 
             SenderId = -1;
+            SenderTag = SenderTags.Player;
             
             CanCrossWalls = false;
             CanBeDestroyedByPlayer = false;
@@ -108,6 +114,7 @@ namespace _Scripts.Projectiles
             DestroyedTime = -1f;
 
             Scale = scale;
+            IsBehindProjectile = false;
             
             TrackingTargetCooldown = -1f;
             TrackingTargetTime = -1f;
@@ -157,7 +164,7 @@ namespace _Scripts.Projectiles
         public void InitAttackLinear(int damage)
         {
             Damage = damage;
-            AttackType = ProjectileAttackType.Linear;
+            AttackType = ProjectileAttackTypes.Linear;
         }
         
         public void InitAttackTracking(int damage, float rotateSpeed, 
@@ -165,7 +172,7 @@ namespace _Scripts.Projectiles
         {
             Damage = damage;
             RotateSpeed = rotateSpeed;
-            AttackType = ProjectileAttackType.Tracking;
+            AttackType = ProjectileAttackTypes.Tracking;
 
             TrackingTargetCooldown = trackingTargetCooldown; // To not search for target each millisecond for optimisation
             TrackingTargetTime = 0f;
@@ -174,16 +181,44 @@ namespace _Scripts.Projectiles
         public void InitAttackParabola(int damage)
         {
             Damage = damage;
-            AttackType = ProjectileAttackType.Parabola;
+            AttackType = ProjectileAttackTypes.Parabola;
             throw new NotImplementedException("Git Gud. Not yet available");
         }
         
-        public void InitAttackOnSender(int damage, float rotateSpeed = 0f, bool rotateRight = true)
+        public void InitAttackOnSender(int damage, SenderTags senderTag, float rotateSpeed = 0f, 
+            bool rotateRight = true)
         {
             Damage = damage;
-            AttackType = ProjectileAttackType.OnSender;
+            SenderTag = senderTag;
+            AttackType = ProjectileAttackTypes.OnSender;
             RotateSpeed = rotateSpeed;
             RotateSelfRight = rotateRight;
+        }
+        
+        public void InitAttackAroundSender(int damage, SenderTags senderTag, float rotateSpeed = 0f, 
+            bool rotateRight = true, float rotateAroundSpeed = 0f, bool rotateAroundRight = true)
+        {
+            Damage = damage;
+            SenderTag = senderTag;
+            AttackType = ProjectileAttackTypes.AroundSender;
+            RotateSpeed = rotateSpeed;
+            RotateSelfRight = rotateRight;
+            RotateAroundSpeed = rotateAroundSpeed;
+            RotateAroundRight = rotateAroundRight;
+        }
+
+
+        public void InitAttackFix(int damage, float rotateSpeed = 0f, bool rotateRight = true)
+        {
+            Damage = damage;
+            AttackType = ProjectileAttackTypes.Fix;
+            RotateSpeed = rotateSpeed;
+            RotateSelfRight = rotateRight;
+        }
+
+        public void BecomeBehindPlayerProjectile() // change the filtering layer of the projectile
+        {
+            IsBehindProjectile = true;
         }
         
         // Don't look at that it's to make NetworkVariable work
@@ -205,10 +240,13 @@ namespace _Scripts.Projectiles
             
             serializer.SerializeValue(ref RotateSelfRight);
             serializer.SerializeValue(ref RotateAroundRight);
+            serializer.SerializeValue(ref RotateAroundSpeed);
             
             serializer.SerializeValue(ref SenderId);
+            serializer.SerializeValue(ref SenderTag);
             
             serializer.SerializeValue(ref SpawnPos);
+            serializer.SerializeValue(ref CasterPos);
             serializer.SerializeValue(ref Direction);
             
             serializer.SerializeValue(ref CanCrossWalls);
@@ -217,6 +255,7 @@ namespace _Scripts.Projectiles
             serializer.SerializeValue(ref DestroyedTime);
             
             serializer.SerializeValue(ref Scale);
+            serializer.SerializeValue(ref IsBehindProjectile);
             
             serializer.SerializeValue(ref TrackingTargetCooldown);
             serializer.SerializeValue(ref TrackingTargetTime);
