@@ -50,15 +50,12 @@ namespace _Scripts.Projectiles
         
         private bool _initialised = false;
         public ProjectileStruct Proj;
-
-        private Animator _animator;
         
         // still need sound, animation, sprite, collider
 
         public void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
-            _animator = GetComponent<Animator>();
             findTargetCollider.enabled = false;
         }
         
@@ -149,9 +146,6 @@ namespace _Scripts.Projectiles
                     else
                         FindTrackingTarget();
                     break;
-                case ProjectileAttackTypes.Parabola:
-                    ParabolaProjectile();
-                    break;
                 case ProjectileAttackTypes.OnSender:
                     if (SenderTransform is not null)
                         OnSenderProjectile();
@@ -189,11 +183,6 @@ namespace _Scripts.Projectiles
 
             _rb.angularVelocity = -rotateAmount * Proj.RotateSpeed;
         }
-
-        private void ParabolaProjectile()
-        {
-            
-        }
         
         private void OnSenderProjectile()
         {
@@ -224,6 +213,12 @@ namespace _Scripts.Projectiles
             
             transform.RotateAround(FakeSenderTransform.position, Vector3.forward, 
             Proj.RotateAroundSpeed * Time.fixedDeltaTime * (Proj.RotateAroundRight ? -1 : 1));
+        }
+
+        private void ParabolaProjectileRotation() // https://www.youtube.com/watch?v=tNwLaGUJTK4
+        {
+            float angle = Mathf.Atan2(_rb.linearVelocity.x, _rb.linearVelocity.y) * Mathf.Rad2Deg + 90f;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
 
         private void CreateFakeSender()
