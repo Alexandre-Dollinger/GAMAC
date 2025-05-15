@@ -1,22 +1,25 @@
 using System;
+using System.Collections;
 using _Scripts.GameManager;
 using _Scripts.Inputs;
 using _Scripts.Projectiles;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Random = System.Random;
 
 namespace _Scripts.Player.PowerUp
 {
     public class PowerUp : NetworkBehaviour
     {
-        [Header("References")]
-        public PowerUpStats powerStats;
+        [Header("References")] public PowerUpStats powerStats;
 
         [SerializeField] private GameObject toSpawn;
 
         private Camera _plCamera;
-        
+
+        private Random _random = new Random(0);
+
         public override void OnNetworkSpawn()
         {
             if (!IsOwner)
@@ -24,9 +27,8 @@ namespace _Scripts.Player.PowerUp
                 enabled = false;
                 return;
             }
-            
         }
-        
+
         public void Awake()
         {
             _plCamera = GetComponentInChildren<Camera>();
@@ -37,16 +39,22 @@ namespace _Scripts.Player.PowerUp
             // just accept it or go look here : https://discussions.unity.com/t/point-towards-mouse-position/876845/4
             Vector2 mousePos = GetMousePos();
             Vector3 direction = (mousePos - (Vector2)transform.position).normalized;
-            
+
             return direction;
         }
 
         private Vector2 GetMousePos()
         {
-            return _plCamera.ScreenToWorldPoint( Mouse.current.position.ReadValue());
+            return _plCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         }
 
-        public void Update()
+        private ProjectilePrefabs GetRandomProjectilePrefabs()
+        {
+            return (ProjectilePrefabs)_random.Next(0, 14);
+        }
+        
+
+    public void Update()
         {
             if (InputManager.PowerUp1WasReleased)
             {
@@ -54,14 +62,12 @@ namespace _Scripts.Player.PowerUp
                 GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId);*/
                 ProjectileStruct linearProj =
                     GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
-                linearProj.InitHealing();
-                GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);
+                GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.MagicArrowCone, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
             
             if (InputManager.PowerUp2WasReleased)
             {
                 ProjectileStruct aroundSenderProj = GM.GetBasicAroundSenderProjectileStruct(transform.position, GetMouseDirection());
-                aroundSenderProj.RotateSpeed = 0f;
                 GM.ProjM.CreateProjectileManager(aroundSenderProj, ProjectilePrefabs.BlackHoleCone, GM.PlayerProjectileTag, (int)OwnerClientId, Vector3.Distance(transform.position, GetMousePos()));
                 /*ProjectileStruct trackingProj =
                     GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());

@@ -148,6 +148,20 @@ namespace _Scripts.Projectiles
                     return lstProjPrefabs.TornadoCone;
                 case ProjectilePrefabs.BlackHoleCone:
                     return lstProjPrefabs.BlackHoleCone;
+                case ProjectilePrefabs.BubblesCone:
+                    return lstProjPrefabs.BubblesCone;
+                case ProjectilePrefabs.MagicArrowCone:
+                    return lstProjPrefabs.MagicArrowCone;
+                case ProjectilePrefabs.MagicBallCone:
+                    return lstProjPrefabs.MagicBallCone;
+                case ProjectilePrefabs.MagicBulletCone:
+                    return lstProjPrefabs.MagicBulletCone;
+                case ProjectilePrefabs.RocksCone:
+                    return lstProjPrefabs.RocksCone;
+                case ProjectilePrefabs.ShieldPlusCircle:
+                    return lstProjPrefabs.ShieldPlusCircle;
+                case ProjectilePrefabs.WindCone:
+                    return lstProjPrefabs.WindCone;
             }
 
             throw new NotImplementedException($"Projectile not known : {projType}");

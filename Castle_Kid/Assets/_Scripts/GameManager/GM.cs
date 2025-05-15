@@ -140,10 +140,10 @@ namespace _Scripts.GameManager
         
         public static ProjectileStruct GetBasicAroundSenderProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct aroundSenderProj = new ProjectileStruct(spawnPos, direction, 2f);
+            ProjectileStruct aroundSenderProj = new ProjectileStruct(spawnPos, direction, 1.5f);
             aroundSenderProj.InitDestroyCondition(true, 50, true, true);
             aroundSenderProj.InitTargeting(true, true, false, true, true);
-            aroundSenderProj.InitAttackAroundSender(50, SenderTags.Player,180f, false, 45f);
+            aroundSenderProj.InitAttackAroundSender(50, SenderTags.Player, 180f, true, 45 ,false);  
             //aroundSenderProj.BecomeBehindPlayerProjectile();
 
             return aroundSenderProj;

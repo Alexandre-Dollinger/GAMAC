@@ -18,6 +18,12 @@ namespace _Scripts.Projectiles
         public GameObject FireBall2Cone;
         public GameObject TornadoCone;
         public GameObject BlackHoleCone;
-
+        public GameObject BubblesCone;
+        public GameObject MagicArrowCone;
+        public GameObject MagicBallCone;
+        public GameObject MagicBulletCone;
+        public GameObject RocksCone;
+        public GameObject ShieldPlusCircle;
+        public GameObject WindCone;
     }
 }

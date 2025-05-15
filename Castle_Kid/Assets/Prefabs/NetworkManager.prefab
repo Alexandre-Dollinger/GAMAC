@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6623959936151225779}
   - component: {fileID: 9106892633163602574}
   - component: {fileID: 4921179450652759172}
+  - component: {fileID: 5556650921458974672}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -50,9 +51,10 @@ MonoBehaviour:
   NetworkConfig:
     ProtocolVersion: 0
     NetworkTransport: {fileID: 9106892633163602574}
-    PlayerPrefab: {fileID: 3908118593388261863, guid: f6487eed595f087409c00ffe83968e04, type: 3}
+    PlayerPrefab: {fileID: 3908118593388261863, guid: 7545195bf73480c4791d197e05b625ec, type: 3}
     Prefabs:
-      NetworkPrefabsLists: []
+      NetworkPrefabsLists:
+      - {fileID: 11400000, guid: 5f8f7b8c247fcd649a19cd51a0fdc769, type: 2}
     TickRate: 30
     ClientConnectionBufferTimeout: 10
     ConnectionApproval: 0
@@ -71,6 +73,7 @@ MonoBehaviour:
     NetworkTopology: 0
     UseCMBService: 0
     AutoSpawnPlayerPrefabClientSide: 1
+    NetworkMessageMetrics: 1
     NetworkProfilingMetrics: 1
     OldPrefabList: []
   RunInBackground: 1
@@ -99,7 +102,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 127.0.0.1
     Port: 7777
-    ServerListenAddress: 127.0.0.1
+    ServerListenAddress: 0.0.0.0
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
@@ -116,3 +119,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9128b8cac40e74ca1aae9fd8bf2efb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5556650921458974672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4302700371015292631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f2ab8afaf3afa478b5766f3cbde196, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ipAddressText: {fileID: 0}
+  ip: {fileID: 0}
+  multiplayerCanvas: {fileID: 0}

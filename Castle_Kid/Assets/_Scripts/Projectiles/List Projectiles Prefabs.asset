@@ -20,3 +20,10 @@ MonoBehaviour:
   FireBall2Cone: {fileID: 3305740393092187452, guid: 7b971952c797af64eb9ce25ea4b38d7a, type: 3}
   TornadoCone: {fileID: 3305740393092187452, guid: a142e995dfc04c24e98eb912be639f58, type: 3}
   BlackHoleCone: {fileID: 3305740393092187452, guid: 1302e73e823a8de41abd4cf435b54c29, type: 3}
+  BubblesCone: {fileID: 3305740393092187452, guid: 023f676f6f62f0246a3bae0eed530220, type: 3}
+  MagicArrowCone: {fileID: 3305740393092187452, guid: 1e3a481c955281f4a861b197b614d88d, type: 3}
+  MagicBallCone: {fileID: 3305740393092187452, guid: a59403ef0b96a3f44bf5f8b968928f9a, type: 3}
+  MagicBulletCone: {fileID: 3305740393092187452, guid: b97460f633b3e9c488820c8f17e5eb85, type: 3}
+  RocksCone: {fileID: 3305740393092187452, guid: 4e9e2b41a3f607247868273c5ceca746, type: 3}
+  ShieldPlusCircle: {fileID: 3305740393092187452, guid: 14ce1be54f8c36743b2721006e4d6829, type: 3}
+  WindCone: {fileID: 3305740393092187452, guid: ef7d763769c593446b8539cac8130d62, type: 3}

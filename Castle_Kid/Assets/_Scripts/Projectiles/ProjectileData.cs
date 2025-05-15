@@ -14,13 +14,19 @@ namespace _Scripts.Projectiles
         FireBall2Cone,
         TornadoCone,
         BlackHoleCone,
+        BubblesCone,
+        MagicArrowCone,
+        MagicBallCone,
+        MagicBulletCone,
+        RocksCone,
+        ShieldPlusCircle,
+        WindCone
     }
 
     public enum ProjectileAttackTypes
     {
         Linear,
         Tracking,
-        Parabola,
         OnSender, // spawn a projectile on the sender, example : a shield
         AroundSender,
         Fix,
@@ -100,7 +106,7 @@ namespace _Scripts.Projectiles
             TargetingPlayerProjectile = false;
             TargetingEnemyProjectile = false;
             CanTargetSelf = true;
-
+            
             RotateSelfRight = true;
             RotateAroundRight = true;
             RotateAroundSpeed = 0f;
@@ -176,13 +182,6 @@ namespace _Scripts.Projectiles
 
             TrackingTargetCooldown = trackingTargetCooldown; // To not search for target each millisecond for optimisation
             TrackingTargetTime = 0f;
-        }
-        
-        public void InitAttackParabola(int damage)
-        {
-            Damage = damage;
-            AttackType = ProjectileAttackTypes.Parabola;
-            throw new NotImplementedException("Git Gud. Not yet available");
         }
         
         public void InitAttackOnSender(int damage, SenderTags senderTag, float rotateSpeed = 0f, 
