@@ -61,5 +61,11 @@ namespace _Scripts.Health
             else
                 _playerTransform.position = currentCheckpoint.GetPosition();
         }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void GainFullLifeServerRpc()
+        {
+            GainFullLife();
+        }
     }
 }

@@ -437,31 +437,16 @@ namespace _Scripts.Projectiles
                 }
                 return;
             }
-            
-            if (CanAttackThat(other)) // found target to attack
+
+            if (CanAttackThat(other) && other.TryGetComponent<IUnitHp>(out IUnitHp otherHp)) // found target to attack
             {
-                IUnitHp otherHp = GetComponent<IUnitHp>();
-                
-                Debug.Log("Attacked");
-                Debug.Log(Proj.Damage);
-                
                 if (otherHp.IsNetwork) // if the other hp is a NetworkVariable
                 {
                     if (_isServerProj) // then only the server can do it damage
-                    {
-                        Debug.Log("Server Did something");
                         DoDamageOrHeal(otherHp);
-                    }
                 }
                 else // if the enemy is local hp variable, all the projectiles need to do it damage
-                {
                     DoDamageOrHeal(otherHp);
-                    
-                    /*if (Proj.Damage == 0)
-                        GM.ProjM.ChangeProjHpManager(GM.ProjM.GetProjLstId(this), Proj.Damage);
-                    else
-                        GM.ProjM.ChangeProjHpManager(GM.ProjM.GetProjLstId(this), Proj.Healing, true);*/
-                }
                 
                 Die();
             }

@@ -209,10 +209,8 @@ namespace _Scripts.Player.Weapon
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (CanAttackThat(other))
+            if (CanAttackThat(other) && other.TryGetComponent<IUnitHp>(out IUnitHp otherHp))
             {
-                IUnitHp otherHp = GetComponent<IUnitHp>();
-                
                 if (otherHp.IsNetwork)
                 {
                     if (IsServer)
