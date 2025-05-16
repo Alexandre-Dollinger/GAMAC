@@ -6,6 +6,7 @@ using Unity.Netcode;
 using UnityEngine;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
+using _Scripts.GameManager;
 
 namespace _Scripts.Player.Movement
 {
@@ -112,6 +113,9 @@ namespace _Scripts.Player.Movement
             _animator = GetComponent<Animator>();
 
             _animationTime = 0;
+            
+            if (IsOwner)
+                GetComponent<SpriteRenderer>().sortingLayerID = GM.CurrentPlayerSortingLayerId;
         }
         //============================================================================================
         //UPDATES

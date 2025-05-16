@@ -237,14 +237,12 @@ namespace _Scripts.Player.Weapon
 
         public void OnTriggerEnter2D(Collider2D other)
         {
-            if (CanAttackThat(other))
+            if (CanAttackThat(other) && other.TryGetComponent<IUnitHp>(out IUnitHp otherHp))
             {
-                IUnitHp otherHp = other.GetComponent<IUnitHp>();
-                
                 if (otherHp.IsNetwork)
                 {
-                        if (IsServer)
-                            otherHp.TakeDamage(playerAttack);
+                    if (IsServer)
+                        otherHp.TakeDamage(playerAttack);
                 }
                 else if
                     (other.TryGetComponent<Projectile>(out Projectile projectile)) // if the attacked object is local
@@ -252,6 +250,7 @@ namespace _Scripts.Player.Weapon
                     //GM.ProjM.DoDamageToProjManager(GM.ProjM.GetProjLstId(projectile), playerAttack);
                     otherHp.TakeDamage(playerAttack);
                 }
+
                 else
                     Debug.Log($"Couldn't locally remove health to : {other.gameObject.name}");
             }

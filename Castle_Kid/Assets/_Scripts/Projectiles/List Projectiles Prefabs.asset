@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3492956b403079443a146da71bbbea61, type: 3}
+  m_Name: List Projectiles Prefabs
+  m_EditorClassIdentifier: 
+  SparkPrefabCone: {fileID: 3305740393092187452, guid: 39e5b0f766eb5d44d956cf18d32436b1, type: 3}
+  SparkPrefabCircle: {fileID: 3305740393092187452, guid: 362b040a13adb9b48b0b5071dbc56a12, type: 3}
+  ShieldBlueCircle: {fileID: 3305740393092187452, guid: a3d2c78112607cb48a8deaba70123b0e, type: 3}
+  FireCone: {fileID: 3305740393092187452, guid: acdeefb865b795244a93af7fb2337981, type: 3}
+  FireBallCone: {fileID: 3305740393092187452, guid: 4309764e4c5ab994dbba5f108bd3bd68, type: 3}
+  FireBall2Cone: {fileID: 3305740393092187452, guid: 7b971952c797af64eb9ce25ea4b38d7a, type: 3}
+  TornadoCone: {fileID: 3305740393092187452, guid: a142e995dfc04c24e98eb912be639f58, type: 3}
+  BlackHoleCone: {fileID: 3305740393092187452, guid: 1302e73e823a8de41abd4cf435b54c29, type: 3}
+  BubblesCone: {fileID: 3305740393092187452, guid: 023f676f6f62f0246a3bae0eed530220, type: 3}
+  MagicArrowCone: {fileID: 3305740393092187452, guid: 1e3a481c955281f4a861b197b614d88d, type: 3}
+  MagicBallCone: {fileID: 3305740393092187452, guid: a59403ef0b96a3f44bf5f8b968928f9a, type: 3}
+  MagicBulletCone: {fileID: 3305740393092187452, guid: b97460f633b3e9c488820c8f17e5eb85, type: 3}
+  RocksCone: {fileID: 3305740393092187452, guid: 4e9e2b41a3f607247868273c5ceca746, type: 3}
+  ShieldPlusCircle: {fileID: 3305740393092187452, guid: 14ce1be54f8c36743b2721006e4d6829, type: 3}
+  WindCone: {fileID: 3305740393092187452, guid: ef7d763769c593446b8539cac8130d62, type: 3}

@@ -53,8 +53,14 @@ TagManager:
   - name: Background
     uniqueID: 1082337909
     locked: 0
+  - name: Behind_Projectiles
+    uniqueID: 2790135395
+    locked: 0
   - name: Player
     uniqueID: 216962997
+    locked: 0
+  - name: CurrentPlayer
+    uniqueID: 3494136057
     locked: 0
   - name: Ground
     uniqueID: 4136718827

@@ -1,29 +1,28 @@
 using System;
 using System.Collections.Generic;
 using _Scripts.GameManager;
+using JetBrains.Annotations;
 using Unity.Netcode;
 using UnityEngine;
 
 namespace _Scripts.Projectiles
 {
     public class ProjectileManager : NetworkBehaviour // https://www.youtube.com/watch?v=3yuBOB3VrCk&t=232s
-    {   
-        public ProjectileScriptableObject ProjSO;
-        
-        public GameObject sparkPrefab;
+    {
+        public ListProjectiles lstProjPrefabs;
 
-        public List<Projectile> projList; // A list only for the owner
+        public List<Projectile> projListSpawned; // A list only for the owner
 
         private bool _spawnedLocally = false; // to exclude the one that spawned locally from the clientRpc
-        private bool _attackedLocally = false;
+        private bool _changedHpLocally = false;
 
         #region Damage a projectile not Network
-
+        
         public int GetProjLstId(Projectile projectile)
         {
             int id = 0;
-            int n = projList.Count;
-            while (id < n && projList[id] != projectile)
+            int n = projListSpawned.Count;
+            while (id < n && projListSpawned[id] != projectile)
             {
                 id++;
             }
@@ -33,34 +32,38 @@ namespace _Scripts.Projectiles
 
             throw new ArgumentException("The projectile couldn't be found in the list for player " + OwnerClientId);
         }
-        public void DoDamageToProjManager(int lstId, int attack)
+        public void ChangeProjHpManager(int lstId, int value, bool isHealing = false)
         {
-            DoDamageToProjList(lstId, attack, true);
-            DoDamageToProjListServerRpc(lstId, attack);
+            ChangeProjHpList(lstId, value, isHealing, true);
+            DoDamageToProjListServerRpc(lstId, value, isHealing);
         }
         
-        private void DoDamageToProjList(int lstId, int attack, bool locally = false)
+        private void ChangeProjHpList(int lstId, int value, bool isHealing, bool locally = false)
         {
-            _attackedLocally = locally;
-            projList[lstId].TakeDamage(attack);
+            _changedHpLocally = locally;
+            
+            if (!isHealing)
+                projListSpawned[lstId].TakeDamage(value);
+            else
+                projListSpawned[lstId].GainHealth(value);
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void DoDamageToProjListServerRpc(int lstId, int attack)
+        private void DoDamageToProjListServerRpc(int lstId, int value, bool isHealing)
         {
-            DoDamageToProjListClientRpc(lstId, attack);
+            ChangeProjHpListClientRpc(lstId, value, isHealing);
         }
 
         [ClientRpc]
-        private void DoDamageToProjListClientRpc(int lstId, int attack)
+        private void ChangeProjHpListClientRpc(int lstId, int value, bool isHealing)
         {
-            if (_attackedLocally)
+            if (_changedHpLocally)
             {
-                _attackedLocally = false;
+                _changedHpLocally = false;
                 return;
             }
             
-            DoDamageToProjList(lstId, attack);
+            ChangeProjHpList(lstId, value, isHealing);
         }
         #endregion
         
@@ -78,12 +81,12 @@ namespace _Scripts.Projectiles
         }
 
         private void CreateProjectile(ProjectileStruct projStruct,
-            ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
         {
             projStruct.SpawnPos += projStruct.Direction * offset;
             // To not spawn the projectile in our caster
 
-            GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
+            GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefab), 
                 projStruct.SpawnPos, Quaternion.identity);
             
             //gameObjectProj.GetComponent<NetworkObject>().Spawn(true);
@@ -97,30 +100,30 @@ namespace _Scripts.Projectiles
             
             projectile.InitProjectile(projStruct, IsServer);
             
-            projList.Add(projectile);
+            projListSpawned.Add(projectile);
         }
 
         public void CreateProjectileManager(ProjectileStruct projStruct,
-            ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset = 50)
+            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset = 50)
         { // for now we don't care about server prediction but we will probably need it : int startTickServer, int startTickClient, | NetworkManager.Singleton.ServerTime.Tick, NetworkManager.Singleton.LocalTime.Tick,
             if (projTag != GM.PlayerProjectileTag)
                 playerId = -1;
 
-            CreateProjectileLocally(projStruct, projPrefabType, projTag, playerId, offset);
-            CreateProjectileServerRpc(projStruct, projPrefabType, projTag, playerId, offset);
+            CreateProjectileLocally(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectileServerRpc(projStruct, projPrefab, projTag, playerId, offset);
         }
 
         private void CreateProjectileLocally(ProjectileStruct projStruct,
-            ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
         { 
-            CreateProjectile(projStruct, projPrefabType, projTag, playerId, offset);
+            CreateProjectile(projStruct, projPrefab, projTag, playerId, offset);
             
             _spawnedLocally = true;
         }
 
         [ClientRpc]
         private void CreateProjectileClientRpc(ProjectileStruct projStruct,
-            ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
         {
             if (_spawnedLocally) // to exclude the client that spawned locally
             {
@@ -128,64 +131,74 @@ namespace _Scripts.Projectiles
                 return;
             }
             
-            CreateProjectile(projStruct, projPrefabType, projTag, playerId, offset);
+            CreateProjectile(projStruct, projPrefab, projTag, playerId, offset);
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void CreateProjectileServerRpc(ProjectileStruct projStruct,
-            ProjectilePrefabType projPrefabType, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
         {
-            CreateProjectileClientRpc(projStruct, projPrefabType, projTag, playerId, offset);
+            CreateProjectileClientRpc(projStruct, projPrefab, projTag, playerId, offset);
         }
         #endregion
 
-        #region References getters for projectile
-        private GameObject GetProjectilePrefab(ProjectilePrefabType projType)
+        #region Getter for projectile Prefabs
+        public GameObject GetProjectilePrefab(ProjectilePrefabs projType)
         {
             switch (projType)
             {
-                case ProjectilePrefabType.Spark:
-                    return sparkPrefab;
+                case ProjectilePrefabs.SparkCone:
+                    return lstProjPrefabs.SparkPrefabCone;
+                case ProjectilePrefabs.SparkCircle:
+                    return lstProjPrefabs.SparkPrefabCircle;
+                case ProjectilePrefabs.ShieldBlueCircle:
+                    return lstProjPrefabs.ShieldBlueCircle;
+                case ProjectilePrefabs.FireCone:
+                    return lstProjPrefabs.FireCone;
+                case ProjectilePrefabs.FireBallCone:
+                    return lstProjPrefabs.FireBallCone;
+                case ProjectilePrefabs.FireBall2Cone:
+                    return lstProjPrefabs.FireBall2Cone;
+                case ProjectilePrefabs.TornadoCone:
+                    return lstProjPrefabs.TornadoCone;
+                case ProjectilePrefabs.BlackHoleCone:
+                    return lstProjPrefabs.BlackHoleCone;
+                case ProjectilePrefabs.BubblesCone:
+                    return lstProjPrefabs.BubblesCone;
+                case ProjectilePrefabs.MagicArrowCone:
+                    return lstProjPrefabs.MagicArrowCone;
+                case ProjectilePrefabs.MagicBallCone:
+                    return lstProjPrefabs.MagicBallCone;
+                case ProjectilePrefabs.MagicBulletCone:
+                    return lstProjPrefabs.MagicBulletCone;
+                case ProjectilePrefabs.RocksCone:
+                    return lstProjPrefabs.RocksCone;
+                case ProjectilePrefabs.ShieldPlusCircle:
+                    return lstProjPrefabs.ShieldPlusCircle;
+                case ProjectilePrefabs.WindCone:
+                    return lstProjPrefabs.WindCone;
             }
 
             throw new NotImplementedException($"Projectile not known : {projType}");
         }
-        
-        private Animation GetProjectileAnimation(ProjectileAnimation projAnimation)
-        {
-            switch (projAnimation)
-            {
-                case ProjectileAnimation.Spark:
-                    return ProjSO.SparkProjAnimation;
-            }
-
-            throw new NotImplementedException($"Projectile Animation not known : {projAnimation}");
-        }
-
-        private Collider2D GetProjectileBasicCollider2D(ProjectileBasicCollider projBasicCollider)
-        {
-            switch (projBasicCollider)
-            {
-                case ProjectileBasicCollider.Spark:
-                    return ProjSO.SparkCollider2D;
-            }
-            
-            throw new NotImplementedException($"Projectile Basic Collider not known : {projBasicCollider}");
-        }
-        
-        private Collider2D GetProjectileSearchCollider2D(ProjectileSearchCollider projSearchCollider)
-        {
-            switch (projSearchCollider)
-            {
-                case ProjectileSearchCollider.FindSender:
-                    return ProjSO.CircleSearchSenderCollider2D; 
-                case ProjectileSearchCollider.Cone:
-                    return ProjSO.ConeSearchTargetCollider2D;
-            }
-            
-            throw new NotImplementedException($"Projectile Search Collider not known : {projSearchCollider}");
-        }
         #endregion
+
+        public string GetSenderTag(SenderTags senderTag)
+        {
+            switch (senderTag)
+            {
+                case SenderTags.Player:
+                    return GM.PlayerTag;
+                case SenderTags.Enemy:
+                    return GM.EnemyTag;
+                case SenderTags.PlayerProjectile:
+                    return GM.PlayerProjectileTag;
+                case SenderTags.EnemyProjectile:
+                    return GM.EnemyProjectileTag;
+            }
+
+            throw new ArgumentException("What is that SenderTag : " + senderTag);
+        }
         
         public void DebugTickServerAndClient(int startTickServer, int startTickClient)
         {

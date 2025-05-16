@@ -30,5 +30,10 @@ namespace _Scripts.Multiplayer
             if (IsServer)
                 _playerId.Value = (int)serverRpcParams.Receive.SenderClientId;
         }
+        
+        public bool IsItMyPlayer()
+        {
+            return IsOwner;
+        }
     }
 }
