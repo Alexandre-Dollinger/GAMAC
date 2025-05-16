@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  currentCheckpoint: {fileID: 0}
 --- !u!1 &1851507631623712522
 GameObject:
   m_ObjectHideFlags: 0

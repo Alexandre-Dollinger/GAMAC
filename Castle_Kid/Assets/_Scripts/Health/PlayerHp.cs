@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using _Scripts.Zones;
+using JetBrains.Annotations;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -11,6 +13,8 @@ namespace _Scripts.Health
         // my sensei : https://www.youtube.com/watch?v=3yuBOB3VrCk&t=232s
         
         private Transform _playerTransform;
+
+        [CanBeNull] public CheckpointScript currentCheckpoint;
 
         public override void OnNetworkSpawn()
         {
@@ -52,7 +56,16 @@ namespace _Scripts.Health
         
         private void DieLocally()
         {
-            _playerTransform.position = Vector3.zero;
+            if (currentCheckpoint == null)
+                _playerTransform.position = Vector3.zero;
+            else
+                _playerTransform.position = currentCheckpoint.GetPosition();
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        public void GainFullLifeServerRpc()
+        {
+            GainFullLife();
         }
     }
 }

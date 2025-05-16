@@ -437,12 +437,9 @@ namespace _Scripts.Projectiles
                 }
                 return;
             }
-            
-            if (CanAttackThat(other)) // found target to attack
+
+            if (CanAttackThat(other) && other.TryGetComponent<IUnitHp>(out IUnitHp otherHp)) // found target to attack
             {
-
-                IUnitHp otherHp = other.GetComponent<IUnitHp>();
-
                 if (otherHp.IsNetwork) // if the other hp is a NetworkVariable
                 {
                     if (_isServerProj) // then only the server can do it damage
