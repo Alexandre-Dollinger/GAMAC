@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using _Scripts.GameManager;
+using Unity.VisualScripting;
+using _Scripts.Multiplayer;
 
 namespace _Scripts.Health
 {
@@ -17,10 +19,10 @@ namespace _Scripts.Health
         {
             _playerTransform = transform.parent.parent.transform;
             
-            if (IsOwner)
-                GM.playerTracking.SetPlayerList();
-            else
-                GM.playerTracking.PlayerList.Add(transform.parent.parent.gameObject);
+            if (!IsOwner)
+            {
+                _playerUI.gameObject.SetActive(false);
+            }
             
             if (IsServer)
             {
@@ -32,25 +34,28 @@ namespace _Scripts.Health
         public void Update()
         {
             if (CurrentHp <= 0)
-                    Die();
+                Die();
         }
 
         public override void GainHealth(int healthGained)
         {
             base.GainHealth(healthGained);
-            _playerUI.UpdateHeartsState();
+
+            UpdateHeartsServerRpc(OwnerClientId, CurrentHp);
         }
 
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);
-            _playerUI.UpdateHeartsState();
+        
+            UpdateHeartsServerRpc(OwnerClientId, CurrentHp);
         }
 
         public override void GainFullLife()
         {
             base.GainFullLife();
-            _playerUI.UpdateHeartsState();
+
+            UpdateHeartsServerRpc(OwnerClientId, CurrentHp);
         }
 
         public override void Die()
@@ -65,7 +70,7 @@ namespace _Scripts.Health
             DieLocally();
         }
 
-        [ServerRpc(RequireOwnership = false)]
+        [ServerRpc]
         private void DieServerRpc(ServerRpcParams serverRpcParams = default)
         {
             DieLocally();
@@ -78,6 +83,18 @@ namespace _Scripts.Health
         private void DieLocally()
         {
             _playerTransform.position = Vector3.zero;
+        }
+
+        [ClientRpc]
+        private void UpdateHeartsClientRpc(int playerHealth, ClientRpcParams clientRpcParams)
+        {
+            _playerUI.UpdateHeartsState(playerHealth);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void UpdateHeartsServerRpc(ulong playerId, int playerHealth)
+        {
+            UpdateHeartsClientRpc(playerHealth, new ClientRpcParams{ Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>{ playerId }}});
         }
     }
 }

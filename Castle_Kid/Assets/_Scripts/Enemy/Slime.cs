@@ -25,8 +25,8 @@ public class Slime : BasicEnemy
     void Awake()
     {
         enemyType = EnemyType.Slime;
-        closestPlayerTime = 2f;
-        closestPlayerCooldown = 0f;
+        closestPlayerTime = 0f;
+        closestPlayerCooldown = 1f;
 
         //Look at the SetAllFunctions region for the functions
         SetAllCombatStats();
@@ -60,7 +60,7 @@ public class Slime : BasicEnemy
         else
             Roaming();
 
-        DebugState();
+        // DebugState();
     }
 
     void Update()
@@ -105,7 +105,7 @@ public class Slime : BasicEnemy
         }
         else if (isTouchingWall)
         {
-            Debug.Log("Wall Touched in Chasing Mode");
+            // Debug.Log("Wall Touched in Chasing Mode");
             enemyRb.linearVelocity = new Vector2(0, -50);
         }
         else

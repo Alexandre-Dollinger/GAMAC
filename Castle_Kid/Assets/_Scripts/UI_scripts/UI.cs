@@ -4,6 +4,7 @@ using TMPro;
 using System.Collections.Generic;
 using Unity.Netcode;
 using _Scripts.Health;
+using System.Globalization;
 
 public class UI : MonoBehaviour
 {
@@ -13,9 +14,6 @@ public class UI : MonoBehaviour
 
     [SerializeField] private List<GameObject> _hearts;
     [SerializeField] private List<Sprite> _heartSprites;
-      
-    [SerializeField] private PlayerHp _playerHp;
-
 
     private enum HeartState 
     {
@@ -45,9 +43,9 @@ public class UI : MonoBehaviour
         heartImage.sprite = _heartSprites[(int) heartState];
     }
 
-    public void UpdateHeartsState()
+    public void UpdateHeartsState(int playerHealth)
     {
-        int Hp = _playerHp.CurrentHp / 10;
+        int Hp = playerHealth / 10;
         //Debug.Log($"Current HP: {_playerHp.CurrentHp}, Hearts: {Hp}");
 
         for (int i = 0; i < Hp/2; i++)

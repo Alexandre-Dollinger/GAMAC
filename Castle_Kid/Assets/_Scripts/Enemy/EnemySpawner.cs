@@ -2,6 +2,7 @@ using _Scripts.Enemy;
 using Unity.Netcode;
 using UnityEngine;
 using _Scripts.GameManager;
+using _Scripts.Multiplayer;
 
 public class EnemySpawner : NetworkBehaviour
 {
@@ -12,7 +13,6 @@ public class EnemySpawner : NetworkBehaviour
     private float spawnRange;
     private bool needSpawn;
     private bool hasSpawned = false;
-
 
     #region Start and Update
     public override void OnNetworkSpawn()
@@ -60,6 +60,7 @@ public class EnemySpawner : NetworkBehaviour
             if (closestPlayer is not null)
             {
                 closestPlayerPos = closestPlayer.transform.position;
+                //Debug.Log("Closest PlayerId: " + closestPlayer.GetComponent<PlayerId>().GetPlayerId());
                 needSpawn = InSpawnRange();
             }
             else 
