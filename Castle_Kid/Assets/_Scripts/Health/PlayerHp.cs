@@ -5,6 +5,9 @@ using _Scripts.Zones;
 using JetBrains.Annotations;
 using Unity.Netcode;
 using UnityEngine;
+using _Scripts.GameManager;
+using Unity.VisualScripting;
+using _Scripts.Multiplayer;
 
 namespace _Scripts.Health
 {
@@ -13,25 +16,52 @@ namespace _Scripts.Health
         // my sensei : https://www.youtube.com/watch?v=3yuBOB3VrCk&t=232s
         
         private Transform _playerTransform;
+        [SerializeField] private UI _playerUI;
 
         [CanBeNull] public CheckpointScript currentCheckpoint;
-
         public override void OnNetworkSpawn()
         {
             _playerTransform = transform.parent.parent.transform;
+            
+            if (!IsOwner)
+            {
+                _playerUI.gameObject.SetActive(false);
+            }
+            
             if (IsServer)
             {
-                CurrentHp = MaxHp;
                 MaxHp = 100;
+                CurrentHp = MaxHp;
             }
         }
 
         public void Update()
         {
             if (CurrentHp <= 0)
-                    Die();
+                Die();
         }
+
+        public override void GainHealth(int healthGained)
+        {
+            base.GainHealth(healthGained);
+
+            UpdateHeartsServerRpc(OwnerClientId, CurrentHp);
+        }
+
+        public override void TakeDamage(int damage)
+        {
+            base.TakeDamage(damage);
         
+            UpdateHeartsServerRpc(OwnerClientId, CurrentHp);
+        }
+
+        public override void GainFullLife()
+        {
+            base.GainFullLife();
+
+            UpdateHeartsServerRpc(OwnerClientId, CurrentHp);
+        }
+
         public override void Die()
         {
             if (IsOwner)
@@ -44,12 +74,12 @@ namespace _Scripts.Health
             DieLocally();
         }
 
-        [ServerRpc(RequireOwnership = false)]
+        [ServerRpc]
         private void DieServerRpc(ServerRpcParams serverRpcParams = default)
         {
             DieLocally();
             if (IsServer)
-                CurrentHp = MaxHp;
+                GainFullLife();
             DieClientRpc(new ClientRpcParams{ Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>{ serverRpcParams.Receive.SenderClientId }}});
             // That line above is my baby 
         }
@@ -66,6 +96,18 @@ namespace _Scripts.Health
         public void GainFullLifeServerRpc()
         {
             GainFullLife();
+        }
+
+        [ClientRpc]
+        private void UpdateHeartsClientRpc(int playerHealth, ClientRpcParams clientRpcParams)
+        {
+            _playerUI.UpdateHeartsState(playerHealth);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void UpdateHeartsServerRpc(ulong playerId, int playerHealth)
+        {
+            UpdateHeartsClientRpc(playerHealth, new ClientRpcParams{ Send = new ClientRpcSendParams { TargetClientIds = new List<ulong>{ playerId }}});
         }
     }
 }

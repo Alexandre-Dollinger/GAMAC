@@ -69,6 +69,17 @@ namespace _Scripts.Projectiles
         
         
         #region Create projectile not Network
+
+        [ServerRpc(RequireOwnership = false)]
+        public void CreateProjectileServerRpc(ProjectileStruct projStruct, 
+            ProjectilePrefabs projPrefabType, string projTag, float offset = 50, ServerRpcParams serverRpcParams = default)
+        {
+
+            GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
+                projStruct.SpawnPos, Quaternion.identity);
+
+        }
+
         private void CreateProjectile(ProjectileStruct projStruct,
             ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
         {

@@ -39,7 +39,6 @@ namespace _Scripts.Player.PowerUp
             // just accept it or go look here : https://discussions.unity.com/t/point-towards-mouse-position/876845/4
             Vector2 mousePos = GetMousePos();
             Vector3 direction = (mousePos - (Vector2)transform.position).normalized;
-
             return direction;
         }
 
@@ -62,6 +61,7 @@ namespace _Scripts.Player.PowerUp
                 GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId);*/
                 ProjectileStruct linearProj =
                     GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
+
                 GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.MagicArrowCone, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
             
@@ -73,14 +73,23 @@ namespace _Scripts.Player.PowerUp
                     GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
                 GM.ProjM.CreateProjectileManager(trackingProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);*/
             }
-            
+
             if (InputManager.PowerUp3WasReleased)
             {
-                ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
-                GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.ShieldBlueCircle, GM.PlayerProjectileTag, (int)OwnerClientId);
+                //ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
+                // GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.ShieldBlueCircle, GM.PlayerProjectileTag, (int)OwnerClientId);
                 /*ProjectileStruct trackingProjAccelerating =
-                    GM.GetBasicTrackingAcceleratingProjectileStruct(transform.position, GetMouseDirection());
-                GM.ProjM.CreateProjectileManager(trackingProjAccelerating, ProjectilePrefab.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);*/
+                    GM.GetBasicTrackingAcceleratingProjectileStruct(transform.position, GetMouseDirection());*/
+                
+                ProjectileStruct linearProj =
+                    GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
+
+                linearProj.InitHealing(20);
+                linearProj.CanBeDestroyedBySelf = false;
+                linearProj.CanBeDestroyedByPlayer = false;
+
+                //GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
+                GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
         }
     }

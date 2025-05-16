@@ -35,7 +35,10 @@ namespace _Scripts.Player.Weapon
         private int _playerId;
         
         // https://discussions.unity.com/t/mouse-movements-for-client-side-becoming-server-side-mouse-movements/938064/2
-        private NetworkVariable<Vector2> _dirToMouse = new NetworkVariable<Vector2>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private NetworkVariable<Vector2> _dirToMouse = new NetworkVariable<Vector2>(default, 
+            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+        private bool _attackedLocally = false;
         
         public override void OnNetworkSpawn()
         {
@@ -124,6 +127,8 @@ namespace _Scripts.Player.Weapon
             Vector3 mouseWorld = _playerCamera.ScreenToWorldPoint(Input.mousePosition);
             _dirToMouse.Value = (mouseWorld - transform.position).normalized;
         }
+        
+        
 
         private void CheckAttack()
         {
@@ -135,10 +140,33 @@ namespace _Scripts.Player.Weapon
             if (_curBufferTimer > 0 && !_polygonCollider2D.enabled && (_curAttDelay <= 0 || _curComboTimer > 0)) // check if attack init and if either in a combo or starting a combo
             {
                 _curBufferTimer = 0;
-                Attack();
-                /*Debug.Log($"Mouse pos : {(Input.mousePosition - transform.parent.transform.position).normalized}, posWithCam : {_playerCamera.ScreenToWorldPoint(Input.mousePosition).normalized}");
-                Debug.Log($"Player pos : {transform.position}");*/
+                AttackLocally();
+                AttackServerRpc();
             }
+        }
+
+        private void AttackLocally()
+        {
+            Attack();
+            _attackedLocally = true;
+        }
+
+        [ServerRpc]
+        private void AttackServerRpc()
+        {
+            Attack();
+        }
+
+        [ClientRpc]
+        private void AttackClientRpc()
+        {
+            if (_attackedLocally)
+            {
+                _attackedLocally = false;
+                return;
+            }
+            
+            Attack();
         }
 
         private void Attack()
@@ -216,8 +244,13 @@ namespace _Scripts.Player.Weapon
                     if (IsServer)
                         otherHp.TakeDamage(playerAttack);
                 }
-                else if (other.TryGetComponent<Projectile>(out Projectile projectile)) // if the attacked object is local
-                    GM.ProjM.ChangeProjHpManager(GM.ProjM.GetProjLstId(projectile), playerAttack);
+                else if
+                    (other.TryGetComponent<Projectile>(out Projectile projectile)) // if the attacked object is local
+                {
+                    //GM.ProjM.DoDamageToProjManager(GM.ProjM.GetProjLstId(projectile), playerAttack);
+                    otherHp.TakeDamage(playerAttack);
+                }
+
                 else
                     Debug.Log($"Couldn't locally remove health to : {other.gameObject.name}");
             }

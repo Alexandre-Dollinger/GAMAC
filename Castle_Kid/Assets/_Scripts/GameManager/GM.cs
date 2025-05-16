@@ -1,5 +1,6 @@
 using System;
 using _Scripts.Projectiles;
+using _Scripts.Enemy;
 using UnityEngine;
 
 namespace _Scripts.GameManager
@@ -19,13 +20,19 @@ namespace _Scripts.GameManager
         public static bool GameStarted = false;
 
         public static ProjectileManager ProjM;
+        public static EnemyManager EnemyM;
+        public static PlayerTracking playerTracking;
         
         public void Awake()
         {
             if (ProjM == null)
-            {
                 ProjM = GameObject.Find("PROJECTILE_MANAGER").GetComponent<ProjectileManager>();
-            }
+
+            if (EnemyM == null)
+                EnemyM = GameObject.Find("ENEMY_MANAGER").GetComponent<EnemyManager>();
+
+            if (playerTracking == null)
+                playerTracking = GameObject.Find("ENEMY_MANAGER").GetComponent<PlayerTracking>();
 
             CurrentPlayerSortingLayerId = SortingLayer.NameToID("CurrentPayer");
             BehindProjectileSortingLayer = SortingLayer.NameToID("Behind_Projectiles");

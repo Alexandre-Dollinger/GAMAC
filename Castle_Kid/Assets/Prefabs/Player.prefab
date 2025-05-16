@@ -233,6 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  _playerUI: {fileID: 5908187726197161368}
   currentCheckpoint: {fileID: 0}
 --- !u!1 &1851507631623712522
 GameObject:
@@ -1427,3 +1428,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2039227539244322398, guid: 45b5d57f896a7e141bfd79b0b2a5f13f, type: 3}
   m_PrefabInstance: {fileID: 845372623119204405}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5908187726197161368 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6504680574451563949, guid: 45b5d57f896a7e141bfd79b0b2a5f13f, type: 3}
+  m_PrefabInstance: {fileID: 845372623119204405}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe6fffbe1c575b24686cb413d9f2b538, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

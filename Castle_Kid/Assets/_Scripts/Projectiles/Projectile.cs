@@ -12,7 +12,6 @@ namespace _Scripts.Projectiles
     public class Projectile : UnitLocalHp
     {
         private bool _isServerProj;
-        
         private readonly float _speedCoefficient = 100;
         private float Speed
         {
@@ -52,7 +51,6 @@ namespace _Scripts.Projectiles
         public ProjectileStruct Proj;
         
         // still need sound, animation, sprite, collider
-
         public void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
@@ -285,6 +283,7 @@ namespace _Scripts.Projectiles
                 findTargetCollider.enabled = false;
                 _targetGameObject = GetClosestTarget(transform.position);
                 _targetsFound = new List<Collider2D>();
+
                 if (TargetTransform is not null)
                     Proj.FoundTrackingTarget = true;
                 _searchingTarget = false;
@@ -447,7 +446,7 @@ namespace _Scripts.Projectiles
                 }
                 else // if the enemy is local hp variable, all the projectiles need to do it damage
                     DoDamageOrHeal(otherHp);
-                
+
                 Die();
             }
             else if (!Proj.CanCrossWalls && GM.CrossedWall(other)) // got destroyed by wall

@@ -72,13 +72,13 @@ namespace _Scripts.Health
         }
         */
 
-        public void TakeDamage(int damage)
+        public virtual void TakeDamage(int damage)
         {
             if (CanDie)
                 CurrentHp -= damage;
         }
 
-        public void GainHealth(int healthGained)
+        public virtual void GainHealth(int healthGained)
         {
             CurrentHp += healthGained;
         }
