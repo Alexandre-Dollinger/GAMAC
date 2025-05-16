@@ -211,7 +211,7 @@ namespace _Scripts.Player.Weapon
         {
             if (CanAttackThat(other))
             {
-                IUnitHp otherHp = other.GetComponent<IUnitHp>();
+                IUnitHp otherHp = GetComponent<IUnitHp>();
                 
                 if (otherHp.IsNetwork)
                 {
@@ -219,7 +219,7 @@ namespace _Scripts.Player.Weapon
                         otherHp.TakeDamage(playerAttack);
                 }
                 else if (other.TryGetComponent<Projectile>(out Projectile projectile)) // if the attacked object is local
-                    GM.ProjM.DoDamageToProjManager(GM.ProjM.GetProjLstId(projectile), playerAttack);
+                    GM.ProjM.ChangeProjHpManager(GM.ProjM.GetProjLstId(projectile), playerAttack);
                 else
                     Debug.Log($"Couldn't locally remove health to : {other.gameObject.name}");
             }

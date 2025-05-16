@@ -14,7 +14,7 @@ namespace _Scripts.Projectiles
         public List<Projectile> projListSpawned; // A list only for the owner
 
         private bool _spawnedLocally = false; // to exclude the one that spawned locally from the clientRpc
-        private bool _attackedLocally = false;
+        private bool _changedHpLocally = false;
 
         #region Damage a projectile not Network
         
@@ -32,34 +32,38 @@ namespace _Scripts.Projectiles
 
             throw new ArgumentException("The projectile couldn't be found in the list for player " + OwnerClientId);
         }
-        public void DoDamageToProjManager(int lstId, int attack)
+        public void ChangeProjHpManager(int lstId, int value, bool isHealing = false)
         {
-            DoDamageToProjList(lstId, attack, true);
-            DoDamageToProjListServerRpc(lstId, attack);
+            ChangeProjHpList(lstId, value, isHealing, true);
+            DoDamageToProjListServerRpc(lstId, value, isHealing);
         }
         
-        private void DoDamageToProjList(int lstId, int attack, bool locally = false)
+        private void ChangeProjHpList(int lstId, int value, bool isHealing, bool locally = false)
         {
-            _attackedLocally = locally;
-            projListSpawned[lstId].TakeDamage(attack);
+            _changedHpLocally = locally;
+            
+            if (!isHealing)
+                projListSpawned[lstId].TakeDamage(value);
+            else
+                projListSpawned[lstId].GainHealth(value);
         }
 
         [ServerRpc(RequireOwnership = false)]
-        private void DoDamageToProjListServerRpc(int lstId, int attack)
+        private void DoDamageToProjListServerRpc(int lstId, int value, bool isHealing)
         {
-            DoDamageToProjListClientRpc(lstId, attack);
+            ChangeProjHpListClientRpc(lstId, value, isHealing);
         }
 
         [ClientRpc]
-        private void DoDamageToProjListClientRpc(int lstId, int attack)
+        private void ChangeProjHpListClientRpc(int lstId, int value, bool isHealing)
         {
-            if (_attackedLocally)
+            if (_changedHpLocally)
             {
-                _attackedLocally = false;
+                _changedHpLocally = false;
                 return;
             }
             
-            DoDamageToProjList(lstId, attack);
+            ChangeProjHpList(lstId, value, isHealing);
         }
         #endregion
         
