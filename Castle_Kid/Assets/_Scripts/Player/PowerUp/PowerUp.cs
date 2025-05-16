@@ -89,7 +89,7 @@ namespace _Scripts.Player.PowerUp
                 linearProj.CanBeDestroyedByPlayer = false;
 
                 //GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
-                GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag, (int)OwnerClientId);
+                GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
         }
     }

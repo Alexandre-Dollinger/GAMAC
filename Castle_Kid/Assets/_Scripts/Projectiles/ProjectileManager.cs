@@ -72,7 +72,7 @@ namespace _Scripts.Projectiles
 
         [ServerRpc(RequireOwnership = false)]
         public void CreateProjectileServerRpc(ProjectileStruct projStruct, 
-            ProjectilePrefabType projPrefabType, string projTag, float offset = 50, ServerRpcParams serverRpcParams = default)
+            ProjectilePrefabs projPrefabType, string projTag, float offset = 50, ServerRpcParams serverRpcParams = default)
         {
 
             GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
