@@ -720,6 +720,7 @@ GameObject:
   - component: {fileID: 1777083667600921613}
   - component: {fileID: 8460779684271987065}
   - component: {fileID: 8085595380963024030}
+  - component: {fileID: 277461416679663573}
   - component: {fileID: 1201757108727470182}
   m_Layer: 6
   m_Name: Player
@@ -965,6 +966,19 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   powerStats: {fileID: 11400000, guid: bb17963ecfd0865488129f50f1a58831, type: 2}
   toSpawn: {fileID: 3037767760468158043, guid: 07408459e8cac8e4c92bc396bbccd7cd, type: 3}
+--- !u!114 &277461416679663573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3908118593388261863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d6e8fcb5da213a4cab62d4a32519535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerColors: {fileID: 11400000, guid: 2ff1b872970eca84fb5e59820a06879d, type: 2}
 --- !u!114 &1201757108727470182
 MonoBehaviour:
   m_ObjectHideFlags: 0

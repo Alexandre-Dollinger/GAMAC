@@ -66,7 +66,47 @@ namespace _Scripts.Projectiles
             ChangeProjHpList(lstId, value, isHealing);
         }
         #endregion
-        
+
+        #region Destroy On (following) Projectiles
+
+        [ServerRpc(RequireOwnership = false)]
+        public void DestroyFollowProjectileServerRpc(ServerRpcParams serverRpcParams = default)
+        {
+            if (!IsServer)
+                return;
+            
+            List<int> projToDestroy = GetFollowProjectileLstId(serverRpcParams.Receive.SenderClientId);
+
+            foreach (int idToDestroy in projToDestroy)
+            {
+                DestroyGivenIdProjClientRpc(idToDestroy);
+            }
+        }
+
+        private List<int> GetFollowProjectileLstId(ulong playerConcerned)
+        {
+            List<int> res = new List<int>();
+
+            int listCount = projListSpawned.Count;
+            for (int id = listCount - 1; id >= 0; id--)
+            {
+                if (projListSpawned[id].Proj.AttackType is ProjectileAttackTypes.AroundSender or ProjectileAttackTypes.OnSender)
+                {
+                    if (projListSpawned[id].Proj.SenderId == (int)playerConcerned)
+                        res.Add(id);
+                        
+                }
+            }
+
+            return res;
+        }
+
+        [ClientRpc]
+        private void DestroyGivenIdProjClientRpc(int projId)
+        {
+            projListSpawned[projId].Die(); // automatically removes it from the list
+        }
+        #endregion
         
         #region Create projectile not Network
 

@@ -1,4 +1,5 @@
 using _Scripts.GameManager;
+using _Scripts.Player.ColorSwap;
 using Unity.Netcode;
 
 namespace _Scripts.Multiplayer
@@ -13,22 +14,16 @@ namespace _Scripts.Multiplayer
 
         public override void OnNetworkSpawn()
         {
-            if (IsOwner)
-            {
-                SetPlayerIdServerRpc();
-                GM.playerTracking.SetPlayerList();  
-            }
-            else
-            {
-                GM.playerTracking.PlayerList.Add(gameObject);
-            }
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void SetPlayerIdServerRpc(ServerRpcParams serverRpcParams = default)
-        {
             if (IsServer)
-                _playerId.Value = (int)serverRpcParams.Receive.SenderClientId;
+                _playerId.Value = (int)OwnerClientId;
+
+            if (IsOwner)
+                GM.playerTracking.SetPlayerList();
+            else
+                GM.playerTracking.PlayerList.Add(gameObject);
+            
+            if (IsOwner)
+                GetComponent<PlayerColorSwapScript>().SetColorManager((int)OwnerClientId);
         }
         
         public bool IsItMyPlayer()

@@ -86,6 +86,12 @@ namespace _Scripts.GameManager
         {
             return item.CompareTag(EnemyProjectileTag);
         }
+
+        public static readonly FilterType IsProjectile = IsItAProjectile;
+        private static bool IsItAProjectile(Collider2D item)
+        {
+            return IsPlayerProjectile(item) || IsEnemyProjectile(item);
+        }
         #endregion
         
         public static float GetAngleFromVectorFloat(Vector3 dir) 
