@@ -187,6 +187,8 @@ namespace _Scripts.Player.Movement
             CountTimers();
             
             CheckAnimation();
+            
+            Debug.Log(InputManager.InteractWasPressed);
         }
         //============================================================================================
     

@@ -27,6 +27,8 @@ namespace _Scripts.Inputs
 
         public static bool AttackWasPressed;
 
+        public static bool InteractWasPressed;
+
         private InputAction _moveAction;
         private InputAction _jumpAction;
         private InputAction _runAction;
@@ -39,6 +41,8 @@ namespace _Scripts.Inputs
         private InputAction _pauseMenuAction;
 
         private InputAction _attackAction;
+
+        private InputAction _interactAction;
 
         void Awake()
         {
@@ -56,6 +60,8 @@ namespace _Scripts.Inputs
             _pauseMenuAction = PlayerInput.actions["PauseMenu"];
 
             _attackAction = PlayerInput.actions["Attack"];
+
+            _interactAction = PlayerInput.actions["Interact"];
         }
 
         void Update()
@@ -82,6 +88,8 @@ namespace _Scripts.Inputs
                 PowerUp3WasReleased = _power3Action.WasReleasedThisFrame();
 
                 AttackWasPressed = _attackAction.WasPressedThisFrame();
+
+                InteractWasPressed = _interactAction.WasPressedThisFrame();
             }
         }
     }
