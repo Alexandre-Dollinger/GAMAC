@@ -1,4 +1,5 @@
 using _Scripts.GameManager;
+using _Scripts.Player.ColorSwap;
 using Unity.Netcode;
 
 namespace _Scripts.Multiplayer
@@ -22,6 +23,9 @@ namespace _Scripts.Multiplayer
             {
                 GM.playerTracking.PlayerList.Add(gameObject);
             }
+            
+            if (IsOwner)
+                GetComponent<PlayerColorSwapScript>().SetColorManager((int)OwnerClientId);
         }
 
         [ServerRpc(RequireOwnership = false)]
