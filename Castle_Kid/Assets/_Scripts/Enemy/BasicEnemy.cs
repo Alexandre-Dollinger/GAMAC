@@ -35,27 +35,30 @@ public abstract class BasicEnemy : NetworkBehaviour
     protected bool IsGuardian {get;} //Rare enemy
 
     #region Movement Stats
-    protected float gravity;
-    private float _groundSpeed;
-    public float GroundSpeed 
+    protected float gravity = -200f;
+    protected float GroundAcceleration;
+    protected float AirAcceleration;
+
+    private float _maxGroundSpeed;
+    public float MaxGroundSpeed 
     {
-        get => isFacingRight ? _groundSpeed : -_groundSpeed;
+        get => isFacingRight ? _maxGroundSpeed : -_maxGroundSpeed;
         
-        set => _groundSpeed = Math.Abs(value);
+        set => _maxGroundSpeed = Math.Abs(value);
     }
-    private float _airSpeed;
-    public float AirSpeed 
+    private float _maxAirSpeed;
+    public float MaxAirSpeed 
     {
-        get => isFacingRight ? _airSpeed : -_airSpeed;
+        get => isFacingRight ? _maxAirSpeed : -_maxAirSpeed;
         
-        set => _airSpeed = Math.Abs(value);
+        set => _maxAirSpeed = Math.Abs(value);
     }
-    private float _chaseSpeed;
-    public float ChaseSpeed 
+    private float _maxChaseSpeed;
+    public float MaxChaseSpeed 
     {
-        get => isFacingRight ? _chaseSpeed : -_chaseSpeed;
+        get => isFacingRight ? _maxChaseSpeed : -_maxChaseSpeed;
         
-        set => _chaseSpeed = Math.Abs(value);
+        set => _maxChaseSpeed = Math.Abs(value);
     }
     protected float chaseDistance;
     #endregion

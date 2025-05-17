@@ -22,7 +22,7 @@ public class EnemySpawner : NetworkBehaviour
 
         closestPlayerTime = 3f;
         closestPlayerCooldown = 0f;
-        spawnRange = 300f;
+        spawnRange = 1000f;
     }
 
     void FixedUpdate()
@@ -76,7 +76,7 @@ public class EnemySpawner : NetworkBehaviour
 
     private void SpawnEnemy()
     {
-        GM.EnemyM.CreateEnemyServerRpc(enemyType, transform.position);
+        GM.EnemyM.CreateEnemyServerRpc(enemyType, new Vector2(transform.position.x, transform.position.y + 100f));
         hasSpawned = true;
     }
 
