@@ -13,22 +13,13 @@ namespace _Scripts.Multiplayer
 
         public override void OnNetworkSpawn()
         {
-            if (IsOwner)
-            {
-                SetPlayerIdServerRpc();
-                GM.playerTracking.SetPlayerList();  
-            }
-            else
-            {
-                GM.playerTracking.PlayerList.Add(gameObject);
-            }
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void SetPlayerIdServerRpc(ServerRpcParams serverRpcParams = default)
-        {
             if (IsServer)
-                _playerId.Value = (int)serverRpcParams.Receive.SenderClientId;
+                _playerId.Value = (int)OwnerClientId;
+            
+            if (IsOwner)
+                GM.playerTracking.SetPlayerList();  
+            else
+                GM.playerTracking.PlayerList.Add(gameObject);
         }
         
         public bool IsItMyPlayer()
