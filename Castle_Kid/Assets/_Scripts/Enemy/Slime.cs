@@ -9,13 +9,13 @@ using _Scripts.GameManager;
 public class Slime : BasicEnemy
 {
     #region Variables
-    public EnemyCustomTrigger BodyCheckTrigger;
-    public EnemyCustomTrigger WillFallCheckTrigger;
-    public EnemyCustomTrigger WallCheckTrigger;
-    public CustomTrigger AirborneCheckTrigger;
-
-    private SpriteRenderer activeSprite;
     private bool isTouchingWall;
+    public EnemyCustomTrigger BodyTrigger;
+    public EnemyCustomTrigger WallCheckTrigger;
+    public EnemyCustomTrigger WillFallTrigger;
+    public CustomTrigger FeetTrigger;
+    private SpriteRenderer activeSprite;
+    
     #endregion
 
     #region Updates and Start
@@ -77,24 +77,22 @@ public class Slime : BasicEnemy
         Vector2 targetVelocity;
         float acceleration;
 
-        if (willFall)
+        if (!isGrounded)
         {
-            if (!isGrounded)
-            {
-                targetVelocity = new Vector2(MaxAirSpeed, gravity);
-                //enemyRb.linearVelocity = new Vector2(AirSpeed, gravity);
-                acceleration = AirAcceleration;
-            }
-
-            else
-            {
-                targetVelocity = new Vector2(MaxGroundSpeed, gravity);
-                // enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
-                acceleration = GroundAcceleration;
-            }
-
-            enemyRb.linearVelocity = Vector2.Lerp(enemyRb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+            targetVelocity = new Vector2(MaxAirSpeed, gravity);
+            //enemyRb.linearVelocity = new Vector2(AirSpeed, gravity);
+            acceleration = AirAcceleration;
         }
+
+        else
+        {
+            targetVelocity = new Vector2(MaxGroundSpeed, gravity);
+            // enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
+            acceleration = GroundAcceleration;
+        }
+
+        enemyRb.linearVelocity = Vector2.Lerp(enemyRb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+    
 
         //enemyRb.linearVelocity = new Vector2(moveVelocity.x, moveVelocity.y);
     }
@@ -228,23 +226,23 @@ public class Slime : BasicEnemy
     private void SetAllTriggers()
     {
         // Setting all the Enter and Exit triggers for the different triggers
-        BodyCheckTrigger.EnteredTrigger += OnColliderEnter2D;
+        BodyTrigger.EnteredTrigger += OnColliderEnter2D;
 
-        WillFallCheckTrigger.EnteredTrigger += OnWillFallCheckEnter2D;
-        WillFallCheckTrigger.ExitedTrigger += OnWillFallCheckExit2D;    
+        FeetTrigger.EnteredTrigger += OnIsGroundedCheckEnter2D;
+        FeetTrigger.ExitedTrigger += OnIsGroundedCheckExit2D;    
+        
+        WillFallTrigger.EnteredTrigger += OnWillFallCheckEnter2D;
+        WillFallTrigger.ExitedTrigger += OnWillFallCheckExit2D;
 
         WallCheckTrigger.EnteredTrigger += OnWallCheckEnter2D;
         WallCheckTrigger.ExitedTrigger += OnWallCheckExit2D;
-
-        AirborneCheckTrigger.EnteredTrigger += OnIsGroundedCheckEnter2D;
-        AirborneCheckTrigger.ExitedTrigger += OnIsGroundedCheckExit2D;
     }
 
     private void SetAllTriggerConditions()
     {
         //Setting all the conditions for the different triggers
-        WillFallCheckTrigger.condition = TouchedGround();
-        WallCheckTrigger.condition = item => TouchedGround()(item) || TouchedEnemy()(item);
+        WillFallTrigger.condition = TouchedGround();
+        WallCheckTrigger.condition = TouchedGround();
         //AirborneCheckTrigger.condition = item => groundLayerId == item.gameObject.layer;
     }
     #endregion
@@ -298,20 +296,17 @@ public class Slime : BasicEnemy
 
     private void OnIsGroundedCheckEnter2D(Collider2D item)
     {
-        Debug.Log("Grounded Entered");
         isGrounded = true;
     }
     private void OnIsGroundedCheckExit2D(Collider2D item)
     {
-        Debug.Log("Grounded Exited");
         isGrounded = false;
     }
 
     private void OnColliderEnter2D(Collider2D other) //For detecting if the slime collided with a player
     {
-         if (GM.IsPlayer(other))
+        if (GM.IsPlayer(other))
         {
-            Debug.Log("Collision with Player");
             IUnitHp otherHp = other.GetComponent<IUnitHp>();
             otherHp.TakeDamage(AttackPower);
         }

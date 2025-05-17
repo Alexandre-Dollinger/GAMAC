@@ -27,7 +27,6 @@ public class PlayerTracking : NetworkBehaviour
         PlayerList = (from player in playerIdScript
                         let player_id = player.GetPlayerId()
                         //where player_id != (int)OwnerClientId
-                        orderby player_id
-                        select player.gameObject).ToList();
+                        orderby player_id select player.gameObject).ToList();
     }
 }
