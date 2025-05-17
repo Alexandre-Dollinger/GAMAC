@@ -14,25 +14,16 @@ namespace _Scripts.Multiplayer
 
         public override void OnNetworkSpawn()
         {
+            if (IsServer)
+                _playerId.Value = (int)OwnerClientId;
+
             if (IsOwner)
-            {
-                SetPlayerIdServerRpc();
-                GM.playerTracking.SetPlayerList();  
-            }
+                GM.playerTracking.SetPlayerList();
             else
-            {
                 GM.playerTracking.PlayerList.Add(gameObject);
-            }
             
             if (IsOwner)
                 GetComponent<PlayerColorSwapScript>().SetColorManager((int)OwnerClientId);
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void SetPlayerIdServerRpc(ServerRpcParams serverRpcParams = default)
-        {
-            if (IsServer)
-                _playerId.Value = (int)serverRpcParams.Receive.SenderClientId;
         }
         
         public bool IsItMyPlayer()
