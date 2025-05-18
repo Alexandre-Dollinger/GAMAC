@@ -1,11 +1,10 @@
-using System;
 using _Scripts.GameManager;
 using _Scripts.Health;
 using _Scripts.Multiplayer;
 using Unity.Netcode;
 using UnityEngine;
 
-namespace _Scripts.Zones
+namespace _Scripts.Map
 {
     public class CheckpointScript : NetworkBehaviour
     {

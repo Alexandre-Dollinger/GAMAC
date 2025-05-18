@@ -1,10 +1,9 @@
 using _Scripts.GameManager;
 using _Scripts.Health;
 using _Scripts.Projectiles;
-using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
-namespace _Scripts.Zones
+namespace _Scripts.Map
 {
     public class DeathZonesScript : MonoBehaviour
     {
