@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using _Scripts.Zones;
 using JetBrains.Annotations;
 using Unity.Netcode;
 using UnityEngine;
 using _Scripts.GameManager;
+using _Scripts.Map;
 using Unity.VisualScripting;
 using _Scripts.Multiplayer;
 
