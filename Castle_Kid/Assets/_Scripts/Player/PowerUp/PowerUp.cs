@@ -53,44 +53,65 @@ namespace _Scripts.Player.PowerUp
         }
         
 
-    public void Update()
+        public void Update()
         {
-            if (InputManager.PowerUp1WasReleased)
-            {
-                /*ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
-                GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId);*/
-                ProjectileStruct linearProj =
-                    GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
-
-                GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.MagicArrowCone, GM.PlayerProjectileTag, (int)OwnerClientId);
-            }
+            if (InputManager.PowerUp1WasPressed)
+                FirePowerUp1(GetMouseDirection());
             
-            if (InputManager.PowerUp2WasReleased)
-            {
-                ProjectileStruct aroundSenderProj = GM.GetBasicAroundSenderProjectileStruct(transform.position, GetMouseDirection());
-                GM.ProjM.CreateProjectileManager(aroundSenderProj, ProjectilePrefabs.BlackHoleCone, GM.PlayerProjectileTag, (int)OwnerClientId, Vector3.Distance(transform.position, GetMousePos()));
-                /*ProjectileStruct trackingProj =
-                    GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
-                GM.ProjM.CreateProjectileManager(trackingProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);*/
-            }
+            if (InputManager.PowerUp2WasPressed)
+                FirePowerUp2(GetMouseDirection());
 
-            if (InputManager.PowerUp3WasReleased)
+            if (InputManager.PowerUp3WasPressed)
+                FirePowerUp3(GetMouseDirection());
+
+            if (InputManager.AimController != Vector2.zero)
             {
-                //ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
-                // GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.ShieldBlueCircle, GM.PlayerProjectileTag, (int)OwnerClientId);
-                /*ProjectileStruct trackingProjAccelerating =
-                    GM.GetBasicTrackingAcceleratingProjectileStruct(transform.position, GetMouseDirection());*/
+                if (InputManager.PowerUp1ControllerWasPressed)
+                    FirePowerUp1(InputManager.AimController.normalized);
                 
-                ProjectileStruct linearProj =
-                    GM.GetBasicLinearProjectileStruct(transform.position, GetMouseDirection());
+                if (InputManager.PowerUp2ControllerWasPressed)
+                    FirePowerUp2(InputManager.AimController.normalized);
+                
+                if (InputManager.PowerUp3ControllerWasPressed)
+                    FirePowerUp3(InputManager.AimController.normalized);
+            } 
+        }
 
-                linearProj.InitHealing(20);
-                linearProj.CanBeDestroyedBySelf = false;
-                linearProj.CanBeDestroyedByPlayer = false;
+        private void FirePowerUp1(Vector3 direction)
+        {
+            /*ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
+                GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId);*/
+            ProjectileStruct linearProj =
+                GM.GetBasicLinearProjectileStruct(transform.position, direction);
 
-                //GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
-                GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);
-            }
+            GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.MagicArrowCone, GM.PlayerProjectileTag, (int)OwnerClientId);
+        }
+
+        private void FirePowerUp2(Vector3 direction)
+        {
+            ProjectileStruct aroundSenderProj = GM.GetBasicAroundSenderProjectileStruct(transform.position, direction);
+            GM.ProjM.CreateProjectileManager(aroundSenderProj, ProjectilePrefabs.BlackHoleCone, GM.PlayerProjectileTag, (int)OwnerClientId, Vector3.Distance(transform.position, GetMousePos()));
+            /*ProjectileStruct trackingProj =
+                GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
+            GM.ProjM.CreateProjectileManager(trackingProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);*/
+        }
+
+        private void FirePowerUp3(Vector3 direction)
+        {
+            //ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
+            // GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.ShieldBlueCircle, GM.PlayerProjectileTag, (int)OwnerClientId);
+            /*ProjectileStruct trackingProjAccelerating =
+                GM.GetBasicTrackingAcceleratingProjectileStruct(transform.position, GetMouseDirection());*/
+                
+            ProjectileStruct linearProj =
+                GM.GetBasicLinearProjectileStruct(transform.position, direction);
+
+            linearProj.InitHealing(20);
+            linearProj.CanBeDestroyedBySelf = false;
+            linearProj.CanBeDestroyedByPlayer = false;
+
+            //GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
+            GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);
         }
     }
 }
