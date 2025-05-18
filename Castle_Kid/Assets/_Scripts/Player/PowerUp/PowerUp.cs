@@ -55,7 +55,7 @@ namespace _Scripts.Player.PowerUp
 
     public void Update()
         {
-            if (InputManager.PowerUp1WasReleased)
+            if (InputManager.PowerUp1WasPressed)
             {
                 /*ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
                 GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId);*/
@@ -65,7 +65,7 @@ namespace _Scripts.Player.PowerUp
                 GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.MagicArrowCone, GM.PlayerProjectileTag, (int)OwnerClientId);
             }
             
-            if (InputManager.PowerUp2WasReleased)
+            if (InputManager.PowerUp2WasPressed)
             {
                 ProjectileStruct aroundSenderProj = GM.GetBasicAroundSenderProjectileStruct(transform.position, GetMouseDirection());
                 GM.ProjM.CreateProjectileManager(aroundSenderProj, ProjectilePrefabs.BlackHoleCone, GM.PlayerProjectileTag, (int)OwnerClientId, Vector3.Distance(transform.position, GetMousePos()));
@@ -74,7 +74,7 @@ namespace _Scripts.Player.PowerUp
                 GM.ProjM.CreateProjectileManager(trackingProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);*/
             }
 
-            if (InputManager.PowerUp3WasReleased)
+            if (InputManager.PowerUp3WasPressed)
             {
                 //ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
                 // GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.ShieldBlueCircle, GM.PlayerProjectileTag, (int)OwnerClientId);

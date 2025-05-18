@@ -64,6 +64,42 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""PauseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""9f49365d-371a-4484-a18c-a01e085919ff"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""e96929e2-96b7-4270-957e-a0bcf73e5e35"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""Button"",
+                    ""id"": ""69486795-873e-49fc-add8-28a4d869d23a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AttackController"",
+                    ""type"": ""Button"",
+                    ""id"": ""8d9ab257-affe-46eb-a27f-71dcaf918f6c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""PowerUp1"",
                     ""type"": ""Button"",
                     ""id"": ""e0ffb6f4-ff70-44bd-abd4-30a2954a1d0a"",
@@ -91,31 +127,40 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""PauseMenu"",
+                    ""name"": ""PowerUp1Controller"",
                     ""type"": ""Button"",
-                    ""id"": ""9f49365d-371a-4484-a18c-a01e085919ff"",
+                    ""id"": ""a8837ab3-0bc9-4fca-bb7f-a3d9c833cd83"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""PowerUp2Controller"",
                     ""type"": ""Button"",
-                    ""id"": ""69486795-873e-49fc-add8-28a4d869d23a"",
+                    ""id"": ""de7cc600-5ee3-40d2-90fd-b0b888a76c42"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Interact"",
+                    ""name"": ""PowerUp3Controller"",
                     ""type"": ""Button"",
-                    ""id"": ""e96929e2-96b7-4270-957e-a0bcf73e5e35"",
+                    ""id"": ""65fe3407-eb76-4572-8b9a-27167de0688a"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AimController"",
+                    ""type"": ""Value"",
+                    ""id"": ""59ab461a-d753-40c3-bf7b-eead46bb9f87"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -374,17 +419,6 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""0d5dbfeb-40c6-4211-b2ff-5f880d072e0c"",
-                    ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PowerUp1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f6ceef97-0693-4ff9-a2e3-cf70ee24fe19"",
                     ""path"": ""<Keyboard>/2"",
                     ""interactions"": """",
@@ -396,30 +430,8 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e0a1f868-2c20-4b32-bcf4-038163750953"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PowerUp2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""2859d3cb-ae60-4581-9c82-1b85b88d6204"",
                     ""path"": ""<Keyboard>/3"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""PowerUp3"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""15498a50-e51e-49d1-9095-58abcba78fed"",
-                    ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -492,6 +504,105 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48d72644-dc69-4aa7-8964-21faf3f9a197"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttackController"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d5dbfeb-40c6-4211-b2ff-5f880d072e0c"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PowerUp1Controller"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0a1f868-2c20-4b32-bcf4-038163750953"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PowerUp3Controller"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""15498a50-e51e-49d1-9095-58abcba78fed"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PowerUp2Controller"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Joystick"",
+                    ""id"": ""d052fc8d-e8c6-4fc4-b195-f5a64a6887a1"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimController"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""63dd16d2-6ca3-43c7-ae26-2883f2aea664"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimController"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""553bb3e9-6d68-488e-b79e-3a222c1d6898"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimController"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""49491522-16da-45f9-816a-3c8e05bc6764"",
+                    ""path"": ""<Gamepad>/rightStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimController"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ecb096ef-d2dd-4629-9e79-d774393d430f"",
+                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AimController"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -504,12 +615,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         m_Player_Run = m_Player.FindAction("Run", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
+        m_Player_PauseMenu = m_Player.FindAction("PauseMenu", throwIfNotFound: true);
+        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_AttackController = m_Player.FindAction("AttackController", throwIfNotFound: true);
         m_Player_PowerUp1 = m_Player.FindAction("PowerUp1", throwIfNotFound: true);
         m_Player_PowerUp2 = m_Player.FindAction("PowerUp2", throwIfNotFound: true);
         m_Player_PowerUp3 = m_Player.FindAction("PowerUp3", throwIfNotFound: true);
-        m_Player_PauseMenu = m_Player.FindAction("PauseMenu", throwIfNotFound: true);
-        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_PowerUp1Controller = m_Player.FindAction("PowerUp1Controller", throwIfNotFound: true);
+        m_Player_PowerUp2Controller = m_Player.FindAction("PowerUp2Controller", throwIfNotFound: true);
+        m_Player_PowerUp3Controller = m_Player.FindAction("PowerUp3Controller", throwIfNotFound: true);
+        m_Player_AimController = m_Player.FindAction("AimController", throwIfNotFound: true);
     }
 
     ~@InputMap()
@@ -580,12 +696,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Run;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Dash;
+    private readonly InputAction m_Player_PauseMenu;
+    private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_AttackController;
     private readonly InputAction m_Player_PowerUp1;
     private readonly InputAction m_Player_PowerUp2;
     private readonly InputAction m_Player_PowerUp3;
-    private readonly InputAction m_Player_PauseMenu;
-    private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_PowerUp1Controller;
+    private readonly InputAction m_Player_PowerUp2Controller;
+    private readonly InputAction m_Player_PowerUp3Controller;
+    private readonly InputAction m_Player_AimController;
     public struct PlayerActions
     {
         private @InputMap m_Wrapper;
@@ -594,12 +715,17 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         public InputAction @Run => m_Wrapper.m_Player_Run;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
+        public InputAction @PauseMenu => m_Wrapper.m_Player_PauseMenu;
+        public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @AttackController => m_Wrapper.m_Player_AttackController;
         public InputAction @PowerUp1 => m_Wrapper.m_Player_PowerUp1;
         public InputAction @PowerUp2 => m_Wrapper.m_Player_PowerUp2;
         public InputAction @PowerUp3 => m_Wrapper.m_Player_PowerUp3;
-        public InputAction @PauseMenu => m_Wrapper.m_Player_PauseMenu;
-        public InputAction @Attack => m_Wrapper.m_Player_Attack;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @PowerUp1Controller => m_Wrapper.m_Player_PowerUp1Controller;
+        public InputAction @PowerUp2Controller => m_Wrapper.m_Player_PowerUp2Controller;
+        public InputAction @PowerUp3Controller => m_Wrapper.m_Player_PowerUp3Controller;
+        public InputAction @AimController => m_Wrapper.m_Player_AimController;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -621,6 +747,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Dash.started += instance.OnDash;
             @Dash.performed += instance.OnDash;
             @Dash.canceled += instance.OnDash;
+            @PauseMenu.started += instance.OnPauseMenu;
+            @PauseMenu.performed += instance.OnPauseMenu;
+            @PauseMenu.canceled += instance.OnPauseMenu;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
+            @Attack.started += instance.OnAttack;
+            @Attack.performed += instance.OnAttack;
+            @Attack.canceled += instance.OnAttack;
+            @AttackController.started += instance.OnAttackController;
+            @AttackController.performed += instance.OnAttackController;
+            @AttackController.canceled += instance.OnAttackController;
             @PowerUp1.started += instance.OnPowerUp1;
             @PowerUp1.performed += instance.OnPowerUp1;
             @PowerUp1.canceled += instance.OnPowerUp1;
@@ -630,15 +768,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @PowerUp3.started += instance.OnPowerUp3;
             @PowerUp3.performed += instance.OnPowerUp3;
             @PowerUp3.canceled += instance.OnPowerUp3;
-            @PauseMenu.started += instance.OnPauseMenu;
-            @PauseMenu.performed += instance.OnPauseMenu;
-            @PauseMenu.canceled += instance.OnPauseMenu;
-            @Attack.started += instance.OnAttack;
-            @Attack.performed += instance.OnAttack;
-            @Attack.canceled += instance.OnAttack;
-            @Interact.started += instance.OnInteract;
-            @Interact.performed += instance.OnInteract;
-            @Interact.canceled += instance.OnInteract;
+            @PowerUp1Controller.started += instance.OnPowerUp1Controller;
+            @PowerUp1Controller.performed += instance.OnPowerUp1Controller;
+            @PowerUp1Controller.canceled += instance.OnPowerUp1Controller;
+            @PowerUp2Controller.started += instance.OnPowerUp2Controller;
+            @PowerUp2Controller.performed += instance.OnPowerUp2Controller;
+            @PowerUp2Controller.canceled += instance.OnPowerUp2Controller;
+            @PowerUp3Controller.started += instance.OnPowerUp3Controller;
+            @PowerUp3Controller.performed += instance.OnPowerUp3Controller;
+            @PowerUp3Controller.canceled += instance.OnPowerUp3Controller;
+            @AimController.started += instance.OnAimController;
+            @AimController.performed += instance.OnAimController;
+            @AimController.canceled += instance.OnAimController;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -655,6 +796,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @Dash.started -= instance.OnDash;
             @Dash.performed -= instance.OnDash;
             @Dash.canceled -= instance.OnDash;
+            @PauseMenu.started -= instance.OnPauseMenu;
+            @PauseMenu.performed -= instance.OnPauseMenu;
+            @PauseMenu.canceled -= instance.OnPauseMenu;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
+            @Attack.started -= instance.OnAttack;
+            @Attack.performed -= instance.OnAttack;
+            @Attack.canceled -= instance.OnAttack;
+            @AttackController.started -= instance.OnAttackController;
+            @AttackController.performed -= instance.OnAttackController;
+            @AttackController.canceled -= instance.OnAttackController;
             @PowerUp1.started -= instance.OnPowerUp1;
             @PowerUp1.performed -= instance.OnPowerUp1;
             @PowerUp1.canceled -= instance.OnPowerUp1;
@@ -664,15 +817,18 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
             @PowerUp3.started -= instance.OnPowerUp3;
             @PowerUp3.performed -= instance.OnPowerUp3;
             @PowerUp3.canceled -= instance.OnPowerUp3;
-            @PauseMenu.started -= instance.OnPauseMenu;
-            @PauseMenu.performed -= instance.OnPauseMenu;
-            @PauseMenu.canceled -= instance.OnPauseMenu;
-            @Attack.started -= instance.OnAttack;
-            @Attack.performed -= instance.OnAttack;
-            @Attack.canceled -= instance.OnAttack;
-            @Interact.started -= instance.OnInteract;
-            @Interact.performed -= instance.OnInteract;
-            @Interact.canceled -= instance.OnInteract;
+            @PowerUp1Controller.started -= instance.OnPowerUp1Controller;
+            @PowerUp1Controller.performed -= instance.OnPowerUp1Controller;
+            @PowerUp1Controller.canceled -= instance.OnPowerUp1Controller;
+            @PowerUp2Controller.started -= instance.OnPowerUp2Controller;
+            @PowerUp2Controller.performed -= instance.OnPowerUp2Controller;
+            @PowerUp2Controller.canceled -= instance.OnPowerUp2Controller;
+            @PowerUp3Controller.started -= instance.OnPowerUp3Controller;
+            @PowerUp3Controller.performed -= instance.OnPowerUp3Controller;
+            @PowerUp3Controller.canceled -= instance.OnPowerUp3Controller;
+            @AimController.started -= instance.OnAimController;
+            @AimController.performed -= instance.OnAimController;
+            @AimController.canceled -= instance.OnAimController;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -696,11 +852,16 @@ public partial class @InputMap: IInputActionCollection2, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
+        void OnPauseMenu(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
+        void OnAttack(InputAction.CallbackContext context);
+        void OnAttackController(InputAction.CallbackContext context);
         void OnPowerUp1(InputAction.CallbackContext context);
         void OnPowerUp2(InputAction.CallbackContext context);
         void OnPowerUp3(InputAction.CallbackContext context);
-        void OnPauseMenu(InputAction.CallbackContext context);
-        void OnAttack(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
+        void OnPowerUp1Controller(InputAction.CallbackContext context);
+        void OnPowerUp2Controller(InputAction.CallbackContext context);
+        void OnPowerUp3Controller(InputAction.CallbackContext context);
+        void OnAimController(InputAction.CallbackContext context);
     }
 }

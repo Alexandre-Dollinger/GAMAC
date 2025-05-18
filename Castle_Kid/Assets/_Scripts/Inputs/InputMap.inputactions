@@ -42,6 +42,42 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "PauseMenu",
+                    "type": "Button",
+                    "id": "9f49365d-371a-4484-a18c-a01e085919ff",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "e96929e2-96b7-4270-957e-a0bcf73e5e35",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "69486795-873e-49fc-add8-28a4d869d23a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AttackController",
+                    "type": "Button",
+                    "id": "8d9ab257-affe-46eb-a27f-71dcaf918f6c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "PowerUp1",
                     "type": "Button",
                     "id": "e0ffb6f4-ff70-44bd-abd4-30a2954a1d0a",
@@ -69,31 +105,40 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PauseMenu",
+                    "name": "PowerUp1Controller",
                     "type": "Button",
-                    "id": "9f49365d-371a-4484-a18c-a01e085919ff",
+                    "id": "a8837ab3-0bc9-4fca-bb7f-a3d9c833cd83",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Attack",
+                    "name": "PowerUp2Controller",
                     "type": "Button",
-                    "id": "69486795-873e-49fc-add8-28a4d869d23a",
+                    "id": "de7cc600-5ee3-40d2-90fd-b0b888a76c42",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interact",
+                    "name": "PowerUp3Controller",
                     "type": "Button",
-                    "id": "e96929e2-96b7-4270-957e-a0bcf73e5e35",
+                    "id": "65fe3407-eb76-4572-8b9a-27167de0688a",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "AimController",
+                    "type": "Value",
+                    "id": "59ab461a-d753-40c3-bf7b-eead46bb9f87",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -352,17 +397,6 @@
                 },
                 {
                     "name": "",
-                    "id": "0d5dbfeb-40c6-4211-b2ff-5f880d072e0c",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PowerUp1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "f6ceef97-0693-4ff9-a2e3-cf70ee24fe19",
                     "path": "<Keyboard>/2",
                     "interactions": "",
@@ -374,30 +408,8 @@
                 },
                 {
                     "name": "",
-                    "id": "e0a1f868-2c20-4b32-bcf4-038163750953",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PowerUp2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "2859d3cb-ae60-4581-9c82-1b85b88d6204",
                     "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PowerUp3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "15498a50-e51e-49d1-9095-58abcba78fed",
-                    "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -470,6 +482,105 @@
                     "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "48d72644-dc69-4aa7-8964-21faf3f9a197",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AttackController",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d5dbfeb-40c6-4211-b2ff-5f880d072e0c",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PowerUp1Controller",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e0a1f868-2c20-4b32-bcf4-038163750953",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PowerUp3Controller",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "15498a50-e51e-49d1-9095-58abcba78fed",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PowerUp2Controller",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Joystick",
+                    "id": "d052fc8d-e8c6-4fc4-b195-f5a64a6887a1",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AimController",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "63dd16d2-6ca3-43c7-ae26-2883f2aea664",
+                    "path": "<Gamepad>/rightStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AimController",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "553bb3e9-6d68-488e-b79e-3a222c1d6898",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AimController",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "49491522-16da-45f9-816a-3c8e05bc6764",
+                    "path": "<Gamepad>/rightStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AimController",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "ecb096ef-d2dd-4629-9e79-d774393d430f",
+                    "path": "<Gamepad>/rightStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "AimController",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         }
