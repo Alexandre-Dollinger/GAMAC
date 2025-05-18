@@ -27,9 +27,9 @@ namespace _Scripts.Inputs
         public static bool PowerUp2WasPressed;
         public static bool PowerUp3WasPressed;
         
-        public static bool PowerUp1ControllerIsPressed;
-        public static bool PowerUp2ControllerIsPressed;
-        public static bool PowerUp3ControllerIsPressed;
+        public static bool PowerUp1ControllerWasPressed;
+        public static bool PowerUp2ControllerWasPressed;
+        public static bool PowerUp3ControllerWasPressed;
         
         public static Vector2 AimController;
 
@@ -107,9 +107,9 @@ namespace _Scripts.Inputs
                 PowerUp2WasPressed = _power2Action.WasPressedThisFrame();
                 PowerUp3WasPressed = _power3Action.WasPressedThisFrame();
 
-                PowerUp1ControllerIsPressed = _power1ControllerAction.IsPressed();
-                PowerUp2ControllerIsPressed = _power2ControllerAction.IsPressed();
-                PowerUp3ControllerIsPressed = _power3ControllerAction.IsPressed();
+                PowerUp1ControllerWasPressed = _power1ControllerAction.WasPressedThisFrame();
+                PowerUp2ControllerWasPressed = _power2ControllerAction.WasPressedThisFrame();
+                PowerUp3ControllerWasPressed = _power3ControllerAction.WasPressedThisFrame();
 
                 AimController = _aimControllerAction.ReadValue<Vector2>();
             }

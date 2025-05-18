@@ -79,7 +79,7 @@ namespace _Scripts.Player.Weapon
         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
         void Update()
         {
-            DebugAttack();
+            //DebugAttack();
             
             FixRotatingParent();
 
@@ -100,31 +100,29 @@ namespace _Scripts.Player.Weapon
             }
         }
 
-        private void FacingToMouse() // So that it face to the mouse (may need to change it so that it works in multiplayer)
+        private void FacingToAttack() // So that it face to the mouse (may need to change it so that it works in multiplayer)
         {
             if (!_polygonCollider2D.enabled) // We only face to the mouse when the player is not attacking (else he could turn fast and attack everywhere)
             {
-                // Don't ask me, I don't know : https://youtu.be/bY4Hr2x05p8?t=133
-                //Vector3 difference = _playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-                if (IsOwner)
-                    UpdateDirToAttack();
-                //float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
                 float rotZ = Mathf.Atan2(_dirToAttack.Value.y, _dirToAttack.Value.x) * Mathf.Rad2Deg;
                 transform.rotation = Quaternion.Euler(0f, 0f, rotZ + offset);
                 _slashRotation = transform.rotation;
             }
         }
 
-        private void UpdateDirToAttack(Vector3? controllerDirection = null)
+        private void UpdateDirToAttack(bool isController = false)
         {
-            if (controllerDirection is null)
+            if (isController)
             {
-                Vector3 mouseWorld = _playerCamera.ScreenToWorldPoint(Input.mousePosition);
-                _dirToAttack.Value = (mouseWorld - transform.position).normalized;
+                _dirToAttack.Value = InputManager.AimController.normalized;
             }
             else
             {
-                _dirToAttack.Value = controllerDirection.Value;
+                // Don't ask me, I don't know : https://youtu.be/bY4Hr2x05p8?t=133
+                //Vector3 difference = _playerCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                //float rotZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+                Vector3 mouseWorld = _playerCamera.ScreenToWorldPoint(Input.mousePosition);
+                _dirToAttack.Value = (mouseWorld - transform.position).normalized;
             }
         }
         
@@ -140,7 +138,7 @@ namespace _Scripts.Player.Weapon
             {
                 _controllerAttack = true;
                 _curBufferTimer = bufferAttackTimer;
-                UpdateDirToAttack(InputManager.AimController);
+                UpdateDirToAttack(true);
             }
             
             if (_curBufferTimer > 0 && !_polygonCollider2D.enabled && (_curAttDelay <= 0 || _curComboTimer > 0)) // check if attack init and if either in a combo or starting a combo
@@ -149,10 +147,12 @@ namespace _Scripts.Player.Weapon
                 {
                     _controllerAttack = false;
                     if (InputManager.AimController != Vector2.zero) // not sure 
-                        UpdateDirToAttack(InputManager.AimController);
+                        UpdateDirToAttack(true);
                 }
                 else
-                    FacingToMouse();
+                    UpdateDirToAttack();
+                
+                FacingToAttack();
                 
                 _curBufferTimer = 0;
                 AttackLocally();
@@ -168,12 +168,6 @@ namespace _Scripts.Player.Weapon
 
         [ServerRpc]
         private void AttackServerRpc()
-        {
-            Attack();
-        }
-
-        [ClientRpc]
-        private void AttackClientRpc()
         {
             if (_attackedLocally)
             {

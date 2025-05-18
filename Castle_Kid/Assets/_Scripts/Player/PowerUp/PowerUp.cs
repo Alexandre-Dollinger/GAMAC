@@ -66,13 +66,13 @@ namespace _Scripts.Player.PowerUp
 
             if (InputManager.AimController != Vector2.zero)
             {
-                if (InputManager.PowerUp1ControllerIsPressed)
+                if (InputManager.PowerUp1ControllerWasPressed)
                     FirePowerUp1(InputManager.AimController.normalized);
                 
-                if (InputManager.PowerUp2ControllerIsPressed)
+                if (InputManager.PowerUp2ControllerWasPressed)
                     FirePowerUp2(InputManager.AimController.normalized);
                 
-                if (InputManager.PowerUp3ControllerIsPressed)
+                if (InputManager.PowerUp3ControllerWasPressed)
                     FirePowerUp3(InputManager.AimController.normalized);
             } 
         }
