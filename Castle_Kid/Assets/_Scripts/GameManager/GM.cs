@@ -1,6 +1,7 @@
 using System;
 using _Scripts.Projectiles;
 using _Scripts.Enemy;
+using ParrelSync;
 using UnityEngine;
 
 namespace _Scripts.GameManager
@@ -132,7 +133,7 @@ namespace _Scripts.GameManager
         public static ProjectileStruct GetBasicTrackingAcceleratingProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
             ProjectileStruct trackingProj = new ProjectileStruct(spawnPos, direction);
-            trackingProj.InitSpeed(10,50 ,500);
+            trackingProj.InitSpeed(50,10 ,200);
             trackingProj.InitDestroyCondition(true, 50, true);
             trackingProj.InitTargeting(true, true, true, true);
             trackingProj.InitAttackTracking(50, 200);
@@ -153,9 +154,9 @@ namespace _Scripts.GameManager
         
         public static ProjectileStruct GetBasicAroundSenderProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct aroundSenderProj = new ProjectileStruct(spawnPos, direction, 1.5f);
+            ProjectileStruct aroundSenderProj = new ProjectileStruct(spawnPos, direction, scale:1.5f);
             aroundSenderProj.InitDestroyCondition(true, 50, true, true);
-            aroundSenderProj.InitTargeting(true, true, false, true, true);
+            aroundSenderProj.InitTargeting(true, true, false, true, false);
             aroundSenderProj.InitAttackAroundSender(50, SenderTags.Player, 180f, true, 45 ,false);  
             //aroundSenderProj.BecomeBehindPlayerProjectile();
 
@@ -168,6 +169,59 @@ namespace _Scripts.GameManager
             fixProj.InitDestroyCondition(true, 50, true);
             fixProj.InitTargeting(true, true, true, true);
             fixProj.InitAttackFix(50, 180f, false);
+
+            return fixProj;
+        }
+
+        public static ProjectileStruct GetLinearProjectileStruct()
+        {
+            ProjectileStruct linearProj = new ProjectileStruct(Vector3.zero, Vector3.zero);
+            linearProj.InitSpeed(100);
+            linearProj.InitDestroyCondition();
+            linearProj.InitTargeting(true, true, true, true);
+            linearProj.InitAttackLinear(50);
+
+            return linearProj;
+        }
+
+        public static ProjectileStruct GetTrackingProjectileStruct()
+        {
+            ProjectileStruct trackingProj = new ProjectileStruct(Vector3.zero, Vector3.zero);
+            trackingProj.InitSpeed();
+            trackingProj.InitDestroyCondition(true, 50, true);
+            trackingProj.InitTargeting(true, true, true, true);
+            trackingProj.InitAttackTracking(50, 200);
+
+            return trackingProj;
+        }
+
+        public static ProjectileStruct GetOnSenderProjectileStruct()
+        {
+            ProjectileStruct onSenderProj = new ProjectileStruct(Vector3.zero, Vector3.zero);
+            onSenderProj.InitDestroyCondition(true, 50, true, false);
+            onSenderProj.InitTargeting(true, true, false, true, false);
+            onSenderProj.InitAttackOnSender(50, SenderTags.Player);
+            onSenderProj.BecomeBehindPlayerProjectile();
+
+            return onSenderProj;
+        }
+
+        public static ProjectileStruct GetAroundSenderProjectileStruct()
+        {
+            ProjectileStruct aroundSenderProj = new ProjectileStruct(Vector3.zero, Vector3.zero, 100f, 1.5f);
+            aroundSenderProj.InitDestroyCondition(true, 50, true, true);
+            aroundSenderProj.InitTargeting(true, true, false, true, true);
+            aroundSenderProj.InitAttackAroundSender(50, SenderTags.Player, 0f, true, 45 ,false);  
+
+            return aroundSenderProj;
+        }
+
+        public static ProjectileStruct GetFixProjectileStruct()
+        {
+            ProjectileStruct fixProj = new ProjectileStruct(Vector3.zero, Vector3.zero, scale: 0.7f, offset: 100f);
+            fixProj.InitDestroyCondition(true, 50, true);
+            fixProj.InitTargeting(true, true, true, true);
+            fixProj.InitAttackFix(50, 0f, false);
 
             return fixProj;
         }

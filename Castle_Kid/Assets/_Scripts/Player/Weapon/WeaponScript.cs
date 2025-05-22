@@ -4,6 +4,7 @@ using _Scripts.Health;
 using _Scripts.Inputs;
 using _Scripts.Multiplayer;
 using _Scripts.Projectiles;
+using _Scripts.UI_scripts;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -41,6 +42,8 @@ namespace _Scripts.Player.Weapon
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         private bool _attackedLocally = false;
+
+        [SerializeField] private CooldownUI weaponCooldown; 
         
         public override void OnNetworkSpawn()
         {
@@ -88,6 +91,10 @@ namespace _Scripts.Player.Weapon
             UpdateTimer();
             
             CheckAttack();
+            
+            if (IsOwner)
+                if (_curComboTimer <= 0) // we don't want it to show if we can still do a combo
+                    weaponCooldown.CooldownManagement(_curAttDelay, attackDelay);
         }
 
         private void FixRotatingParent()

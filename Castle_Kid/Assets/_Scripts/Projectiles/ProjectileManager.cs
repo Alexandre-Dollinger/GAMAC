@@ -110,22 +110,9 @@ namespace _Scripts.Projectiles
         
         #region Create projectile not Network
 
-        [ServerRpc(RequireOwnership = false)]
-        public void CreateProjectileServerRpc(ProjectileStruct projStruct, 
-            ProjectilePrefabs projPrefabType, string projTag, float offset = 50, ServerRpcParams serverRpcParams = default)
-        {
-
-            GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
-                projStruct.SpawnPos, Quaternion.identity);
-
-        }
-
         private void CreateProjectile(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         {
-            projStruct.SpawnPos += projStruct.Direction * offset;
-            // To not spawn the projectile in our caster
-
             GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefab), 
                 projStruct.SpawnPos, Quaternion.identity);
             
@@ -144,26 +131,26 @@ namespace _Scripts.Projectiles
         }
 
         public void CreateProjectileManager(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset = 50)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         { // for now we don't care about server prediction but we will probably need it : int startTickServer, int startTickClient, | NetworkManager.Singleton.ServerTime.Tick, NetworkManager.Singleton.LocalTime.Tick,
             if (projTag != GM.PlayerProjectileTag)
                 playerId = -1;
 
-            CreateProjectileLocally(projStruct, projPrefab, projTag, playerId, offset);
-            CreateProjectileServerRpc(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectileLocally(projStruct, projPrefab, projTag, playerId);
+            CreateProjectileServerRpc(projStruct, projPrefab, projTag, playerId);
         }
 
         private void CreateProjectileLocally(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         { 
-            CreateProjectile(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectile(projStruct, projPrefab, projTag, playerId);
             
             _spawnedLocally = true;
         }
 
         [ClientRpc]
         private void CreateProjectileClientRpc(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         {
             if (_spawnedLocally) // to exclude the client that spawned locally
             {
@@ -171,14 +158,14 @@ namespace _Scripts.Projectiles
                 return;
             }
             
-            CreateProjectile(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectile(projStruct, projPrefab, projTag, playerId);
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void CreateProjectileServerRpc(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         {
-            CreateProjectileClientRpc(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectileClientRpc(projStruct, projPrefab, projTag, playerId);
         }
         #endregion
 
@@ -248,6 +235,72 @@ namespace _Scripts.Projectiles
                                          NetworkManager.Singleton.LocalTime.TickRate;
             Debug.Log($"Server : Called num {OwnerClientId} with time difference : {timeDifferenceServer} || Current Tick : {NetworkManager.Singleton.ServerTime.Tick}, start Tick : {startTickServer}");
             Debug.Log($"Client : Called num {OwnerClientId} with time difference : {timeDifferenceClient} || Current Tick : {NetworkManager.Singleton.LocalTime.Tick}, start Tick : {startTickClient}");
+        }
+        
+        public ProjectileStruct GetProjectileStruct(ProjectileStructEnum projectileStructEnum)
+        {
+            switch (projectileStructEnum)
+            {
+                case ProjectileStructEnum.LinearDamage:
+                    return GM.GetLinearProjectileStruct();
+                case ProjectileStructEnum.LinearHealing:
+                    ProjectileStruct lH = GM.GetLinearProjectileStruct();
+                    lH.InitHealing();
+                    return lH;
+                case ProjectileStructEnum.LinearAcceleratingDamage:
+                    ProjectileStruct lAD = GM.GetLinearProjectileStruct();
+                    lAD.InitSpeed(50, 50, 125);
+                    lAD.CanCrossWalls = true;
+                    return lAD;
+                case ProjectileStructEnum.LinearAcceleratingHealing:
+                    ProjectileStruct lAH = GetProjectileStruct(ProjectileStructEnum.LinearAcceleratingDamage);
+                    lAH.InitHealing();
+                    return lAH;
+                case ProjectileStructEnum.TrackingDamage:
+                    ProjectileStruct tD = GM.GetTrackingProjectileStruct();
+                    return tD;
+                case ProjectileStructEnum.TrackingHealing:
+                    ProjectileStruct tH = GM.GetTrackingProjectileStruct();
+                    tH.InitHealing();
+                    return tH;
+                case ProjectileStructEnum.TrackingAcceleratingDamage:
+                    ProjectileStruct tAD = GM.GetTrackingProjectileStruct();
+                    tAD.InitSpeed(50, 50, 125);
+                    return tAD;
+                case ProjectileStructEnum.TrackingAcceleratingHealing:
+                    ProjectileStruct tAH = GM.GetTrackingProjectileStruct();
+                    tAH.InitSpeed(50, 50 ,250);
+                    tAH.InitHealing();
+                    return tAH;
+                case ProjectileStructEnum.OnSenderRotating:
+                    ProjectileStruct sR = GM.GetOnSenderProjectileStruct();
+                    sR.RotateSpeed = 180f;
+                    return sR;
+                case ProjectileStructEnum.OnSender:
+                    ProjectileStruct s = GM.GetOnSenderProjectileStruct();
+                    return s;
+                case ProjectileStructEnum.AroundSenderRotating:
+                    ProjectileStruct aSR = GM.GetAroundSenderProjectileStruct();
+                    return aSR;
+                case ProjectileStructEnum.AroundSenderRotatingSelf:
+                    ProjectileStruct aSRS = GM.GetAroundSenderProjectileStruct();
+                    aSRS.RotateSpeed = 180f;
+                    return aSRS;
+                case ProjectileStructEnum.AroundSender:
+                    ProjectileStruct aS = GM.GetAroundSenderProjectileStruct();
+                    aS.RotateSpeed = 0f;
+                    aS.RotateAroundSpeed = 0f;
+                    return aS;
+                case ProjectileStructEnum.Fix:
+                    ProjectileStruct f = GM.GetFixProjectileStruct();
+                    return f;
+                case ProjectileStructEnum.FixHealing:
+                    ProjectileStruct fH = GM.GetFixProjectileStruct();
+                    fH.InitHealing();
+                    return fH;
+            }
+
+            throw new ArgumentException("Don't know this Projectile Struct : " + projectileStructEnum);
         }
     }
 }

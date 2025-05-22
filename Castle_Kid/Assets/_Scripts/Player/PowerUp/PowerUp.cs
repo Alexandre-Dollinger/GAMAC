@@ -1,25 +1,86 @@
 using System;
-using System.Collections;
 using _Scripts.GameManager;
 using _Scripts.Inputs;
 using _Scripts.Projectiles;
+using _Scripts.UI_scripts;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Random = System.Random;
+using UnityEngine.UI;
 
 namespace _Scripts.Player.PowerUp
 {
+    public struct PowerUpStruct : INetworkSerializable
+    {
+        public ProjectileStruct ProjStruct;
+        public ProjectilePrefabs ProjPrefab;
+        public float Cooldown;
+        public float CurrentTime;
+        public bool Enable;
+
+        public PowerUpStruct(ProjectileStruct projStruct, ProjectilePrefabs projPrefab, float cooldown, bool enable = true)
+        {
+            ProjStruct = projStruct;
+            ProjPrefab = projPrefab;
+            Cooldown = cooldown;
+            CurrentTime = 0f;
+            
+            Enable = enable;
+        }
+
+        public bool ReadyToFire()
+        {
+            return Enable && CurrentTime <= 0;
+        }
+
+        public void Fire(Vector3 casterPos, Vector3 direction, string projTag, int senderId)
+        {
+            CurrentTime = Cooldown;
+            ProjStruct.UpdatePosAndDir(casterPos, direction, ProjStruct.Offset);
+            GM.ProjM.CreateProjectileManager(ProjStruct, ProjPrefab, projTag, senderId);
+        }
+
+        public void CountTimer(float deltaTime)
+        {
+            if (CurrentTime > 0)
+                CurrentTime -= deltaTime;
+        }
+        
+        public Sprite GetPrefabSprite()
+        {
+            return GM.ProjM.GetProjectilePrefab(ProjPrefab).GetComponent<SpriteRenderer>().sprite;
+        }
+        
+        public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
+        {
+            serializer.SerializeValue(ref ProjStruct);
+            serializer.SerializeValue(ref Cooldown);
+            serializer.SerializeValue(ref CurrentTime);
+        }
+    }
+    
     public class PowerUp : NetworkBehaviour
     {
-        [Header("References")] public PowerUpStats powerStats;
-
-        [SerializeField] private GameObject toSpawn;
-
         private Camera _plCamera;
+        
+        public PowerUpStruct PowerUp1;
+        public PowerUpStruct PowerUp2;
+        public PowerUpStruct PowerUp3;
 
-        private Random _random = new Random(0);
-
+        [SerializeField] private CooldownUI pow1Cooldown;
+        [SerializeField] private CooldownUI pow2Cooldown;
+        [SerializeField] private CooldownUI pow3Cooldown;
+        
+        private int _lastInited = 3;
+        private int NextToInit
+        {
+            get
+            {
+                _lastInited = _lastInited % 3 + 1;
+                return _lastInited;
+            }
+        }
+        
         public override void OnNetworkSpawn()
         {
             if (!IsOwner)
@@ -32,6 +93,8 @@ namespace _Scripts.Player.PowerUp
         public void Awake()
         {
             _plCamera = GetComponentInChildren<Camera>();
+            
+            SetBasicProjectiles();
         }
 
         private Vector3 GetMouseDirection()
@@ -46,72 +109,131 @@ namespace _Scripts.Player.PowerUp
         {
             return _plCamera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         }
-
-        private ProjectilePrefabs GetRandomProjectilePrefabs()
-        {
-            return (ProjectilePrefabs)_random.Next(0, 14);
-        }
         
-
         public void Update()
         {
-            if (InputManager.PowerUp1WasPressed)
-                FirePowerUp1(GetMouseDirection());
+            UpdateTimer();
             
-            if (InputManager.PowerUp2WasPressed)
-                FirePowerUp2(GetMouseDirection());
+            UpdateCooldown();
 
-            if (InputManager.PowerUp3WasPressed)
-                FirePowerUp3(GetMouseDirection());
+            FireManager();
+        }
+        
+        private void FireManager()
+        {
+                        
+            if (InputManager.PowerUp1WasPressed && PowerUp1.Enable && PowerUp1.ReadyToFire())
+                PowerUp1.Fire(transform.position, GetMouseDirection(), GM.PlayerProjectileTag, (int)OwnerClientId);
+            //FirePowerUp1(GetMouseDirection());
+            
+            if (InputManager.PowerUp2WasPressed && PowerUp2.Enable && PowerUp2.ReadyToFire())
+                PowerUp2.Fire(transform.position, GetMouseDirection(), 
+                    GM.PlayerProjectileTag, (int)OwnerClientId);
+            //FirePowerUp2(GetMouseDirection());
+
+            if (InputManager.PowerUp3WasPressed && PowerUp3.Enable && PowerUp3.ReadyToFire())
+                PowerUp3.Fire(transform.position, GetMouseDirection(), 
+                    GM.PlayerProjectileTag, (int)OwnerClientId);
+            //FirePowerUp3(GetMouseDirection());
 
             if (InputManager.AimController != Vector2.zero)
             {
-                if (InputManager.PowerUp1ControllerWasPressed)
-                    FirePowerUp1(InputManager.AimController.normalized);
+                if (InputManager.PowerUp1ControllerWasPressed && PowerUp1.Enable && PowerUp1.ReadyToFire())
+                    PowerUp1.Fire(transform.position,InputManager.AimController.normalized, 
+                        GM.PlayerProjectileTag, (int)OwnerClientId);
                 
-                if (InputManager.PowerUp2ControllerWasPressed)
-                    FirePowerUp2(InputManager.AimController.normalized);
+                if (InputManager.PowerUp2ControllerWasPressed && PowerUp2.Enable && PowerUp2.ReadyToFire())
+                    PowerUp2.Fire(transform.position, InputManager.AimController.normalized, 
+                        GM.PlayerProjectileTag, (int)OwnerClientId);
                 
-                if (InputManager.PowerUp3ControllerWasPressed)
-                    FirePowerUp3(InputManager.AimController.normalized);
+                if (InputManager.PowerUp3ControllerWasPressed && PowerUp3.Enable && PowerUp3.ReadyToFire())
+                    PowerUp3.Fire(transform.position, InputManager.AimController.normalized, 
+                        GM.PlayerProjectileTag, (int)OwnerClientId);
             } 
         }
 
-        private void FirePowerUp1(Vector3 direction)
+        private void SetBasicProjectiles()
         {
-            /*ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
-                GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.SparkCircle, GM.PlayerProjectileTag, (int)OwnerClientId);*/
-            ProjectileStruct linearProj =
-                GM.GetBasicLinearProjectileStruct(transform.position, direction);
+            PowerUp1 = new PowerUpStruct(GM.GetBasicLinearProjectileStruct(Vector3.zero, Vector3.zero), 
+                ProjectilePrefabs.MagicArrowCone, 1f);
 
-            GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.MagicArrowCone, GM.PlayerProjectileTag, (int)OwnerClientId);
+            PowerUp2 = new PowerUpStruct(GM.GetBasicAroundSenderProjectileStruct(Vector3.zero, Vector3.zero),
+                ProjectilePrefabs.BlackHoleCone, 5f);
+
+            PowerUp2.ProjStruct.Offset = 100f;
+            
+            ProjectileStruct healingProj =
+                GM.GetBasicLinearProjectileStruct(Vector3.zero, Vector3.zero);
+
+            healingProj.InitHealing(20);
+            healingProj.CanBeDestroyedBySelf = false;
+            healingProj.CanBeDestroyedByPlayer = false;
+
+            PowerUp3 = new PowerUpStruct(healingProj, ProjectilePrefabs.SparkCone, 3f);
+            
+            UpdateSpriteUI(1);
+            UpdateSpriteUI(2);
+            UpdateSpriteUI(3);
         }
 
-        private void FirePowerUp2(Vector3 direction)
+        private void UpdateSpriteUI(int numPowerUp)
         {
-            ProjectileStruct aroundSenderProj = GM.GetBasicAroundSenderProjectileStruct(transform.position, direction);
-            GM.ProjM.CreateProjectileManager(aroundSenderProj, ProjectilePrefabs.BlackHoleCone, GM.PlayerProjectileTag, (int)OwnerClientId, Vector3.Distance(transform.position, GetMousePos()));
-            /*ProjectileStruct trackingProj =
-                GM.GetBasicTrackingFixedSpeedProjectileStruct(transform.position, GetMouseDirection());
-            GM.ProjM.CreateProjectileManager(trackingProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);*/
+            switch (numPowerUp)
+            {
+                case 1:
+                    pow1Cooldown.UpdateSprite(PowerUp1.GetPrefabSprite());
+                    break;
+                case 2:
+                    pow2Cooldown.UpdateSprite(PowerUp2.GetPrefabSprite());
+                    break;
+                case 3:
+                    pow3Cooldown.UpdateSprite(PowerUp3.GetPrefabSprite());
+                    break;
+                default:
+                    throw new ArgumentException("What PowerUp num is that ??? : " + numPowerUp);
+            }
         }
 
-        private void FirePowerUp3(Vector3 direction)
+        public void UpdatePowerUp(PowerUpStruct powerUpStruct)
         {
-            //ProjectileStruct onSenderProj = GM.GetBasicOnSenderProjectileStruct(transform.position);
-            // GM.ProjM.CreateProjectileManager(onSenderProj, ProjectilePrefabs.ShieldBlueCircle, GM.PlayerProjectileTag, (int)OwnerClientId);
-            /*ProjectileStruct trackingProjAccelerating =
-                GM.GetBasicTrackingAcceleratingProjectileStruct(transform.position, GetMouseDirection());*/
-                
-            ProjectileStruct linearProj =
-                GM.GetBasicLinearProjectileStruct(transform.position, direction);
+            int nextToInit = NextToInit;
+            
+            switch (nextToInit)
+            {
+                case 1:
+                    PowerUp1 = powerUpStruct;
+                    break;
+                case 2:
+                    PowerUp2 = powerUpStruct;
+                    break;
+                case 3:
+                    PowerUp3 = powerUpStruct;
+                    break;
+            }
+            
+            UpdateSpriteUI(nextToInit);
+        }
 
-            linearProj.InitHealing(20);
-            linearProj.CanBeDestroyedBySelf = false;
-            linearProj.CanBeDestroyedByPlayer = false;
+        private void UpdateCooldown()
+        {
+            if (PowerUp1.Enable)
+                pow1Cooldown.CooldownManagement(PowerUp1.CurrentTime, PowerUp1.Cooldown);
+            if (PowerUp2.Enable)
+                pow2Cooldown.CooldownManagement(PowerUp2.CurrentTime, PowerUp2.Cooldown);
+            if (PowerUp3.Enable)
+                pow3Cooldown.CooldownManagement(PowerUp3.CurrentTime, PowerUp3.Cooldown);
+        }
 
-            //GM.ProjM.CreateProjectileServerRpc(linearProj, ProjectilePrefabType.Spark, GM.PlayerProjectileTag);
-            GM.ProjM.CreateProjectileManager(linearProj, ProjectilePrefabs.SparkCone, GM.PlayerProjectileTag, (int)OwnerClientId);
+        private void UpdateTimer()
+        {
+            float deltaTime = Time.deltaTime;
+
+            if (PowerUp1.Enable && !PowerUp1.ReadyToFire())
+                PowerUp1.CountTimer(deltaTime);
+            if (PowerUp2.Enable && !PowerUp2.ReadyToFire())
+                PowerUp2.CountTimer(deltaTime);
+            if (PowerUp3.Enable && !PowerUp3.ReadyToFire())
+                PowerUp3.CountTimer(deltaTime);
         }
     }
 }

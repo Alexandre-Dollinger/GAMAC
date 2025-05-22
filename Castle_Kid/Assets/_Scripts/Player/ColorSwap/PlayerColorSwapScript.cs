@@ -23,7 +23,6 @@ namespace _Scripts.Player.ColorSwap
 
             for (int id = 1; id <= playerId; id++)
             {
-                Debug.Log(id);
                 SetColor(id, true);
             }
             
