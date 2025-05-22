@@ -23,6 +23,9 @@ namespace _Scripts.GameManager
         public static EnemyManager EnemyM;
         public static PlayerTracking playerTracking;
         
+        public GameObject backgroundPanel;
+
+        
         public void Awake()
         {
             if (ProjM == null)
@@ -36,6 +39,20 @@ namespace _Scripts.GameManager
 
             CurrentPlayerSortingLayerId = SortingLayer.NameToID("CurrentPayer");
             BehindProjectileSortingLayer = SortingLayer.NameToID("Behind_Projectiles");
+        }
+        
+        public void StartGame()
+        {
+            if (backgroundPanel != null)
+            {
+                backgroundPanel.SetActive(false);
+                Debug.Log("Background panel hidden — game started.");
+            }
+            else
+            {
+                Debug.LogWarning("Background panel not assigned in GM script.");
+            }
+            
         }
 
         #region FilterType
