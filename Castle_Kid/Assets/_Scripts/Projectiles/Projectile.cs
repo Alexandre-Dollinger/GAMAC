@@ -76,7 +76,7 @@ namespace _Scripts.Projectiles
             if (Proj.IsBehindProjectile)
                 GetComponent<SpriteRenderer>().sortingLayerID = GM.BehindProjectileSortingLayer;
             
-            if (Proj.AttackType != ProjectileAttackTypes.AroundSender)
+            if (Proj.AttackType != ProjectileAttackTypes.AroundSender && Proj.AttackType != ProjectileAttackTypes.OnSender)
                 UpdateProjRotation();
 
             _distanceToSpawn = Vector3.Distance(Proj.SpawnPos, Proj.CasterPos);
@@ -237,7 +237,7 @@ namespace _Scripts.Projectiles
         {
             UpdateRotationSelf();
             
-            transform.position = Proj.CasterPos;
+            transform.position = Proj.SpawnPos;
         }
 
         private void UpdateRotationSelf()
@@ -334,8 +334,8 @@ namespace _Scripts.Projectiles
                 _senderGameObject = GetClosestTarget(Proj.CasterPos);
                 _targetsFound = new List<Collider2D>();
 
-                _findSenderCollider.enabled = false;
-                Destroy(_findSenderCollider);
+                /*_findSenderCollider.enabled = false;
+                Destroy(_findSenderCollider);*/
                 
                 hitBoxCollider.enabled = true;
 

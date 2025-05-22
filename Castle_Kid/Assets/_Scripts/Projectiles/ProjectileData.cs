@@ -161,7 +161,10 @@ namespace _Scripts.Projectiles
         public void UpdatePosAndDir(Vector3 casterPos, Vector3 direction, float offset)
         {
             Direction = direction.normalized;
-            SpawnPos = casterPos + offset * Direction;
+            if (AttackType != ProjectileAttackTypes.OnSender)
+                SpawnPos = casterPos + offset * Direction;
+            else
+                SpawnPos = casterPos;
             CasterPos = casterPos;
         }
 

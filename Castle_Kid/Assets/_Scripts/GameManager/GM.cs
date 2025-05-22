@@ -154,7 +154,7 @@ namespace _Scripts.GameManager
         
         public static ProjectileStruct GetBasicAroundSenderProjectileStruct(Vector3 spawnPos, Vector3 direction)
         {
-            ProjectileStruct aroundSenderProj = new ProjectileStruct(spawnPos, direction, 1.5f);
+            ProjectileStruct aroundSenderProj = new ProjectileStruct(spawnPos, direction, scale:1.5f);
             aroundSenderProj.InitDestroyCondition(true, 50, true, true);
             aroundSenderProj.InitTargeting(true, true, false, true, false);
             aroundSenderProj.InitAttackAroundSender(50, SenderTags.Player, 180f, true, 45 ,false);  
@@ -208,7 +208,7 @@ namespace _Scripts.GameManager
 
         public static ProjectileStruct GetAroundSenderProjectileStruct()
         {
-            ProjectileStruct aroundSenderProj = new ProjectileStruct(Vector3.zero, Vector3.zero, scale: 1.5f);
+            ProjectileStruct aroundSenderProj = new ProjectileStruct(Vector3.zero, Vector3.zero, 100f, 1.5f);
             aroundSenderProj.InitDestroyCondition(true, 50, true, true);
             aroundSenderProj.InitTargeting(true, true, false, true, true);
             aroundSenderProj.InitAttackAroundSender(50, SenderTags.Player, 0f, true, 45 ,false);  
@@ -221,7 +221,7 @@ namespace _Scripts.GameManager
             ProjectileStruct fixProj = new ProjectileStruct(Vector3.zero, Vector3.zero, scale: 0.7f, offset: 100f);
             fixProj.InitDestroyCondition(true, 50, true);
             fixProj.InitTargeting(true, true, true, true);
-            fixProj.InitAttackFix(50, 180f, false);
+            fixProj.InitAttackFix(50, 0f, false);
 
             return fixProj;
         }
