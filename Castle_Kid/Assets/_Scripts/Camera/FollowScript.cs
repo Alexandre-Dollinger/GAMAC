@@ -37,11 +37,6 @@ public class FollowScript : NetworkBehaviour
 
         newPos = Vector3.Slerp(new Vector3(newPos.x, newPos.y, -10), new Vector3(posParent.x, posParent.y, -10), cameraSpeed * Time.deltaTime);
         transform.position = new Vector3(newPos.x, newPos.y + yOffset, -10);
-        
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShakeCamera(0.5f, 0.05f, true, true);
-        }
     }
     
     //ShakingCam
@@ -55,7 +50,8 @@ public class FollowScript : NetworkBehaviour
     {
         originalPos = transform.localPosition;
     }
-    
+
+   
    
 
     public void ShakeCamera(float duration, float strength, bool horizontal, bool vertical)
@@ -94,4 +90,14 @@ public class FollowScript : NetworkBehaviour
         transform.localPosition = originalPos;
         shaking = false;
     }
+
+    void update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ShakeCamera(0.5f, 0.05f, true, true);
+        }
+    }
+
+    
 }
