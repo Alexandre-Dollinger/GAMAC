@@ -978,6 +978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6e8fcb5da213a4cab62d4a32519535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   playerColors: {fileID: 11400000, guid: 2ff1b872970eca84fb5e59820a06879d, type: 2}
 --- !u!114 &1201757108727470182
 MonoBehaviour:

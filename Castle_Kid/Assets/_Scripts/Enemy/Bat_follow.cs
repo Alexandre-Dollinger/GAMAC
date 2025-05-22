@@ -17,6 +17,10 @@ public class Bat_follow : MonoBehaviour
     
     void Update()
     {
+        if (player == null)
+        {
+            return;
+        }
         Chase();
     }
 
