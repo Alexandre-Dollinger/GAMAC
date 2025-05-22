@@ -31,20 +31,20 @@ namespace _Scripts.Map
             
             if (GM.IsPlayer(other) && other.transform.parent.parent.TryGetComponent(out PlayerId playerId))
             {
-                CollectPowerUpClientRpc(clientRpcParams: new ClientRpcParams() 
+                CollectPowerUpClientRpc(playerId.GetPlayerId(), clientRpcParams: new ClientRpcParams() 
                     {Send = new ClientRpcSendParams(){TargetClientIds = new List<ulong>{ (ulong)playerId.GetPlayerId() }}});
             }
         }
         
         [ClientRpc]
-        private void CollectPowerUpClientRpc(ClientRpcParams clientRpcParams)
+        private void CollectPowerUpClientRpc(int sendFor, ClientRpcParams clientRpcParams = default)
         {
             PowerUpStruct powerUpStruct = new PowerUpStruct(GM.ProjM.GetProjectileStruct(projectileStructEnum), projectilePrefabs, cooldown);
-            GM.playerTracking.PlayerList[(int)OwnerClientId].GetComponent<PowerUp>().UpdatePowerUp(powerUpStruct);
+            GM.playerTracking.PlayerList[sendFor].GetComponent<PowerUp>().UpdatePowerUp(powerUpStruct);
             DestroyPowerUpServerRpc();
         }
         
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void DestroyPowerUpServerRpc()
         {
             gameObject.GetComponent<NetworkObject>().Despawn();
