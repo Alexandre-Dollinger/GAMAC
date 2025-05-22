@@ -110,22 +110,9 @@ namespace _Scripts.Projectiles
         
         #region Create projectile not Network
 
-        [ServerRpc(RequireOwnership = false)]
-        public void CreateProjectileServerRpc(ProjectileStruct projStruct, 
-            ProjectilePrefabs projPrefabType, string projTag, float offset = 50, ServerRpcParams serverRpcParams = default)
-        {
-
-            GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefabType), 
-                projStruct.SpawnPos, Quaternion.identity);
-
-        }
-
         private void CreateProjectile(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         {
-            projStruct.SpawnPos += projStruct.Direction * offset;
-            // To not spawn the projectile in our caster
-
             GameObject gameObjectProj = Instantiate(GetProjectilePrefab(projPrefab), 
                 projStruct.SpawnPos, Quaternion.identity);
             
@@ -144,26 +131,26 @@ namespace _Scripts.Projectiles
         }
 
         public void CreateProjectileManager(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset = 50)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         { // for now we don't care about server prediction but we will probably need it : int startTickServer, int startTickClient, | NetworkManager.Singleton.ServerTime.Tick, NetworkManager.Singleton.LocalTime.Tick,
             if (projTag != GM.PlayerProjectileTag)
                 playerId = -1;
 
-            CreateProjectileLocally(projStruct, projPrefab, projTag, playerId, offset);
-            CreateProjectileServerRpc(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectileLocally(projStruct, projPrefab, projTag, playerId);
+            CreateProjectileServerRpc(projStruct, projPrefab, projTag, playerId);
         }
 
         private void CreateProjectileLocally(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         { 
-            CreateProjectile(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectile(projStruct, projPrefab, projTag, playerId);
             
             _spawnedLocally = true;
         }
 
         [ClientRpc]
         private void CreateProjectileClientRpc(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         {
             if (_spawnedLocally) // to exclude the client that spawned locally
             {
@@ -171,14 +158,14 @@ namespace _Scripts.Projectiles
                 return;
             }
             
-            CreateProjectile(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectile(projStruct, projPrefab, projTag, playerId);
         }
 
         [ServerRpc(RequireOwnership = false)]
         private void CreateProjectileServerRpc(ProjectileStruct projStruct,
-            ProjectilePrefabs projPrefab, string projTag, int playerId, float offset)
+            ProjectilePrefabs projPrefab, string projTag, int playerId)
         {
-            CreateProjectileClientRpc(projStruct, projPrefab, projTag, playerId, offset);
+            CreateProjectileClientRpc(projStruct, projPrefab, projTag, playerId);
         }
         #endregion
 

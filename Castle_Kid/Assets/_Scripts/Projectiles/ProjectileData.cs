@@ -53,6 +53,8 @@ namespace _Scripts.Projectiles
         public Vector3 SpawnPos;
         public Vector3 CasterPos; // not updated, only the caster pos at the start
         public Vector3 Direction; // Direction is normalized
+
+        public float Offset;
         
         public bool CanCrossWalls;
         public bool CanBeDestroyedByPlayer;
@@ -87,7 +89,7 @@ namespace _Scripts.Projectiles
             return _maxHpPrefab;
         }
 
-        public ProjectileStruct(Vector3 spawnPos, Vector3 direction, float scale = 1f)
+        public ProjectileStruct(Vector3 casterPos, Vector3 direction, float offset = 50f, float scale = 1f)
         {
             Speed = 0f;
             Acceleration = 0f;
@@ -97,9 +99,11 @@ namespace _Scripts.Projectiles
             Healing = 0;
             AttackType = ProjectileAttackTypes.Linear;
             
-            SpawnPos = spawnPos;
-            CasterPos = SpawnPos;
             Direction = direction.normalized;
+            SpawnPos = casterPos + offset * Direction;
+            CasterPos = casterPos;
+
+            Offset = offset;
 
             TargetingPlayer = false;
             TargetingEnemy = false;
@@ -130,6 +134,13 @@ namespace _Scripts.Projectiles
             _maxHpPrefab = 1;
             
             SenderId = -1;
+        }
+
+        public void UpdatePosAndDir(Vector3 casterPos, Vector3 direction, float offset)
+        {
+            Direction = direction.normalized;
+            SpawnPos = casterPos + offset * Direction;
+            CasterPos = casterPos;
         }
         
         public void InitDestroyCondition(bool canBeDestroyedByPlayer = true, 
@@ -244,9 +255,11 @@ namespace _Scripts.Projectiles
             serializer.SerializeValue(ref SenderId);
             serializer.SerializeValue(ref SenderTag);
             
+            serializer.SerializeValue(ref Direction);
             serializer.SerializeValue(ref SpawnPos);
             serializer.SerializeValue(ref CasterPos);
-            serializer.SerializeValue(ref Direction);
+            
+            serializer.SerializeValue(ref Offset);
             
             serializer.SerializeValue(ref CanCrossWalls);
             serializer.SerializeValue(ref CanBeDestroyedByPlayer);
