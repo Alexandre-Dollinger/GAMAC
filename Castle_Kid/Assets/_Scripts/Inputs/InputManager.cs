@@ -58,7 +58,7 @@ namespace _Scripts.Inputs
         void Awake()
         {
             PlayerInput = GetComponent<PlayerInput>();
-
+            
             _moveAction = PlayerInput.actions["Move"];
             _jumpAction = PlayerInput.actions["Jump"];
             _runAction = PlayerInput.actions["Run"];
