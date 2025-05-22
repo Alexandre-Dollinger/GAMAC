@@ -6,6 +6,7 @@ using _Scripts.UI_scripts;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace _Scripts.Player.PowerUp
 {
@@ -45,6 +46,11 @@ namespace _Scripts.Player.PowerUp
                 CurrentTime -= deltaTime;
         }
         
+        public Sprite GetPrefabSprite()
+        {
+            return GM.ProjM.GetProjectilePrefab(ProjPrefab).GetComponent<SpriteRenderer>().sprite;
+        }
+        
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref ProjStruct);
@@ -64,6 +70,16 @@ namespace _Scripts.Player.PowerUp
         [SerializeField] private CooldownUI pow1Cooldown;
         [SerializeField] private CooldownUI pow2Cooldown;
         [SerializeField] private CooldownUI pow3Cooldown;
+        
+        private int _lastInited = 3;
+        private int NextToInit
+        {
+            get
+            {
+                _lastInited = _lastInited % 3 + 1;
+                return _lastInited;
+            }
+        }
         
         public override void OnNetworkSpawn()
         {
@@ -154,6 +170,48 @@ namespace _Scripts.Player.PowerUp
             healingProj.CanBeDestroyedByPlayer = false;
 
             PowerUp3 = new PowerUpStruct(healingProj, ProjectilePrefabs.SparkCone, 3f);
+            
+            UpdateSpriteUI(1);
+            UpdateSpriteUI(2);
+            UpdateSpriteUI(3);
+        }
+
+        private void UpdateSpriteUI(int numPowerUp)
+        {
+            switch (numPowerUp)
+            {
+                case 1:
+                    pow1Cooldown.UpdateSprite(PowerUp1.GetPrefabSprite());
+                    break;
+                case 2:
+                    pow2Cooldown.UpdateSprite(PowerUp2.GetPrefabSprite());
+                    break;
+                case 3:
+                    pow3Cooldown.UpdateSprite(PowerUp3.GetPrefabSprite());
+                    break;
+                default:
+                    throw new ArgumentException("What PowerUp num is that ??? : " + numPowerUp);
+            }
+        }
+
+        public void UpdatePowerUp(PowerUpStruct powerUpStruct)
+        {
+            int nextToInit = NextToInit;
+            
+            switch (nextToInit)
+            {
+                case 1:
+                    PowerUp1 = powerUpStruct;
+                    break;
+                case 2:
+                    PowerUp2 = powerUpStruct;
+                    break;
+                case 3:
+                    PowerUp3 = powerUpStruct;
+                    break;
+            }
+            
+            UpdateSpriteUI(nextToInit);
         }
 
         private void UpdateCooldown()

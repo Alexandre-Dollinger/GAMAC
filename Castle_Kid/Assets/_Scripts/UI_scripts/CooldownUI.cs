@@ -8,12 +8,18 @@ namespace _Scripts.UI_scripts
     public class CooldownUI : MonoBehaviour
     {
         [SerializeField] private Image darkener;
+        [SerializeField] private Image powerUpImage;
         [SerializeField] private TMP_Text textCooldown;
 
         private void Awake()
         {
             textCooldown.enabled = false;
             darkener.fillAmount = 0.0f;
+        }
+
+        public void UpdateSprite(Sprite sprite)
+        {
+            powerUpImage.sprite = sprite;
         }
 
         private void DisableCooldown()

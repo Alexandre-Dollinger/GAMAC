@@ -236,5 +236,71 @@ namespace _Scripts.Projectiles
             Debug.Log($"Server : Called num {OwnerClientId} with time difference : {timeDifferenceServer} || Current Tick : {NetworkManager.Singleton.ServerTime.Tick}, start Tick : {startTickServer}");
             Debug.Log($"Client : Called num {OwnerClientId} with time difference : {timeDifferenceClient} || Current Tick : {NetworkManager.Singleton.LocalTime.Tick}, start Tick : {startTickClient}");
         }
+        
+        public ProjectileStruct GetProjectileStruct(ProjectileStructEnum projectileStructEnum)
+        {
+            switch (projectileStructEnum)
+            {
+                case ProjectileStructEnum.LinearDamage:
+                    return GM.GetLinearProjectileStruct();
+                case ProjectileStructEnum.LinearHealing:
+                    ProjectileStruct lH = GM.GetLinearProjectileStruct();
+                    lH.InitHealing();
+                    return lH;
+                case ProjectileStructEnum.LinearAcceleratingDamage:
+                    ProjectileStruct lAD = GM.GetLinearProjectileStruct();
+                    lAD.InitSpeed(50, 50, 125);
+                    lAD.CanCrossWalls = true;
+                    return lAD;
+                case ProjectileStructEnum.LinearAcceleratingHealing:
+                    ProjectileStruct lAH = GetProjectileStruct(ProjectileStructEnum.LinearAcceleratingDamage);
+                    lAH.InitHealing();
+                    return lAH;
+                case ProjectileStructEnum.TrackingDamage:
+                    ProjectileStruct tD = GM.GetTrackingProjectileStruct();
+                    return tD;
+                case ProjectileStructEnum.TrackingHealing:
+                    ProjectileStruct tH = GM.GetTrackingProjectileStruct();
+                    tH.InitHealing();
+                    return tH;
+                case ProjectileStructEnum.TrackingAcceleratingDamage:
+                    ProjectileStruct tAD = GM.GetTrackingProjectileStruct();
+                    tAD.InitSpeed(50, 50, 125);
+                    return tAD;
+                case ProjectileStructEnum.TrackingAcceleratingHealing:
+                    ProjectileStruct tAH = GM.GetTrackingProjectileStruct();
+                    tAH.InitSpeed(50, 50 ,250);
+                    tAH.InitHealing();
+                    return tAH;
+                case ProjectileStructEnum.OnSenderRotating:
+                    ProjectileStruct sR = GM.GetOnSenderProjectileStruct();
+                    sR.RotateSpeed = 180f;
+                    return sR;
+                case ProjectileStructEnum.OnSender:
+                    ProjectileStruct s = GM.GetOnSenderProjectileStruct();
+                    return s;
+                case ProjectileStructEnum.AroundSenderRotating:
+                    ProjectileStruct aSR = GM.GetAroundSenderProjectileStruct();
+                    return aSR;
+                case ProjectileStructEnum.AroundSenderRotatingSelf:
+                    ProjectileStruct aSRS = GM.GetAroundSenderProjectileStruct();
+                    aSRS.RotateSpeed = 180f;
+                    return aSRS;
+                case ProjectileStructEnum.AroundSender:
+                    ProjectileStruct aS = GM.GetAroundSenderProjectileStruct();
+                    aS.RotateSpeed = 0f;
+                    aS.RotateAroundSpeed = 0f;
+                    return aS;
+                case ProjectileStructEnum.Fix:
+                    ProjectileStruct f = GM.GetFixProjectileStruct();
+                    return f;
+                case ProjectileStructEnum.FixHealing:
+                    ProjectileStruct fH = GM.GetFixProjectileStruct();
+                    fH.InitHealing();
+                    return fH;
+            }
+
+            throw new ArgumentException("Don't know this Projectile Struct : " + projectileStructEnum);
+        }
     }
 }
