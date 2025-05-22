@@ -1,28 +1,19 @@
 fileFormatVersion: 2
-guid: 26824cac2a931074097d86ee0b82d315
+guid: 6f6b2a5ea1b5d3d469689feeec90c4c8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4872413678965791193
-    second: Bat_attack_0
+      213: -7400898004386097392
+    second: Bat_idle_0
   - first:
-      213: 6535753910503678135
-    second: Bat_attack_1
+      213: 1750065534110897598
+    second: Bat_idle_1
   - first:
-      213: 4676296332900870683
-    second: Bat_attack_2
+      213: 3020268476891420327
+    second: Bat_idle_2
   - first:
-      213: -6387818886868402628
-    second: Bat_attack_3
-  - first:
-      213: 7892578660479735483
-    second: Bat_attack_4
-  - first:
-      213: -4240860625526650129
-    second: Bat_attack_5
-  - first:
-      213: 574111599490267050
-    second: Bat_attack_6
+      213: -8743577632333819038
+    second: Bat_idle_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -93,7 +84,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -118,155 +109,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bat_attack_0
+      name: Bat_idle_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 62
-        height: 39
+        width: 52
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 0, y: 0, z: 10, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: e6ec8b5a964394d458964628089dc8c0
-      internalID: -337120514
+      spriteID: 0175ba50a7aba4990800000000000000
+      internalID: -7400898004386097392
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bat_attack_1
+      name: Bat_idle_1
       rect:
         serializedVersion: 2
-        x: 62
+        x: 54
         y: 0
-        width: 62
-        height: 39
+        width: 64
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 2d49f760d5525f543acbfc3d158a87be
-      internalID: -1489946663
+      spriteID: eb5955eb45b794810800000000000000
+      internalID: 1750065534110897598
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bat_attack_2
+      name: Bat_idle_2
       rect:
         serializedVersion: 2
-        x: 124
+        x: 118
         y: 0
-        width: 62
-        height: 39
+        width: 59
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: be79c2a132d4b7a428f1b9f7e0131475
-      internalID: -1077118776
+      spriteID: 7a65c6b7d262ae920800000000000000
+      internalID: 3020268476891420327
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bat_attack_3
+      name: Bat_idle_3
       rect:
         serializedVersion: 2
-        x: 186
+        x: 177
         y: 0
-        width: 62
-        height: 39
+        width: 59
+        height: 26
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 7c0fcac6abf39334884da7548420d340
-      internalID: -525414487
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bat_attack_4
-      rect:
-        serializedVersion: 2
-        x: 248
-        y: 0
-        width: 62
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f111a9b38d28b3c48b26d0491dd9226d
-      internalID: 608458330
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bat_attack_5
-      rect:
-        serializedVersion: 2
-        x: 310
-        y: 0
-        width: 62
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 745e98bbe42f8a544a82fc398bdfb03f
-      internalID: -1362729783
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bat_attack_6
-      rect:
-        serializedVersion: 2
-        x: 372
-        y: 0
-        width: 62
-        height: 39
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 667c4fabadb57034fab77a24a0042e75
-      internalID: -1676526139
+      spriteID: 26311b6087298a680800000000000000
+      internalID: -8743577632333819038
       vertices: []
       indices: 
       edges: []
@@ -275,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b64e4324ac38f514592ab09aa3544f3a
+    spriteID: 9b0cdd54f93570d4e839d28737bd9788
     internalID: 0
     vertices: []
     indices: 
@@ -285,13 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Bat_attack_0: -337120514
-      Bat_attack_1: -1489946663
-      Bat_attack_2: -1077118776
-      Bat_attack_3: -525414487
-      Bat_attack_4: 608458330
-      Bat_attack_5: -1362729783
-      Bat_attack_6: -1676526139
+      Bat_idle_0: -7400898004386097392
+      Bat_idle_1: 1750065534110897598
+      Bat_idle_2: 3020268476891420327
+      Bat_idle_3: -8743577632333819038
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
