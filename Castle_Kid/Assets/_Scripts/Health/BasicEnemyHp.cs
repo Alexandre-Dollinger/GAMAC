@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using _Scripts.Enemy;
+using _Scripts.GameManager;
 
 namespace _Scripts.Health
 {
@@ -19,7 +21,7 @@ namespace _Scripts.Health
 
         void Awake()
         {
-           //transform.parent.parent.GetComponent<NetworkObject>().Spawn();
+            //transform.parent.parent.GetComponent<NetworkObject>().Spawn();
         }
 
         public void Update()
@@ -27,7 +29,18 @@ namespace _Scripts.Health
             if (CurrentHp <= 0)
                 Die();
         }
-        
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            Debug.Log("Collision");
+            if (GM.IsPlayer(collision.collider))
+            {
+                PlayerHp playerHp = collision.collider.gameObject.GetComponent<PlayerHp>();
+                playerHp.TakeDamage(10);
+            }
+        }
+
+
         public override void Die()
         {
             if (IsServer)

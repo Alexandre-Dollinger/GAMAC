@@ -198,7 +198,6 @@ public class Slime : BasicEnemy
     }
 
     #region SetAllFunctions
-
     private void SetAllCombatStats()
     {
         AttackPower = 1;
