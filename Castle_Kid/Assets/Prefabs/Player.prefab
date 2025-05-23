@@ -968,7 +968,7 @@ MonoBehaviour:
   pow1Cooldown: {fileID: 698633979212753639}
   pow2Cooldown: {fileID: 3629782152576892982}
   pow3Cooldown: {fileID: 6746337515067615249}
-  noPowerUpSprite: {fileID: 2026691627, guid: f5958d1c95a1d7448ad303016453d1e3, type: 3}
+  noPowerUpSprite: {fileID: 21300000, guid: 54ca91f67b9391c42b772732a3afda9e, type: 3}
 --- !u!114 &277461416679663573
 MonoBehaviour:
   m_ObjectHideFlags: 0
