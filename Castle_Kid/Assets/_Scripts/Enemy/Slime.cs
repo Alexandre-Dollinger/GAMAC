@@ -5,21 +5,18 @@ using System;
 using _Scripts.Player.Movement;
 using _Scripts.Health;
 using _Scripts.GameManager;
+
 public class Slime : BasicEnemy
 {
-    public EnemyCustomTrigger BodyCheckTrigger;
-    public EnemyCustomTrigger WillFallCheckTrigger;
-    public EnemyCustomTrigger WallCheckTrigger;
-    public CustomTrigger AirborneCheckTrigger;
-
-    private SpriteRenderer activeSprite;
+    #region Variables
     private bool isTouchingWall;
-
-    private float targetvelocityX;
-    private float targetVelocityY;
-
-    private float GroundAcceleration;
-    private float AerialAcceleration;
+    public EnemyCustomTrigger BodyTrigger;
+    public EnemyCustomTrigger WallCheckTrigger;
+    public EnemyCustomTrigger WillFallTrigger;
+    public CustomTrigger FeetTrigger;
+    private SpriteRenderer activeSprite;
+    
+    #endregion
 
     #region Updates and Start
     void Awake()
@@ -76,42 +73,71 @@ public class Slime : BasicEnemy
     private void Roaming()
     {
         activeSprite.color = Color.white;
-        if (willFall)
+        //Vector2 moveVelocity = enemyRb.linearVelocity;
+        Vector2 targetVelocity;
+        float acceleration;
+
+        if (!isGrounded)
         {
-            if (!isGrounded)
-                enemyRb.linearVelocity = new Vector2(AirSpeed, gravity);
-            else
-                enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
+            targetVelocity = new Vector2(MaxAirSpeed, gravity);
+            //enemyRb.linearVelocity = new Vector2(AirSpeed, gravity);
+            acceleration = AirAcceleration;
         }
 
         else
         {
-            enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
+            targetVelocity = new Vector2(MaxGroundSpeed, gravity);
+            // enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
+            acceleration = GroundAcceleration;
         }
+
+        enemyRb.linearVelocity = Vector2.Lerp(enemyRb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+    
+
+        //enemyRb.linearVelocity = new Vector2(moveVelocity.x, moveVelocity.y);
     }
 
     private void Chasing()
     {
         activeSprite.color = Color.red;
+        //Vector2 moveVelocity = enemyRb.linearVelocity;
+        Vector2 targetVelocity;
+        float acceleration;
 
         if (willFall)
         {
             if (!isGrounded)
-                enemyRb.linearVelocity = new Vector2(AirSpeed, gravity);
+            {
+                targetVelocity = new Vector2(MaxAirSpeed, gravity);
+                //enemyRb.linearVelocity = new Vector2(AirSpeed, gravity);
+                acceleration = AirAcceleration;
+            }
+
             else
             {
-                enemyRb.linearVelocity = new Vector2(GroundSpeed, gravity);
+                targetVelocity = new Vector2(MaxChaseSpeed, gravity);
+                //enemyRb.linearVelocity = new Vector2(ChaseSpeed, gravity);
+                acceleration = GroundAcceleration;
             }
+
+            enemyRb.linearVelocity = Vector2.Lerp(enemyRb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
         }
         else if (isTouchingWall)
         {
             // Debug.Log("Wall Touched in Chasing Mode");
-            enemyRb.linearVelocity = new Vector2(0, -50);
+            // enemyRb.linearVelocity = new Vector2(0, -50);
+            enemyRb.linearVelocity = new Vector2(0, 0);
         }
         else
         {
-            enemyRb.linearVelocity = new Vector2(ChaseSpeed, gravity);
+            targetVelocity = new Vector2(MaxChaseSpeed, gravity);
+            acceleration = GroundAcceleration;
+
+            enemyRb.linearVelocity = Vector2.Lerp(enemyRb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
+            // enemyRb.linearVelocity = new Vector2(ChaseSpeed, gravity);
         }
+
+        // enemyRb.linearVelocity = new Vector2(moveVelocity.x, moveVelocity.y);
     }
 
     private bool InChasingRange()
@@ -168,7 +194,7 @@ public class Slime : BasicEnemy
     {
         if (isChasing) //Chasing
         {
-            if ((PlayerIsRight() ^ isFacingRight))//&& closestPlayerMovement.GetPlayerIsGrounded())  // '^' symbol --> XOR
+            if (PlayerIsRight() ^ isFacingRight) //&& closestPlayerMovement.GetPlayerIsGrounded())  // '^' symbol --> XOR
                 Flip();
             //Player on a side and Facing the other side
             //!PlayerIsRight() && isFacingRight || PlayerIsRight() && !isFacingRight
@@ -181,17 +207,19 @@ public class Slime : BasicEnemy
     }
 
     #region SetAllFunctions
-
     private void SetAllCombatStats()
     {
         AttackPower = 1;
     }
     private void SetAllMovementStats()
     {
-        gravity = -50f;
-        GroundSpeed = 100f;
-        AirSpeed = GroundSpeed * 0.75f;
-        ChaseSpeed = GroundSpeed * 1.5f;
+        MaxGroundSpeed = 100f;
+        GroundAcceleration = 50f ;
+
+        MaxAirSpeed = MaxGroundSpeed * 0.75f;
+        AirAcceleration = 70f;
+
+        MaxChaseSpeed = MaxGroundSpeed * 1.5f;
         chaseDistance = 125f; //Can be changed later if needed
     }
     private void SetAllBooleans()
@@ -206,23 +234,23 @@ public class Slime : BasicEnemy
     private void SetAllTriggers()
     {
         // Setting all the Enter and Exit triggers for the different triggers
-        BodyCheckTrigger.EnteredTrigger += OnColliderEnter2D;
+        BodyTrigger.EnteredTrigger += OnColliderEnter2D;
 
-        WillFallCheckTrigger.EnteredTrigger += OnWillFallCheckEnter2D;
-        WillFallCheckTrigger.ExitedTrigger += OnWillFallCheckExit2D;
+        FeetTrigger.EnteredTrigger += OnIsGroundedCheckEnter2D;
+        FeetTrigger.ExitedTrigger += OnIsGroundedCheckExit2D;    
+        
+        WillFallTrigger.EnteredTrigger += OnWillFallCheckEnter2D;
+        WillFallTrigger.ExitedTrigger += OnWillFallCheckExit2D;
 
         WallCheckTrigger.EnteredTrigger += OnWallCheckEnter2D;
         WallCheckTrigger.ExitedTrigger += OnWallCheckExit2D;
-
-        AirborneCheckTrigger.EnteredTrigger += OnIsGroundedCheckEnter2D;
-        AirborneCheckTrigger.ExitedTrigger += OnIsGroundedCheckExit2D;
     }
 
     private void SetAllTriggerConditions()
     {
         //Setting all the conditions for the different triggers
-        WillFallCheckTrigger.condition = TouchedGround();
-        WallCheckTrigger.condition = item => TouchedGround()(item) || TouchedEnemy()(item);
+        WillFallTrigger.condition = TouchedGround();
+        WallCheckTrigger.condition = TouchedGround();
         //AirborneCheckTrigger.condition = item => groundLayerId == item.gameObject.layer;
     }
     #endregion
@@ -285,9 +313,8 @@ public class Slime : BasicEnemy
 
     private void OnColliderEnter2D(Collider2D other) //For detecting if the slime collided with a player
     {
-         if (GM.IsPlayer(other))
+        if (GM.IsPlayer(other))
         {
-            Debug.Log("Collision with Player");
             IUnitHp otherHp = other.GetComponent<IUnitHp>();
             otherHp.TakeDamage(AttackPower);
         }
