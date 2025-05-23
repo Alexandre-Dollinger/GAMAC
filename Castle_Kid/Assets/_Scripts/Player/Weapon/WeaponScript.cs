@@ -36,6 +36,11 @@ namespace _Scripts.Player.Weapon
 
         private bool _controllerAttack;
         
+        [Header("Attack Audio")]
+        public AudioSource audioSource;
+        public AudioClip attackSound;
+        public AudioClip comboAttackSound;
+        
         // https://discussions.unity.com/t/mouse-movements-for-client-side-becoming-server-side-mouse-movements/938064/2
         private NetworkVariable<Vector2> _dirToAttack = new NetworkVariable<Vector2>(default, 
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -55,6 +60,12 @@ namespace _Scripts.Player.Weapon
             _animator = transform.Find("SlashAnimation").GetComponent<Animator>();
             transform.rotation = Quaternion.Euler(0f, 180f, 0f);
             _fixedYRotation = transform.eulerAngles.y;
+            
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+            }
         }
 
         private void DebugAttack()
@@ -186,11 +197,17 @@ namespace _Scripts.Player.Weapon
             {
                 _curComboTimer = 0;
                 _animator.Play("SlashDown");
+                
+                if (comboAttackSound != null)
+                    audioSource.PlayOneShot(comboAttackSound);
             }
             else // is not in a combo
             {
                 _curComboTimer = comboTimer;
                 _animator.Play("SlashUp");
+                
+                if (attackSound != null)
+                    audioSource.PlayOneShot(attackSound);
             }
             
             _polygonCollider2D.enabled = true;

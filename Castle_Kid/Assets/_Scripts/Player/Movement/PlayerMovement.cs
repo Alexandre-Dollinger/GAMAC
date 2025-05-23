@@ -70,6 +70,13 @@ namespace _Scripts.Player.Movement
         public CustomTrigger landingTrigger;
         public Transform colliders;
         
+        [Header("Jump Audio")]
+        public AudioSource audioSource;
+        public AudioClip jumpSound;
+        public AudioClip doubleJumpSound;
+        public AudioClip landSound;
+        public AudioClip wallJumpSound;
+        
         // Animation
         private Animator _animator;
         private AnimationEnum _curAnimationState;
@@ -116,6 +123,13 @@ namespace _Scripts.Player.Movement
             
             if (IsOwner)
                 GetComponent<SpriteRenderer>().sortingLayerID = GM.CurrentPlayerSortingLayerId;
+            
+            
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+            }
         }
         //============================================================================================
         //UPDATES
@@ -345,11 +359,17 @@ namespace _Scripts.Player.Movement
                     _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, MoveStats.JumpHeight);
                     _jumpCancelTimer = MoveStats.JumpCancelTime;
                     _jumpCancelMoment = MoveStats.JumpCancelMoment;
+                    
+                    if (jumpSound != null)
+                        audioSource.PlayOneShot(jumpSound);
                 }
                 else
                 {
                     _isLanding = false;
                     _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, MoveStats.JumpHeight * MoveStats.MultipleJumpStrengthPercent);
+                    
+                    if (doubleJumpSound != null)
+                        audioSource.PlayOneShot(doubleJumpSound);
                 }
                 _numberOfJumpsUsed++;
             }
@@ -367,6 +387,9 @@ namespace _Scripts.Player.Movement
                 _numberOfJumpsUsed++;
                 _isJumping = false;
                 _jumpBufferTimer = 0;
+                
+                if (wallJumpSound != null)
+                    audioSource.PlayOneShot(wallJumpSound);
             }
         }
 
@@ -562,6 +585,11 @@ namespace _Scripts.Player.Movement
             _isGrounded = true;
             ResetJumpValues();
             _canDash = true;
+            
+            if (!_isGrounded && landSound != null)
+            {
+                audioSource.PlayOneShot(landSound);
+            }
         }
 
         void OnFeetTriggerExited(Collider2D item)
@@ -761,6 +789,8 @@ namespace _Scripts.Player.Movement
 
         #endregion
         //============================================================================================
+        
+        
 
     }
 }
