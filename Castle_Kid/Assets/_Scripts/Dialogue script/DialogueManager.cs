@@ -10,24 +10,21 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    [Header("Dialogue UI")] [SerializeField]
-    private GameObject dialoguePanel;
-
+    [Header("Dialogue UI")] 
+    [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TextMeshProUGUI dialogueText;
 
-    [Header("Choices UI")] [SerializeField]
-    private GameObject[] choices;
+    [Header("Choices UI")] 
+    [SerializeField] private GameObject[] choices;
     
-    [Header("Dialogue Flow")]
-    [SerializeField] private bool canContinueToNextLine = false;
-    private Coroutine displayLineCoroutine;
-
     private TextMeshProUGUI[] choicesText;
-
     private Story currentStory;
     public bool dialogueIsPlaying { get; private set; }
+    private bool canContinueToNextLine = false;
+    private Coroutine displayLineCoroutine;
 
     private static DialogueManager instance;
+    private Button[] choicesButtons;
 
     private void Awake()
     {
@@ -35,7 +32,6 @@ public class DialogueManager : MonoBehaviour
         {
             Debug.LogWarning("Found more than one Dialogue Manager in the scene");
         }
-
         instance = this;
     }
 
@@ -43,51 +39,32 @@ public class DialogueManager : MonoBehaviour
     {
         return instance;
     }
-
+    
     private void Start()
     {
-        canContinueToNextLine = false;
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
-
-        choicesText = new TextMeshProUGUI[choices.Length];
-        int index = 0;
-        foreach (GameObject choice in choices)
-        {
-            choicesText[index] = choice.GetComponentInChildren<TextMeshProUGUI>();
-            index++;
-
-        }
         
+        choicesText = new TextMeshProUGUI[choices.Length];
+        choicesButtons = new Button[choices.Length];
         
         for (int i = 0; i < choices.Length; i++)
         {
-            int index2 = i; 
-            Button button = choices[i].GetComponent<Button>();
-            if (button != null)
-            {
-                button.onClick.AddListener(() => {
-                    if (canContinueToNextLine) {
-                        MakeChoice(index2);
-                        Debug.Log($"Choice {index2} selected");
-                    }
-                });
-            }
-            else
-            {
-                Debug.LogError($"Choice {i} is missing Button component");
-            }
+            choicesText[i] = choices[i].GetComponentInChildren<TextMeshProUGUI>();
+            choicesButtons[i] = choices[i].GetComponent<Button>();
+        
+            int choiceIndex = i;
+            choicesButtons[i].onClick.AddListener(() => MakeChoice(choiceIndex));
         }
     }
+    
+    
 
     private void Update()
     {
-        if (!dialogueIsPlaying)
-        {
-            return;
-        }
+        if (!dialogueIsPlaying) return;
         
-        if (canContinueToNextLine && InputManager.InteractWasPressed)
+        if (canContinueToNextLine && currentStory.currentChoices.Count == 0 && InputManager.InteractWasPressed)
         {
             ContinueStory();
         }
@@ -98,9 +75,6 @@ public class DialogueManager : MonoBehaviour
         currentStory = new Story(inkJSON.text);
         dialogueIsPlaying = true;
         dialoguePanel.SetActive(true);
-        Debug.Log("Dialogue panel enabled: " + dialoguePanel.activeSelf); 
-        
-        
         ContinueStory();
     }
 
@@ -109,7 +83,6 @@ public class DialogueManager : MonoBehaviour
         dialogueIsPlaying = false;
         dialoguePanel.SetActive(false);
         dialogueText.text = "";
-        
     }
 
     private void ContinueStory()
@@ -133,6 +106,7 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator DisplayLine(string line)
     {
         canContinueToNextLine = false;
+        HideChoices();
     
         dialogueText.text = line;
         dialogueText.maxVisibleCharacters = 0;
@@ -140,73 +114,63 @@ public class DialogueManager : MonoBehaviour
         foreach (char c in line.ToCharArray())
         {
             dialogueText.maxVisibleCharacters++;
-            yield return new WaitForSeconds(0.02f); 
+            yield return new WaitForSeconds(0.02f);
         }
     
-        canContinueToNextLine = true; 
+        canContinueToNextLine = true;
         DisplayChoices();
+    }
+
+    private void HideChoices()
+    {
+        foreach (GameObject choice in choices)
+        {
+            choice.SetActive(false);
+        }
     }
 
     private void DisplayChoices() 
     {
         List<Choice> currentChoices = currentStory.currentChoices;
         
-        foreach (GameObject choice in choices)
+        if (currentChoices.Count > choices.Length)
         {
-            choice.GetComponent<Button>().onClick.RemoveAllListeners();
+            Debug.LogError("More choices were given than the UI can support.");
         }
-
+        
         int index = 0;
         foreach(Choice choice in currentChoices) 
         {
             choices[index].SetActive(true);
             choicesText[index].text = choice.text;
-            
-            int currentIndex = index; 
-            choices[index].GetComponent<Button>().onClick.AddListener(() => {
-                if (canContinueToNextLine) {
-                    MakeChoice(currentIndex);
-                }
-            });
-        
             index++;
         }
-        
+
         for (int i = index; i < choices.Length; i++) 
         {
             choices[i].SetActive(false);
         }
 
         StartCoroutine(SelectFirstChoice());
-        
-        for (int i = 0; i < currentChoices.Count; i++)
-        {
-            choices[i].GetComponent<Button>().interactable = canContinueToNextLine;
-        }
     }
 
     private IEnumerator SelectFirstChoice()
     {
         EventSystem.current.SetSelectedGameObject(null);
         yield return new WaitForEndOfFrame();
-        EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
+        if (choices.Length > 0 && choices[0].activeSelf)
+        {
+            EventSystem.current.SetSelectedGameObject(choices[0].gameObject);
+        }
     }
 
     public void MakeChoice(int choiceIndex)
     {
-        Debug.Log($"Attempting choice {choiceIndex} - canContinue: {canContinueToNextLine}");
-    
-        if (canContinueToNextLine)
+        if (canContinueToNextLine) 
         {
-            Debug.Log($"Making choice {choiceIndex}");
             currentStory.ChooseChoiceIndex(choiceIndex);
+            InputManager.InteractWasPressed = true;
             ContinueStory();
-        }
-        else
-        {
-            Debug.LogWarning("Choice blocked - text still animating or dialogue not active");
         }
     }
 }
-
-

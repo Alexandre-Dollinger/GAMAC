@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Scripts.Inputs;
 using UnityEngine;
 using _Scripts.GameManager;
+using _Scripts.Multiplayer;
 
 public class DialogueTrigger : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class DialogueTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider) 
     {
-        if (collider.gameObject.tag == "Player")
+        if (collider.CompareTag("Player") && collider.transform.parent.parent.GetComponent<PlayerId>().IsItMyPlayer())
         {
             playerInRange = false;
             GM.dialogueManager.ExitDialogueMode();
