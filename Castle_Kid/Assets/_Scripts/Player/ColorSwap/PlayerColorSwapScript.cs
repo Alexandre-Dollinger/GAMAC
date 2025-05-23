@@ -28,6 +28,21 @@ namespace _Scripts.Player.ColorSwap
             
             SetColorServerRpc(playerId);
         }
+        
+        public void SetColorManager()
+        {
+            int playerListCount = GM.playerTracking.PlayerList.Count;
+            
+            if (playerListCount is <= 1 or > 8)
+                return;
+            
+            for (int id = 1; id < playerListCount; id++)
+            {
+                SetColor(id, true);
+            }
+            
+            SetColorServerRpc(playerListCount - 1);
+        }
 
         private void SetColor(int playerId, bool locally = false)
         {

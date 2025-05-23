@@ -20,12 +20,34 @@ namespace _Scripts.Multiplayer
             if (IsOwner)
                 GM.playerTracking.SetPlayerList();
             else
+            {
                 GM.playerTracking.PlayerList.Add(gameObject);
+                GM.playerTracking.ReOrderPlayerList();
+            }
+                
             
             if (IsOwner)
-                GetComponent<PlayerColorSwapScript>().SetColorManager((int)OwnerClientId);
+                GetComponent<PlayerColorSwapScript>().SetColorManager();
         }
-        
+
+        /*public override void OnNetworkDespawn()
+        {
+            if (IsOwner)
+                RemovePlayerFromListServerRpc(_playerId.Value);
+        }
+
+        [ServerRpc]
+        private void RemovePlayerFromListServerRpc(int playerId)
+        {
+            RemovePlayerFromListClientRpc(playerId);
+        }*/
+
+        [ClientRpc]
+        private void RemovePlayerFromListClientRpc(int playerId)
+        {
+            GM.playerTracking.RemoveIdFromList(playerId);
+        }
+
         public bool IsItMyPlayer()
         {
             return IsOwner;

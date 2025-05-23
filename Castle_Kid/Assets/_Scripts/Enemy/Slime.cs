@@ -124,8 +124,17 @@ public class Slime : BasicEnemy
         if (closestPlayerCooldown <= 0 || !isChasing)
         {
             closestPlayerCooldown = closestPlayerTime;
-
-            closestPlayer = GM.playerTracking.GetClosestPlayer(gameObject);
+            
+            try
+            {
+                closestPlayer = GM.playerTracking.GetClosestPlayer(gameObject);
+            }
+            catch (Exception)
+            {
+                GM.playerTracking.CheckAndRemoveNull();
+                closestPlayer = GM.playerTracking.GetClosestPlayer(gameObject);
+            }
+            
             //Debug.Log($"Distance: {Vector2.Distance(closestPlayer.transform.position, this.gameObject.transform.position)}");
             isChasing = InChasingRange();
 
