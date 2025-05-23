@@ -183,27 +183,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 14
-  projectilePrefabs: 8
-  cooldown: 2
-  powerUpImage: {fileID: 1739392900}
 --- !u!114 &68402581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,27 +347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 9
-  projectilePrefabs: 2
-  cooldown: 8
-  powerUpImage: {fileID: 601357842}
 --- !u!114 &199512318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1110,27 +1068,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 7
-  projectilePrefabs: 8
-  cooldown: 3
-  powerUpImage: {fileID: 1604296338}
 --- !u!114 &566688732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1460,27 +1397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 10
-  projectilePrefabs: 7
-  cooldown: 7
-  powerUpImage: {fileID: 796381576}
 --- !u!114 &638221358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1732,27 +1648,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 9
-  projectilePrefabs: 13
-  cooldown: 2
-  powerUpImage: {fileID: 1058180023}
 --- !u!114 &752133154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2004,27 +1899,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 5
-  projectilePrefabs: 10
-  cooldown: 7
-  powerUpImage: {fileID: 689237633}
 --- !u!114 &812792293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2189,27 +2063,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 6
-  projectilePrefabs: 5
-  cooldown: 2
-  powerUpImage: {fileID: 1582585338}
 --- !u!114 &1033023779
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2461,27 +2314,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 10
-  projectilePrefabs: 3
-  cooldown: 4
-  powerUpImage: {fileID: 2067445600}
 --- !u!114 &1144655675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2722,27 +2554,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 2
-  projectilePrefabs: 10
-  cooldown: 2
-  powerUpImage: {fileID: 1607633941}
 --- !u!114 &1258621729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2907,27 +2718,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 0
-  projectilePrefabs: 14
-  cooldown: 7
-  powerUpImage: {fileID: 555234701}
 --- !u!114 &1409744554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3393,27 +3183,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 7
-  projectilePrefabs: 8
-  cooldown: 1
-  powerUpImage: {fileID: 418529184}
 --- !u!114 &1607502730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3900,27 +3669,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 6
-  projectilePrefabs: 11
-  cooldown: 2
-  powerUpImage: {fileID: 1743942195}
 --- !u!114 &1903969576
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4085,27 +3833,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 4
-  projectilePrefabs: 9
-  cooldown: 4
-  powerUpImage: {fileID: 455597138}
 --- !u!114 &2016934488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4357,27 +4084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69d10e05874e2f8499338c3ae3ad3b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  <IsLocalPlayer>k__BackingField: 0
-  <IsOwner>k__BackingField: 0
-  <IsServer>k__BackingField: 0
-  <HasAuthority>k__BackingField: 0
-  <ServerIsHost>k__BackingField: 0
-  <IsClient>k__BackingField: 0
-  <IsHost>k__BackingField: 0
-  <IsOwnedByServer>k__BackingField: 0
-  <IsSpawned>k__BackingField: 0
-  m_NetworkObject: {fileID: 0}
-  <NetworkObjectId>k__BackingField: 0
-  <NetworkBehaviourId>k__BackingField: 0
-  NetworkBehaviourIdCache: 0
-  <OwnerClientId>k__BackingField: 0
-  m_VarInit: 0
-  <m_TargetIdBeingSynchronized>k__BackingField: 0
-  projectileStructEnum: 12
-  projectilePrefabs: 12
-  cooldown: 5
-  powerUpImage: {fileID: 1525650768}
 --- !u!114 &2071136987
 MonoBehaviour:
   m_ObjectHideFlags: 0
