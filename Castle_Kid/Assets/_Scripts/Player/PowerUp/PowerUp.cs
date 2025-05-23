@@ -70,6 +70,8 @@ namespace _Scripts.Player.PowerUp
         [SerializeField] private CooldownUI pow1Cooldown;
         [SerializeField] private CooldownUI pow2Cooldown;
         [SerializeField] private CooldownUI pow3Cooldown;
+
+        [SerializeField] private Sprite noPowerUpSprite;
         
         private int _lastInited = 3;
         private int NextToInit
@@ -170,6 +172,8 @@ namespace _Scripts.Player.PowerUp
             healingProj.CanBeDestroyedByPlayer = false;
 
             PowerUp3 = new PowerUpStruct(healingProj, ProjectilePrefabs.SparkCone, 3f);
+
+            PowerUp3.Enable = false;
             
             UpdateSpriteUI(1);
             UpdateSpriteUI(2);
@@ -181,13 +185,13 @@ namespace _Scripts.Player.PowerUp
             switch (numPowerUp)
             {
                 case 1:
-                    pow1Cooldown.UpdateSprite(PowerUp1.GetPrefabSprite());
+                    pow1Cooldown.UpdateSprite(PowerUp1.Enable ? PowerUp1.GetPrefabSprite() : noPowerUpSprite);
                     break;
                 case 2:
-                    pow2Cooldown.UpdateSprite(PowerUp2.GetPrefabSprite());
+                    pow2Cooldown.UpdateSprite(PowerUp2.Enable ? PowerUp2.GetPrefabSprite() : noPowerUpSprite);
                     break;
                 case 3:
-                    pow3Cooldown.UpdateSprite(PowerUp3.GetPrefabSprite());
+                    pow3Cooldown.UpdateSprite(PowerUp3.Enable ? PowerUp3.GetPrefabSprite() : noPowerUpSprite);
                     break;
                 default:
                     throw new ArgumentException("What PowerUp num is that ??? : " + numPowerUp);
