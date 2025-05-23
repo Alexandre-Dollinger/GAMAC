@@ -1,7 +1,6 @@
 using System;
 using _Scripts.Projectiles;
 using _Scripts.Enemy;
-using ParrelSync;
 using UnityEngine;
 
 namespace _Scripts.GameManager

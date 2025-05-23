@@ -249,7 +249,7 @@ namespace _Scripts.Projectiles
                     return lH;
                 case ProjectileStructEnum.LinearAcceleratingDamage:
                     ProjectileStruct lAD = GM.GetLinearProjectileStruct();
-                    lAD.InitSpeed(50, 50, 125);
+                    lAD.InitSpeed(75, 50, 300);
                     lAD.CanCrossWalls = true;
                     return lAD;
                 case ProjectileStructEnum.LinearAcceleratingHealing:
@@ -265,11 +265,11 @@ namespace _Scripts.Projectiles
                     return tH;
                 case ProjectileStructEnum.TrackingAcceleratingDamage:
                     ProjectileStruct tAD = GM.GetTrackingProjectileStruct();
-                    tAD.InitSpeed(50, 50, 125);
+                    tAD.InitSpeed(75, 50, 200);
                     return tAD;
                 case ProjectileStructEnum.TrackingAcceleratingHealing:
                     ProjectileStruct tAH = GM.GetTrackingProjectileStruct();
-                    tAH.InitSpeed(50, 50 ,250);
+                    tAH.InitSpeed(75, 50 ,300);
                     tAH.InitHealing();
                     return tAH;
                 case ProjectileStructEnum.OnSenderRotating:
