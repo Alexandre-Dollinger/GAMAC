@@ -1,6 +1,7 @@
 using _Scripts.GameManager;
 using _Scripts.Player.ColorSwap;
 using Unity.Netcode;
+using UnityEngine;
 
 namespace _Scripts.Multiplayer
 {
@@ -23,11 +24,16 @@ namespace _Scripts.Multiplayer
             {
                 GM.playerTracking.PlayerList.Add(gameObject);
                 GM.playerTracking.ReOrderPlayerList();
+
+                foreach (GameObject player in GM.playerTracking.PlayerList)
+                {
+                    if (player.GetComponent<PlayerId>().IsItMyPlayer())
+                        player.GetComponent<PlayerColorSwapScript>().UpdateColor();
+                }
             }
-                
             
             if (IsOwner)
-                GetComponent<PlayerColorSwapScript>().SetColorManager();
+                GetComponent<PlayerColorSwapScript>().UpdateColor();
         }
 
         /*public override void OnNetworkDespawn()
