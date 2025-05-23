@@ -1,5 +1,6 @@
 using System;
 using _Scripts.GameManager;
+using _Scripts.Multiplayer;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,27 +16,16 @@ namespace _Scripts.Player.ColorSwap
             if (!IsOwner)
                 enabled = false;
         }
-
-        public void SetColorManager(int playerId)
-        {
-            if (playerId is <= 0 or > 7)
-                return;
-
-            for (int id = 1; id <= playerId; id++)
-            {
-                SetColor(id, true);
-            }
-            
-            SetColorServerRpc(playerId);
-        }
         
+        /*
         public void SetColorManager()
         {
             int playerListCount = GM.playerTracking.PlayerList.Count;
+            Debug.Log("Player list count for newcomer : " + playerListCount);
             
             if (playerListCount is <= 1 or > 8)
                 return;
-            
+
             for (int id = 1; id < playerListCount; id++)
             {
                 SetColor(id, true);
@@ -43,15 +33,7 @@ namespace _Scripts.Player.ColorSwap
             
             SetColorServerRpc(playerListCount - 1);
         }
-
-        private void SetColor(int playerId, bool locally = false)
-        {
-            GM.playerTracking.PlayerList[playerId].GetComponent<SpriteRenderer>().material =
-                GetPlayerMaterial(playerId);
-
-            _swappedColor = locally;
-        }
-
+        
         [ServerRpc]
         private void SetColorServerRpc(int playerId)
         {
@@ -68,6 +50,37 @@ namespace _Scripts.Player.ColorSwap
             }
             
             SetColor(playerId);
+        }
+        */
+        
+        private void SetColor(int playerId, bool locally = false)
+        {
+            GM.playerTracking.PlayerList[playerId].GetComponent<SpriteRenderer>().material =
+                GetPlayerMaterial(playerId);
+
+            _swappedColor = locally;
+        }
+        
+        public void UpdateColor()
+        {
+            int playerListCount = GM.playerTracking.PlayerList.Count;
+            
+            for (int id = 1; id < playerListCount; id++)
+            {
+                SetColor(id);
+            }
+        }
+        
+        [ServerRpc(RequireOwnership = false)]
+        public void UpdateColorServerRpc()
+        {
+            UpdateColorClientRpc();
+        }
+
+        [ClientRpc]
+        private void UpdateColorClientRpc()
+        {
+            UpdateColor();
         }
 
         private Material GetPlayerMaterial(int playerId)

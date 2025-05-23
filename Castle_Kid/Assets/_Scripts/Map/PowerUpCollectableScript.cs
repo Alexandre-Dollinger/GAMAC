@@ -40,7 +40,7 @@ namespace _Scripts.Map
         private void CollectPowerUpClientRpc(int sendFor, ClientRpcParams clientRpcParams = default)
         {
             PowerUpStruct powerUpStruct = new PowerUpStruct(GM.ProjM.GetProjectileStruct(projectileStructEnum), projectilePrefabs, cooldown);
-            GM.playerTracking.PlayerList[sendFor].GetComponent<PowerUp>().UpdatePowerUp(powerUpStruct);
+            GM.playerTracking.GetPlayerWithId(sendFor).GetComponent<PowerUp>().UpdatePowerUp(powerUpStruct);
             DestroyPowerUpServerRpc();
         }
         
