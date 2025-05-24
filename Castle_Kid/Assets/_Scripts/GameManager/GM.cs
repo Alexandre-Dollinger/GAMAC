@@ -20,7 +20,10 @@ namespace _Scripts.GameManager
 
         public static ProjectileManager ProjM;
         public static EnemyManager EnemyM;
-        public static PlayerTracking playerTracking;   
+
+        public static PlayerTracking playerTracking;
+        public static DialogueManager dialogueManager;
+        
         public void Awake()
         {
             if (ProjM == null)
@@ -31,6 +34,9 @@ namespace _Scripts.GameManager
 
             if (playerTracking == null)
                 playerTracking = GameObject.Find("ENEMY_MANAGER").GetComponent<PlayerTracking>();
+            
+            if (dialogueManager == null)
+                dialogueManager = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
 
             CurrentPlayerSortingLayerId = SortingLayer.NameToID("CurrentPayer");
             BehindProjectileSortingLayer = SortingLayer.NameToID("Behind_Projectiles");
