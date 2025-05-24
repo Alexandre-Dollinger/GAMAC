@@ -5,6 +5,7 @@ using Unity.Netcode;
 using _Scripts.GameManager;
 using _Scripts.Enemy;
 using _Scripts.Health;
+using _Scripts.Player.PowerUp;
 
 public abstract class BasicEnemy : NetworkBehaviour
 {
@@ -28,40 +29,44 @@ public abstract class BasicEnemy : NetworkBehaviour
 
 
     //Combat Stats
-    protected int AttackPower {get; set;} //How much damage the enemy deals per attack
-    
+    public PowerUpStruct powerUp;
+
     //Drops
-    protected int MoneyDrop {get;}
-    protected bool IsGuardian {get;} //Rare enemy
+    public int MoneyDrop { get; }
+    public bool IsGuardian { get; } //Rare enemy
 
     #region Movement Stats
-    protected float gravity;
-    private float _groundSpeed;
-    public float GroundSpeed 
+    protected float gravity = -200f;
+    protected float GroundAcceleration;
+    protected float AirAcceleration;
+
+    private float _maxGroundSpeed;
+    public float MaxGroundSpeed
     {
-        get => isFacingRight ? _groundSpeed : -_groundSpeed;
-        
-        set => _groundSpeed = Math.Abs(value);
+        get => isFacingRight ? _maxGroundSpeed : -_maxGroundSpeed;
+
+        set => _maxGroundSpeed = Math.Abs(value);
     }
-    private float _airSpeed;
-    public float AirSpeed 
+    private float _maxAirSpeed;
+    public float MaxAirSpeed
     {
-        get => isFacingRight ? _airSpeed : -_airSpeed;
-        
-        set => _airSpeed = Math.Abs(value);
+        get => isFacingRight ? _maxAirSpeed : -_maxAirSpeed;
+
+        set => _maxAirSpeed = Math.Abs(value);
     }
-    private float _chaseSpeed;
-    public float ChaseSpeed 
+    private float _maxChaseSpeed;
+    public float MaxChaseSpeed
     {
-        get => isFacingRight ? _chaseSpeed : -_chaseSpeed;
-        
-        set => _chaseSpeed = Math.Abs(value);
+        get => isFacingRight ? _maxChaseSpeed : -_maxChaseSpeed;
+
+        set => _maxChaseSpeed = Math.Abs(value);
     }
     protected float chaseDistance;
     #endregion
 
-    protected abstract void BasicAttack();
-
+    protected abstract void SetPowerUp1();
+    protected abstract void SetPowerUp2();
+    protected abstract void SetPowerUp3();
 
     // private void OnTriggerEnter2D(Collider2D item)
     // {

@@ -1,4 +1,3 @@
-using System;
 using _Scripts.Projectiles;
 using _Scripts.Enemy;
 using UnityEngine;
@@ -21,8 +20,7 @@ namespace _Scripts.GameManager
 
         public static ProjectileManager ProjM;
         public static EnemyManager EnemyM;
-        public static PlayerTracking playerTracking;
-        
+        public static PlayerTracking playerTracking;   
         public void Awake()
         {
             if (ProjM == null)
