@@ -7,7 +7,6 @@ using _Scripts.Health;
 using _Scripts.GameManager;
 using _Scripts.Player.PowerUp;
 using _Scripts.Projectiles;
-using UnityEditor.Animations;
 
 public class Slime : BasicEnemy
 {
