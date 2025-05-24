@@ -46,13 +46,7 @@ namespace _Scripts.GameManager
             if (backgroundPanel != null)
             {
                 backgroundPanel.SetActive(false);
-                Debug.Log("Background panel hidden — game started.");
             }
-            else
-            {
-                Debug.LogWarning("Background panel not assigned in GM script.");
-            }
-            
         }
 
         #region FilterType
