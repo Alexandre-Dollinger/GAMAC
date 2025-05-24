@@ -6,7 +6,9 @@ using _Scripts.Multiplayer;
 using _Scripts.Projectiles;
 using _Scripts.UI_scripts;
 using Unity.Netcode;
+using UnityEditor.Experimental;
 using UnityEngine;
+using static _Scripts.Player.PowerUp.PowerUp;
 
 namespace _Scripts.Player.Weapon
 {

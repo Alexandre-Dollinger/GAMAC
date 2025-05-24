@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PnjScene.unity
     guid: ae210e7b149f03845900aa82008aa580
+  - enabled: 1
+    path: Assets/Scenes/PNJShopScene.unity
+    guid: 37e82e3cca61a9f49b34c0650aa745b1
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 8c37b671069765546a4ad2a998d44531, type: 3}
   m_UseUCBPForAssetBundles: 0

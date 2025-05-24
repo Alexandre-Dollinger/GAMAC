@@ -11,6 +11,9 @@ TagManager:
   - EnemyAttack
   - EnemyProjectile
   - PowerUp
+  - Event
+  - ShopNPC
+  - ShopCanvas
   layers:
   - Default
   - TransparentFX
