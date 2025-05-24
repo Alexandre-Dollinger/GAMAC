@@ -17,15 +17,15 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/EnemySpawnerScene.unity
     guid: c353e50d251895a4c9e518ced5e6f7cc
-  - enabled: 0
-    path: Assets/Scenes/PKtest.unity
-    guid: 9938080f2661ff340a4c266010c2d9a8
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 76ac1970db19bb843b5ff8f3ee8f0d52
   - enabled: 1
     path: Assets/Scenes/BasicScene.unity
     guid: 90fad6cb680b7ab419a05a5dd83de002
   - enabled: 1
-    path: Assets/Scenes/PnjScene.unity
-    guid: ae210e7b149f03845900aa82008aa580
+    path: Assets/Scenes/PKtest.unity
+    guid: 9938080f2661ff340a4c266010c2d9a8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 8c37b671069765546a4ad2a998d44531, type: 3}
   m_UseUCBPForAssetBundles: 0
