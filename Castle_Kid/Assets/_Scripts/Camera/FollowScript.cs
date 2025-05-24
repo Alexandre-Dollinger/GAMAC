@@ -29,6 +29,12 @@ public class FollowScript : NetworkBehaviour
             newPos = transform.position;
         }
     }
+    
+    void Start()
+    {
+        originalPos = transform.localPosition;
+    }
+
 
     void Update()
     {
@@ -45,15 +51,6 @@ public class FollowScript : NetworkBehaviour
     private Vector3 originalPos;
     private bool shaking = false;
     
-    
-    void Start()
-    {
-        originalPos = transform.localPosition;
-    }
-
-   
-   
-
     public void ShakeCamera(float duration, float strength, bool horizontal, bool vertical)
     {
         if (shaking)
@@ -90,14 +87,4 @@ public class FollowScript : NetworkBehaviour
         transform.localPosition = originalPos;
         shaking = false;
     }
-
-    void update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShakeCamera(0.5f, 0.05f, true, true);
-        }
-    }
-
-    
 }
