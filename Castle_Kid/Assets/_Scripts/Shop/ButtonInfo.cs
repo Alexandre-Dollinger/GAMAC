@@ -23,7 +23,7 @@ public class ButtonInfo : MonoBehaviour
         }
 
         var shop = ShopManager.GetComponent<ShopManagerScript>();
-        PriceTxt.text = "Prix: " + shop.shopItems[2, ItemID] + " écus";
+        PriceTxt.text = "Price: " + shop.shopItems[2, ItemID] + " coins";
         QuantityTxt.text = shop.shopItems[3, ItemID].ToString();
     }
     void Update()

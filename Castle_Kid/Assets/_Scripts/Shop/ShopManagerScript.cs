@@ -12,7 +12,7 @@ public class ShopManagerScript : MonoBehaviour
     
     void Awake()
     {
-        CoinsTxt.text = "Écus: " + coins.ToString();
+        CoinsTxt.text = "Coins: " + coins.ToString();
         //ItemIDs
         shopItems[1, 1] = 1;
         shopItems[1, 2] = 2;
@@ -74,7 +74,7 @@ public class ShopManagerScript : MonoBehaviour
         {
             coins -= shopItems[2, id];
             shopItems[3, id]++;
-            CoinsTxt.text = "Écus: " + coins;
+            CoinsTxt.text = "Coins: " + coins;
             info.QuantityTxt.text = shopItems[3, id].ToString();
         }
         

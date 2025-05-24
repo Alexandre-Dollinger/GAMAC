@@ -19,6 +19,7 @@ public class DestroyObject : MonoBehaviour
 
     private bool isDestroyed = false;
 
+    [Obsolete("Obsolete")]
     public void Break()
     {
         if (isDestroyed) return;
