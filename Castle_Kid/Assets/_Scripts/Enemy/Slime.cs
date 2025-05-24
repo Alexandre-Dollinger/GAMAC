@@ -17,7 +17,6 @@ public class Slime : BasicEnemy
     public EnemyCustomTrigger WallCheckTrigger;
     public EnemyCustomTrigger WillFallTrigger;
     public CustomTrigger FeetTrigger;
-    private SpriteRenderer activeSprite;
 
     private Animator slimeAnimator;
     private string _curAnimationState;
@@ -49,7 +48,6 @@ public class Slime : BasicEnemy
     {
         _healthSaved = basicEnemyHp.CurrentHp;
         enemyRb = GetComponent<Rigidbody2D>();
-        activeSprite = GetComponent<SpriteRenderer>();
     }
 
     private void DebugState()
