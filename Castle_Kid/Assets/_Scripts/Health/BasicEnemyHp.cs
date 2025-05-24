@@ -48,8 +48,18 @@ namespace _Scripts.Health
             {
                 if (collision.collider.gameObject.TryGetComponent(out IUnitHp otherHp) && collisionDmgCooldown <= 0)
                 {
-                    collisionDmgCooldown = collisionDmgTime;
-                    otherHp.TakeDamage(10);
+                    if (otherHp.IsNetwork)
+                    {
+                        collisionDmgCooldown = collisionDmgTime;
+                        
+                        if (IsServer)
+                            otherHp.TakeDamage(10);
+                    }
+                    else
+                    {
+                        collisionDmgCooldown = collisionDmgTime;
+                        otherHp.TakeDamage(10);
+                    }
                 }
             }
         }
@@ -69,7 +79,7 @@ namespace _Scripts.Health
         {
             GameObject drop = Instantiate(GM.EnemyM.PowerUpCollectablePrefab, transform.position, Quaternion.identity);
             PowerUpCollectableScript collectableScript = drop.GetComponent<PowerUpCollectableScript>();
-            collectableScript.SetPowerUpStruct(powerUpStruct);
+            collectableScript.SetPowerUpStructServerRpc(powerUpStruct);
             drop.GetComponent<NetworkObject>().Spawn();    
         }
 

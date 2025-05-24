@@ -25,21 +25,33 @@ namespace _Scripts.Map
             InitCollectable();
         }
 
-        private void InitCollectable()
+        [ServerRpc(RequireOwnership = false)]
+        public void SetPowerUpStructServerRpc(PowerUpStruct powerUpStruct)
         {
-            GameObject projPrefab = GM.ProjM.GetProjectilePrefab(projectilePrefabs);
-            
-            powerUpImage.sprite = projPrefab.GetComponent<SpriteRenderer>().sprite;
-            powerUpImage.transform.localScale = projPrefab.transform.localScale * 0.8f;
+            SetPowerUpStructClientRpc(powerUpStruct);
         }
 
-        public void SetPowerUpStruct(PowerUpStruct powerUpStruct)
+        [ClientRpc]
+        private void SetPowerUpStructClientRpc(PowerUpStruct powerUpStruct)
+        {
+            SetPowerUpStruct(powerUpStruct);
+        } 
+        
+        private void SetPowerUpStruct(PowerUpStruct powerUpStruct)
         {
             _projStruct = powerUpStruct.ProjStruct;
             projectilePrefabs = powerUpStruct.ProjPrefab;
             cooldown = powerUpStruct.Cooldown;
             
             InitCollectable();
+        }
+        
+        private void InitCollectable()
+        {
+            GameObject projPrefab = GM.ProjM.GetProjectilePrefab(projectilePrefabs);
+            
+            powerUpImage.sprite = projPrefab.GetComponent<SpriteRenderer>().sprite;
+            powerUpImage.transform.localScale = projPrefab.transform.localScale * 0.8f;
         }
         
         public void OnTriggerEnter2D(Collider2D other)
