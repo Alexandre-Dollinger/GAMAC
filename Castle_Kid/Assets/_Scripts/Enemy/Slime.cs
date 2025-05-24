@@ -18,12 +18,6 @@ public class Slime : BasicEnemy
     public EnemyCustomTrigger WillFallTrigger;
     public CustomTrigger FeetTrigger;
 
-    private Animator slimeAnimator;
-    private string _curAnimationState;
-    private float _animationTime;
-    private float _healthSaved;
-    private BasicEnemyHp basicEnemyHp;
-
     #endregion
 
     #region Updates and Start
@@ -32,9 +26,6 @@ public class Slime : BasicEnemy
         enemyType = EnemyType.Slime;
         closestPlayerTime = 0f;
         closestPlayerCooldown = 1f;
-
-        slimeAnimator = GetComponent<Animator>();
-        basicEnemyHp = GetComponentInChildren<BasicEnemyHp>();
 
         //Look at the SetAllFunctions region for the functions
         SetAllCombatStats();
@@ -46,7 +37,6 @@ public class Slime : BasicEnemy
 
     void Start()
     {
-        _healthSaved = basicEnemyHp.CurrentHp;
         enemyRb = GetComponent<Rigidbody2D>();
     }
 
@@ -80,7 +70,6 @@ public class Slime : BasicEnemy
         if (!GM.GameStarted)
             return;
         CountTimers();
-        CheckAnimation();
     }
 
     #endregion
@@ -371,39 +360,5 @@ public class Slime : BasicEnemy
     {
         isGrounded = false;
     }
-    #endregion
-
-    #region Animation
-
-    private void ChangeAnimationState(string newState, float time = 0)
-    {
-        if (_curAnimationState == newState) return;
-
-        if (_animationTime <= 0)
-        {
-            if (time != 0)
-            {
-                _animationTime = time;
-            }
-
-            slimeAnimator.Play(newState);
-
-            _curAnimationState = newState;
-        }
-    }
-
-    private void CheckAnimation()
-    {
-        if (_healthSaved != basicEnemyHp.CurrentHp)
-        {
-            _healthSaved = basicEnemyHp.CurrentHp;
-            ChangeAnimationState("HurtAnimation", 0.4f);
-        }
-        else if (isChasing)
-            ChangeAnimationState("RunAnimation");
-        else
-            ChangeAnimationState("WalkAnimation");
-    }
-
     #endregion
     }
