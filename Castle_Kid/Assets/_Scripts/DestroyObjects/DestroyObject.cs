@@ -34,16 +34,15 @@ public class DestroyObject : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("ShopManagerScript not found in scene.");
         }
+        
+        Destroy(gameObject);
         if (woodParticlesPrefab != null)
         {
-            Instantiate(woodParticlesPrefab, transform.position, Quaternion.identity);
+            var particles = Instantiate(woodParticlesPrefab, transform.position, Quaternion.identity);
+                 Destroy(particles, 2f);
         }
-        // play particle, sound
-        Destroy(gameObject);
-        var particles = Instantiate(woodParticlesPrefab, transform.position, Quaternion.identity);
-        Destroy(particles, 2f);
+        
     }
     
     private void OnTriggerEnter2D(Collider2D other)

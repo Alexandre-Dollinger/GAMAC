@@ -10,7 +10,7 @@ public class UI : MonoBehaviour
 {
     [SerializeField] private GameObject UI_Panel;
     [SerializeField] private TextMeshProUGUI _coinScoreText;
-    private int _coinScore = 0;
+    public int _coinScore = 0;
 
     [SerializeField] private List<GameObject> _hearts;
     [SerializeField] private List<Sprite> _heartSprites;

@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
 public class ShopManagerScript : MonoBehaviour
 {
     public int[,] shopItems = new int[13,13];
-    public float coins = 200f; //remplacer avec le systeme de configuration d'economie du jeu
+    public float coins = 0f; //remplacer avec le systeme de configuration d'economie du jeu
     public Text CoinsTxt;
     
     
     void Awake()
     {
-        
         CoinsTxt.text = "Écus: " + coins.ToString();
         //ItemIDs
         shopItems[1, 1] = 1;
@@ -61,19 +59,16 @@ public class ShopManagerScript : MonoBehaviour
     public void Buy()
     {
         GameObject ButtonRef = EventSystem.current.currentSelectedGameObject;
-        Debug.Log("Clicked: " + ButtonRef?.name);
 
         if (ButtonRef == null) return;
 
         ButtonInfo info = ButtonRef.GetComponent<ButtonInfo>();
         if (info == null)
         {
-            Debug.LogWarning("No ButtonInfo on clicked object.");
             return;
         }
 
         int id = info.ItemID;
-        Debug.Log("Trying to buy ID: " + id + " | Cost: " + shopItems[2, id]);
 
         if (coins >= shopItems[2, id])
         {
@@ -81,12 +76,8 @@ public class ShopManagerScript : MonoBehaviour
             shopItems[3, id]++;
             CoinsTxt.text = "Écus: " + coins;
             info.QuantityTxt.text = shopItems[3, id].ToString();
-            Debug.Log("Purchase successful!");
         }
-        else
-        {
-            Debug.Log("Not enough coins.");
-        }
+        
     }
 
     public void AddCoins(int amount)
