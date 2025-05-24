@@ -139,14 +139,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemySpawnerStorer
       objectReference: {fileID: 0}
-    - target: {fileID: 1036530908310991695, guid: f04b1b2dbdac68a47ac60bafa6763f8b, type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 855425228
-      objectReference: {fileID: 0}
-    - target: {fileID: 2576460245857335302, guid: f04b1b2dbdac68a47ac60bafa6763f8b, type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 2541386533
-      objectReference: {fileID: 0}
     - target: {fileID: 2665593164879372652, guid: f04b1b2dbdac68a47ac60bafa6763f8b, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3302318315
@@ -214,10 +206,6 @@ PrefabInstance:
     - target: {fileID: 5895405977841859740, guid: f04b1b2dbdac68a47ac60bafa6763f8b, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3487594025
-      objectReference: {fileID: 0}
-    - target: {fileID: 6121917885639072695, guid: f04b1b2dbdac68a47ac60bafa6763f8b, type: 3}
-      propertyPath: GlobalObjectIdHash
-      value: 2784206053
       objectReference: {fileID: 0}
     - target: {fileID: 6130731647192612931, guid: f04b1b2dbdac68a47ac60bafa6763f8b, type: 3}
       propertyPath: GlobalObjectIdHash
@@ -558,10 +546,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 353523890920193269, guid: c871b9284aa90d046bd39b6e4db33405, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3138966384559815019, guid: c871b9284aa90d046bd39b6e4db33405, type: 3}
       propertyPath: m_Name
       value: DIALOGUE_MANAGER
@@ -604,10 +588,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4230125727437594431, guid: c871b9284aa90d046bd39b6e4db33405, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7980580045657169483, guid: c871b9284aa90d046bd39b6e4db33405, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -817,10 +797,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1856548950359678296, guid: a51eeecf13350074f86e39069c23e03e, type: 3}
-      propertyPath: PowerUpCollectablePrefab
-      value: 
-      objectReference: {fileID: 8053648747731541406, guid: 3e35656f07f92b24381aba1867273ec1, type: 3}
     - target: {fileID: 6978244796955395335, guid: a51eeecf13350074f86e39069c23e03e, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2270162239

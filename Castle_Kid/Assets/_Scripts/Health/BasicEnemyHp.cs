@@ -79,8 +79,8 @@ namespace _Scripts.Health
         {
             GameObject drop = Instantiate(GM.EnemyM.PowerUpCollectablePrefab, transform.position, Quaternion.identity);
             PowerUpCollectableScript collectableScript = drop.GetComponent<PowerUpCollectableScript>();
-            collectableScript.SetPowerUpStructServerRpc(powerUpStruct);
-            drop.GetComponent<NetworkObject>().Spawn();    
+            drop.GetComponent<NetworkObject>().Spawn();  
+            collectableScript.SetPowerUpStructClientRpc(powerUpStruct);
         }
 
         private void CountTimers()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Scripts.GameManager;
 using Unity.Netcode;
 using UnityEngine;
+using Random = System.Random;
 
 namespace _Scripts.Enemy
 {
@@ -17,6 +18,7 @@ namespace _Scripts.Enemy
         public GameObject SlimePrefab;
         #endregion
         public GameObject PowerUpCollectablePrefab;
+        public Random Random = new Random(0);
 
         public GameObject GetEnemyPrefab(EnemyType enemyType)
         {

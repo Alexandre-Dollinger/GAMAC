@@ -60,7 +60,7 @@ public class Slime : BasicEnemy
         if (isChasing)
         {
             Chasing();
-            if (powerUp.ReadyToFire())
+            if (powerUp.ReadyToFire() && IsServer)
                 powerUp.Fire(body.bounds.center, closestPlayer.transform.position - body.bounds.center, GM.EnemyProjectileTag, -1);
         }
         else
@@ -251,8 +251,7 @@ public class Slime : BasicEnemy
     #region SetAllFunctions
     private void SetAllCombatStats()
     {
-        System.Random random = new System.Random();
-        int randomPowerUp = random.Next(1, 4);
+        int randomPowerUp = GM.EnemyM.Random.Next(1, 4);
         switch (randomPowerUp)
         {
             case 1:

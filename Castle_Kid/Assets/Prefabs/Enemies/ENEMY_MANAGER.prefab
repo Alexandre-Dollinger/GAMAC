@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4160665403
+  GlobalObjectIdHash: 2270162239
   InScenePlacedSourceGlobalObjectIdHash: 3088803054
   DeferredDespawnTick: 0
   Ownership: 1
@@ -73,6 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   SlimePrefab: {fileID: 59842334827957665, guid: 468d7dd777d09844480b2709318512bf, type: 3}
+  PowerUpCollectablePrefab: {fileID: 8053648747731541406, guid: 3e35656f07f92b24381aba1867273ec1, type: 3}
 --- !u!114 &5686073499688273587
 MonoBehaviour:
   m_ObjectHideFlags: 0

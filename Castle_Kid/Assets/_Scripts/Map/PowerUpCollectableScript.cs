@@ -32,7 +32,7 @@ namespace _Scripts.Map
         }
 
         [ClientRpc]
-        private void SetPowerUpStructClientRpc(PowerUpStruct powerUpStruct)
+        public void SetPowerUpStructClientRpc(PowerUpStruct powerUpStruct)
         {
             SetPowerUpStruct(powerUpStruct);
         } 
