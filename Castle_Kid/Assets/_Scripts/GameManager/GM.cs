@@ -36,7 +36,7 @@ namespace _Scripts.GameManager
                 playerTracking = GameObject.Find("ENEMY_MANAGER").GetComponent<PlayerTracking>();
             
             if (dialogueManager == null)
-                dialogueManager = GameObject.Find("DialogueManager").GetComponent<DialogueManager>();
+                dialogueManager = GameObject.Find("DIALOGUE_MANAGER").GetComponent<DialogueManager>();
 
             CurrentPlayerSortingLayerId = SortingLayer.NameToID("CurrentPayer");
             BehindProjectileSortingLayer = SortingLayer.NameToID("Behind_Projectiles");
