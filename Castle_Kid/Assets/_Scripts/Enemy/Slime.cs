@@ -5,17 +5,18 @@ using System;
 using _Scripts.Player.Movement;
 using _Scripts.Health;
 using _Scripts.GameManager;
+using _Scripts.Player.PowerUp;
+using _Scripts.Projectiles;
 
 public class Slime : BasicEnemy
 {
     #region Variables
     private bool isTouchingWall;
-    public EnemyCustomTrigger BodyTrigger;
+    [SerializeField] private Collider2D body;
     public EnemyCustomTrigger WallCheckTrigger;
     public EnemyCustomTrigger WillFallTrigger;
     public CustomTrigger FeetTrigger;
     private SpriteRenderer activeSprite;
-    
     #endregion
 
     #region Updates and Start
@@ -53,7 +54,11 @@ public class Slime : BasicEnemy
         CheckFlip();
 
         if (isChasing)
+        {
             Chasing();
+            if (powerUp.ReadyToFire())
+                powerUp.Fire(body.bounds.center, closestPlayer.transform.position - body.bounds.center, GM.EnemyProjectileTag, -1);
+        }
         else
             Roaming();
 
@@ -139,10 +144,10 @@ public class Slime : BasicEnemy
 
         // enemyRb.linearVelocity = new Vector2(moveVelocity.x, moveVelocity.y);
     }
-
+    #endregion
     private bool InChasingRange()
     {
-        return Vector2.Distance(closestPlayer.transform.position, gameObject.transform.position) <= chaseDistance;
+        return Vector2.Distance(closestPlayer.transform.position, body.bounds.center) <= chaseDistance;
     }
 
     private void UpdateChasingMode()
@@ -167,12 +172,6 @@ public class Slime : BasicEnemy
             if (isChasing)
                 closestPlayerMovement = closestPlayer.GetComponent<PlayerMovement>();
         }
-    }
-    #endregion
-
-    protected override void BasicAttack()
-    {
-        throw new NotImplementedException();
     }
 
     private bool PlayerIsRight()
@@ -206,10 +205,63 @@ public class Slime : BasicEnemy
         }
     }
 
+    #region Attack 
+    protected override void SetPowerUp1()
+    {
+        powerUp = new PowerUpStruct(GM.GetLinearProjectileStruct(), ProjectilePrefabs.BubblesCone, 2f);
+        powerUp.ProjStruct.TargetingEnemy = false;
+        powerUp.ProjStruct.TargetingEnemyProjectile = false;
+
+        powerUp.ProjStruct.Damage = 10;
+        powerUp.ProjStruct.Speed = 100;
+
+        powerUp.ProjStruct.InitDestroyCondition(true, 50, false, false);        
+    }
+
+    protected override void SetPowerUp2()
+    {
+        powerUp = new PowerUpStruct(GM.GetTrackingProjectileStruct(), ProjectilePrefabs.MagicArrowCone, 4f);
+        powerUp.ProjStruct.TargetingEnemy = false;
+        powerUp.ProjStruct.TargetingEnemyProjectile = false;
+
+        powerUp.ProjStruct.Damage = 30;
+        powerUp.ProjStruct.Speed = 70;
+
+        powerUp.ProjStruct.InitDestroyCondition(true, 50, true, false);
+    }
+
+    protected override void SetPowerUp3()
+    {
+        powerUp = new PowerUpStruct(GM.GetTrackingProjectileStruct(), ProjectilePrefabs.FireCone, 6f);
+        powerUp.ProjStruct.TargetingEnemy = false;
+        powerUp.ProjStruct.TargetingEnemyProjectile = false;
+
+        powerUp.ProjStruct.Damage = 50;
+        powerUp.ProjStruct.Speed = 50;
+
+        powerUp.ProjStruct.InitDestroyCondition(true, 200, true, false);
+    }
+
+    #endregion
+
+
     #region SetAllFunctions
     private void SetAllCombatStats()
     {
-        AttackPower = 1;
+        System.Random random = new System.Random();
+        int randomPowerUp = random.Next(1, 4);
+        switch (randomPowerUp)
+        {
+            case 1:
+                SetPowerUp1();
+                break;
+            case 2:
+                SetPowerUp2();
+                break;
+            case 3:
+                SetPowerUp3();
+                break;
+        }
     }
     private void SetAllMovementStats()
     {
@@ -220,7 +272,7 @@ public class Slime : BasicEnemy
         AirAcceleration = 70f;
 
         MaxChaseSpeed = MaxGroundSpeed * 1.5f;
-        chaseDistance = 125f; //Can be changed later if needed
+        chaseDistance = 200f; //Can be changed later if needed
     }
     private void SetAllBooleans()
     {
@@ -234,7 +286,6 @@ public class Slime : BasicEnemy
     private void SetAllTriggers()
     {
         // Setting all the Enter and Exit triggers for the different triggers
-        BodyTrigger.EnteredTrigger += OnColliderEnter2D;
 
         FeetTrigger.EnteredTrigger += OnIsGroundedCheckEnter2D;
         FeetTrigger.ExitedTrigger += OnIsGroundedCheckExit2D;    
@@ -250,7 +301,7 @@ public class Slime : BasicEnemy
     {
         //Setting all the conditions for the different triggers
         WillFallTrigger.condition = TouchedGround();
-        WallCheckTrigger.condition = TouchedGround();
+        WallCheckTrigger.condition = item => TouchedGround()(item) || TouchedEnemy()(item); 
         //AirborneCheckTrigger.condition = item => groundLayerId == item.gameObject.layer;
     }
     #endregion
@@ -279,6 +330,8 @@ public class Slime : BasicEnemy
         {
             closestPlayerCooldown -= deltaTime;
         }
+
+        powerUp.CountTimer(deltaTime);
     }
 
     #endregion
@@ -310,15 +363,5 @@ public class Slime : BasicEnemy
     {
         isGrounded = false;
     }
-
-    private void OnColliderEnter2D(Collider2D other) //For detecting if the slime collided with a player
-    {
-        if (GM.IsPlayer(other))
-        {
-            IUnitHp otherHp = other.GetComponent<IUnitHp>();
-            otherHp.TakeDamage(AttackPower);
-        }
-    }
-
     #endregion
 }

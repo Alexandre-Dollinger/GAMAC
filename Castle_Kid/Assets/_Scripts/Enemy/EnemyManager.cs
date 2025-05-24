@@ -16,6 +16,7 @@ namespace _Scripts.Enemy
         #region EnemyPrefab
         public GameObject SlimePrefab;
         #endregion
+        public GameObject PowerUpCollectablePrefab;
 
         public GameObject GetEnemyPrefab(EnemyType enemyType)
         {

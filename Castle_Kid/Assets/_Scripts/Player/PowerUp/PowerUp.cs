@@ -50,12 +50,14 @@ namespace _Scripts.Player.PowerUp
         {
             return GM.ProjM.GetProjectilePrefab(ProjPrefab).GetComponent<SpriteRenderer>().sprite;
         }
-        
+
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref ProjStruct);
+            serializer.SerializeValue(ref ProjPrefab);
             serializer.SerializeValue(ref Cooldown);
             serializer.SerializeValue(ref CurrentTime);
+            serializer.SerializeValue(ref Enable);
         }
     }
     

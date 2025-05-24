@@ -334,8 +334,8 @@ namespace _Scripts.Projectiles
                 _senderGameObject = GetClosestTarget(Proj.CasterPos);
                 _targetsFound = new List<Collider2D>();
 
-                /*_findSenderCollider.enabled = false;
-                Destroy(_findSenderCollider);*/
+                _findSenderCollider.enabled = false;
+                Destroy(_findSenderCollider);
                 
                 hitBoxCollider.enabled = true;
 

@@ -11,17 +11,35 @@ namespace _Scripts.Map
 {
     public class PowerUpCollectableScript : NetworkBehaviour
     {
-        [SerializeField] private ProjectileStructEnum projectileStructEnum;
-        [SerializeField] private ProjectilePrefabs projectilePrefabs;
-        [SerializeField] private float cooldown;
+        public ProjectileStructEnum projectileStructEnum;
+        public ProjectilePrefabs projectilePrefabs;
+        public float cooldown;
 
         [SerializeField] private SpriteRenderer powerUpImage;
 
+        private ProjectileStruct _projStruct;
+        
         public override void OnNetworkSpawn()
         {
+            _projStruct = GM.ProjM.GetProjectileStruct(projectileStructEnum);
+            InitCollectable();
+        }
+
+        private void InitCollectable()
+        {
             GameObject projPrefab = GM.ProjM.GetProjectilePrefab(projectilePrefabs);
+            
             powerUpImage.sprite = projPrefab.GetComponent<SpriteRenderer>().sprite;
-            powerUpImage.transform.localScale *= projPrefab.transform.localScale.x;
+            powerUpImage.transform.localScale = projPrefab.transform.localScale * 0.8f;
+        }
+
+        public void SetPowerUpStruct(PowerUpStruct powerUpStruct)
+        {
+            _projStruct = powerUpStruct.ProjStruct;
+            projectilePrefabs = powerUpStruct.ProjPrefab;
+            cooldown = powerUpStruct.Cooldown;
+            
+            InitCollectable();
         }
         
         public void OnTriggerEnter2D(Collider2D other)
@@ -39,7 +57,8 @@ namespace _Scripts.Map
         [ClientRpc]
         private void CollectPowerUpClientRpc(int sendFor, ClientRpcParams clientRpcParams = default)
         {
-            PowerUpStruct powerUpStruct = new PowerUpStruct(GM.ProjM.GetProjectileStruct(projectileStructEnum), projectilePrefabs, cooldown);
+            PowerUpStruct powerUpStruct = new PowerUpStruct(_projStruct, projectilePrefabs, cooldown);
+            
             GM.playerTracking.GetPlayerWithId(sendFor).GetComponent<PowerUp>().UpdatePowerUp(powerUpStruct);
             DestroyPowerUpServerRpc();
         }

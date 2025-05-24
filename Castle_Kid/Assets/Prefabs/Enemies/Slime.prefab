@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  BodyTrigger: {fileID: 8883449591926453027}
+  body: {fileID: 740953638991650983}
   WallCheckTrigger: {fileID: 4041048660680121792}
   WillFallTrigger: {fileID: 51781248994773817}
   FeetTrigger: {fileID: 1025824894263911705}
