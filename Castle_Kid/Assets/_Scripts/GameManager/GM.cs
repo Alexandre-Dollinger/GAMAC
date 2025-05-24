@@ -24,9 +24,6 @@ namespace _Scripts.GameManager
         public static PlayerTracking playerTracking;
         public static DialogueManager dialogueManager;
         
-        public GameObject backgroundPanel;
-
-        
         public void Awake()
         {
             if (ProjM == null)
@@ -43,14 +40,6 @@ namespace _Scripts.GameManager
 
             CurrentPlayerSortingLayerId = SortingLayer.NameToID("CurrentPayer");
             BehindProjectileSortingLayer = SortingLayer.NameToID("Behind_Projectiles");
-        }
-        
-        public void StartGame()
-        {
-            if (backgroundPanel != null)
-            {
-                backgroundPanel.SetActive(false);
-            }
         }
 
         #region FilterType
