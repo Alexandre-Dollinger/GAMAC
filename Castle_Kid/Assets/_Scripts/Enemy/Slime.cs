@@ -18,6 +18,8 @@ public class Slime : BasicEnemy
     public EnemyCustomTrigger WillFallTrigger;
     public CustomTrigger FeetTrigger;
 
+    private SpriteRenderer spriteRenderer;
+
     #endregion
 
     #region Updates and Start
@@ -26,6 +28,8 @@ public class Slime : BasicEnemy
         enemyType = EnemyType.Slime;
         closestPlayerTime = 0f;
         closestPlayerCooldown = 1f;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
         //Look at the SetAllFunctions region for the functions
         SetAllCombatStats();
@@ -77,6 +81,7 @@ public class Slime : BasicEnemy
     #region Roaming and Chasing
     private void Roaming()
     {
+        spriteRenderer.color = Color.white;
         //Vector2 moveVelocity = enemyRb.linearVelocity;
         Vector2 targetVelocity;
         float acceleration;
@@ -102,6 +107,7 @@ public class Slime : BasicEnemy
 
     private void Chasing()
     {
+        spriteRenderer.color = Color.red;
         //Vector2 moveVelocity = enemyRb.linearVelocity;
         Vector2 targetVelocity;
         float acceleration;
@@ -124,7 +130,7 @@ public class Slime : BasicEnemy
 
             enemyRb.linearVelocity = Vector2.Lerp(enemyRb.linearVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
         }
-        else if (isTouchingWall)
+        else if (isTouchingWall && isGrounded)
         {
             // Debug.Log("Wall Touched in Chasing Mode");
             // enemyRb.linearVelocity = new Vector2(0, -50);
